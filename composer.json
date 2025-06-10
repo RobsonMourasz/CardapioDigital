@@ -1,0 +1,15 @@
+{
+    "name": "robson/cardapiodigital",
+    "autoload": {
+        "psr-4": {
+            "Cardapiodigital\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "RobsonMourasz",
+            "email": "robsonic10@gmail.com"
+        }
+    ],
+    "require": {}
+}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <div class="carregando d-none"></div>
     <div class="container">
         <div class="nav">
             <div class="logo-tipo">
@@ -45,7 +46,7 @@
         <h1>Bebidas</h1>
     </div>
     <div class="cardapio">
-        <div class="card">
+        <div class="card" id="produto5">
             <div class="sessao1">
                 <img src="app/assets/Categoria/Bebidas.png" alt="bebidas">
             </div>
@@ -56,7 +57,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" id="produto6">
             <div class="sessao1">
                 <img src="app/assets/Categoria/Bebidas.png" alt="bebidas">
             </div>
@@ -67,7 +68,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" id="produto7">
             <div class="sessao1">
                 <img src="app/assets/Categoria/Bebidas.png" alt="bebidas">
             </div>
@@ -78,7 +79,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" id="produto8">
             <div class="sessao1">
                 <img src="app/assets/Categoria/Bebidas.png" alt="bebidas">
             </div>
@@ -88,7 +89,7 @@
                 <small>R$ 12,00</small>
             </div>
         </div>
-        <div class="card">
+        <div class="card" id="produto9">
             <div class="sessao1">
                 <img src="app/assets/Categoria/Bebidas.png" alt="bebidas">
             </div>
@@ -105,7 +106,7 @@
         <h1>Espetos</h1>
     </div>
     <div class="cardapio">
-        <div class="card">
+        <div class="card" id="produto1">
             <div class="sessao1">
                 <img src="app/assets/Categoria/Espetos.png" alt="bebidas">
             </div>
@@ -116,7 +117,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" id="produto2">
             <div class="sessao1">
                 <img src="app/assets/Categoria/Espetos.png" alt="bebidas">
             </div>
@@ -127,7 +128,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" id="produto3">
             <div class="sessao1">
                 <img src="app/assets/Categoria/Espetos.png" alt="bebidas">
             </div>
@@ -138,7 +139,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" id="produto4">
             <div class="sessao1">
                 <img src="app/assets/Categoria/Espetos.png" alt="bebidas">
             </div>
@@ -151,7 +152,7 @@
 
     </div>
 
-    <div class="pedido" id="pedido">
+    <div class="pedido d-none" id="pedido">
         <div class="close-modal">&times;</div>
         <h2>Seus Pedidos</h2>
         <form id="pedidoForm">
