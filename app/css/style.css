@@ -82,3 +82,184 @@
     font-family: monospace;
     color: var(--text);
 }
+
+.title-cardapio{
+    font-size: 2em;
+    font-weight: 600;
+    font-family: monospace;
+    color: var(--text);
+    padding: 0 0 0 20px;
+    margin: 20px 0;
+}
+
+.cardapio{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+    gap: 20px;
+}
+
+.cardapio .card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cardapio .card{
+    font-family: monospace;
+    color: var(--text);
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.cardapio .card .sessao1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 30%;
+    user-select: none;
+}
+.cardapio .card .sessao1 img{
+    width: 80px;
+    height: auto;
+    border-radius: 10px;
+}
+.cardapio .card .sessao2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 70%;
+    user-select: none;
+}
+.cardapio .card .sessao2 small{
+    font-size: 1em;
+    font-weight: 600;
+    color: #7a7a7a;
+}
+.sacola-compras{
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.sacola-compras img{
+    width: 30px;
+    height: 30px;
+}
+
+.pedido {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    height: 100%;
+    overflow-y: auto;
+}
+.pedido .close-modal{
+    cursor: pointer;
+    font-size: 2em;
+}
+
+.pedido #pedidoForm .icone{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.pedido #pedidoForm .item-pedido .icone img{
+    width: 100px;
+    height: auto;
+    border-radius: 50%;
+}
+.pedido #pedidoForm .item-pedido .descricao{
+    font-size: 1.5em;
+    font-weight: 500;
+    color: #4a4a4a;
+    text-align: center;
+    font-family: monospace;
+}
+.pedido #pedidoForm .item-pedido .informacoes-pedido{
+    display: flex;
+    flex-direction: column;
+}
+
+.pedido #pedidoForm .item-pedido .informacoes-pedido .campo-valor{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-family: monospace;
+
+}
+
+.pedido form {
+    display: flex;
+    flex-direction: column;
+}
+.pedido input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 2px solid #28a745;
+    border-radius: 5px;
+    text-align: center;
+    appearance: textfield; /* Remove setas padrão do navegador */
+}
+
+.pedido input[type="number"]::-webkit-inner-spin-button,
+.pedido input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1;
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+}
+
+
+.pedido label, input, textarea {
+    margin-bottom: 10px;
+}
+
+.pedido button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.pedido  button:hover {
+    background-color: #218838;
+}
+
+.pedido #mensagem {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.d-none{
+    display: none !important;
+}
