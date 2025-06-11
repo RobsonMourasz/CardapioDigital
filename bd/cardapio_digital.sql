@@ -40,6 +40,7 @@ REPLACE INTO `cadpagamento` (`IdPagamento`, `PrazoPagamento`, `DescricaoPagament
 -- Copiando estrutura para tabela cardapio_digital.cadprodutos
 CREATE TABLE IF NOT EXISTS `cadprodutos` (
   `IdProduto` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `IdCategoria` int(10) unsigned NOT NULL DEFAULT 0,
   `ProdAtivo` char(1) NOT NULL DEFAULT 'S',
   `DescricaoProduto` varchar(100) NOT NULL,
   `Imagem` varchar(255) DEFAULT NULL,
@@ -52,12 +53,27 @@ CREATE TABLE IF NOT EXISTS `cadprodutos` (
   PRIMARY KEY (`IdProduto`),
   UNIQUE KEY `IdProduto` (`IdProduto`),
   KEY `IdProduto2` (`IdProduto`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
--- Copiando dados para a tabela cardapio_digital.cadprodutos: ~2 rows (aproximadamente)
-REPLACE INTO `cadprodutos` (`IdProduto`, `ProdAtivo`, `DescricaoProduto`, `Imagem`, `VrVenda`, `Estoque`, `Ingredientes`, `DataCadastro`, `DataAlteracao`, `UltimaMovimentacao`) VALUES
-	(1, 'S', 'COCA COLA', NULL, 12.00, 10.00, NULL, '2025-06-09 17:25:38', '2025-06-09 17:25:40', '2025-06-09 20:25:42'),
-	(2, 'S', 'X-TUDO', NULL, 30.00, 0.00, NULL, '2025-06-09 17:26:02', '2025-06-09 17:26:03', '2025-06-09 20:26:04');
+-- Copiando dados para a tabela cardapio_digital.cadprodutos: ~17 rows (aproximadamente)
+REPLACE INTO `cadprodutos` (`IdProduto`, `IdCategoria`, `ProdAtivo`, `DescricaoProduto`, `Imagem`, `VrVenda`, `Estoque`, `Ingredientes`, `DataCadastro`, `DataAlteracao`, `UltimaMovimentacao`) VALUES
+	(1, 2, 'S', 'X - TUDO', NULL, 26.00, 0.00, 'Hambúrguer, bacon, ovo, presunto, queijo (mussarela ou cheddar), alface, tomate, maionese, ketchup, mostarda, pão de hambúrguer.', '2025-06-10 15:18:09', '2025-06-10 15:18:11', '2025-06-10 18:18:11'),
+	(2, 2, 'S', 'X - MODA', NULL, 25.00, 0.00, 'Pão, hambúrguer artesanal, mussarela, bacon, filé de frango, salsicha, ovo, alface, tomate, milho e batata palha.', '2025-06-10 15:18:24', '2025-06-10 15:18:25', '2025-06-10 18:18:26'),
+	(3, 2, 'S', 'X- ESPECIAL', NULL, 24.00, 0.00, 'Pão, hambúrguer artesanal, mussarela, bacon, salsicha, ovo, alface, tomate, milho e batata palha.', '2025-06-10 15:18:38', '2025-06-10 15:18:39', '2025-06-10 18:18:40'),
+	(4, 2, 'S', 'X - FRANGO', NULL, 22.00, 0.00, 'Pão, filé de frango, mussarela, bacon, ovo, alface, tomate, milho e batata palha.', '2025-06-10 15:18:52', '2025-06-10 15:18:52', '2025-06-10 18:18:53'),
+	(5, 2, 'S', 'X - FILE', NULL, 23.00, 0.00, 'Pão, filé de vaca, mussarela, bacon, ovo, alface, tomate, milho e batata palha.', '2025-06-10 15:19:09', '2025-06-10 15:19:10', '2025-06-10 18:19:10'),
+	(6, 2, 'S', 'X - BACON', NULL, 22.00, 0.00, 'Pão, hambúrguer artesanal, bacon, ovo, alface, tomate, milho e batata palha.', '2025-06-10 15:19:24', '2025-06-10 15:19:25', '2025-06-10 18:19:25'),
+	(7, 2, 'S', 'X - SALADA', NULL, 21.00, 0.00, 'Pão, hambúrguer artesanal, mussarela, ovo, salsicha, alface, tomate, milho e batata palha.', '2025-06-10 15:19:35', '2025-06-10 15:19:37', '2025-06-10 18:19:38'),
+	(8, 2, 'S', 'MISTO', NULL, 17.00, 0.00, 'Pão, hambúrguer artesanal, mussarela, alface, tomate, milho e batata palha.', '2025-06-10 15:19:50', '2025-06-10 15:19:51', '2025-06-10 18:19:52'),
+	(9, 2, 'S', 'VEGETARIANO', NULL, 16.00, 0.00, 'Pão, ovo, mussarela, alface, tomate, milho e batata palha.', '2025-06-10 15:20:05', '2025-06-10 15:20:06', '2025-06-10 18:20:06'),
+	(10, 1, 'S', 'COCA COLA 2,5 L', NULL, 13.00, 0.00, 'A bebida mais gelada da cidade, perfeita para refrescar seu dia! Venha experimentar e sentir o verdadeiro sabor da refrescância!', '2025-06-10 15:35:41', '2025-06-10 15:35:41', '2025-06-10 18:35:42'),
+	(11, 1, 'S', 'COTUBA 2 L', NULL, 12.00, 0.00, 'A bebida mais gelada da cidade, perfeita para refrescar seu dia! Venha experimentar e sentir o verdadeiro sabor da refrescância!', '2025-06-10 15:35:56', '2025-06-10 15:35:56', '2025-06-10 18:35:56'),
+	(12, 1, 'S', 'FANTA 2 L', NULL, 12.00, 0.00, 'A bebida mais gelada da cidade, perfeita para refrescar seu dia! Venha experimentar e sentir o verdadeiro sabor da refrescância!', '2025-06-10 15:36:10', '2025-06-10 15:36:11', '2025-06-10 18:36:11'),
+	(13, 1, 'S', 'COCA COLA 2 L', NULL, 12.00, 0.00, 'A bebida mais gelada da cidade, perfeita para refrescar seu dia! Venha experimentar e sentir o verdadeiro sabor da refrescância!', '2025-06-10 15:36:26', '2025-06-10 15:36:26', '2025-06-10 18:36:27'),
+	(14, 1, 'S', 'FANTA 1 L', NULL, 10.00, 0.00, 'A bebida mais gelada da cidade, perfeita para refrescar seu dia! Venha experimentar e sentir o verdadeiro sabor da refrescância!', '2025-06-10 15:36:44', '2025-06-10 15:36:45', '2025-06-10 18:36:46'),
+	(15, 1, 'S', 'COCA COLA 1 L', NULL, 10.00, 0.00, 'A bebida mais gelada da cidade, perfeita para refrescar seu dia! Venha experimentar e sentir o verdadeiro sabor da refrescância!', '2025-06-10 15:37:00', '2025-06-10 15:37:01', '2025-06-10 18:37:01'),
+	(16, 1, 'S', 'SUCO LARANJA1 L', NULL, 24.00, 0.00, 'A bebida mais gelada da cidade, perfeita para refrescar seu dia! Venha experimentar e sentir o verdadeiro sabor da refrescância!', '2025-06-10 15:37:36', '2025-06-10 15:37:36', '2025-06-10 18:37:37'),
+	(17, 1, 'S', 'SUCO LARANJA 500 ML', NULL, 12.00, 0.00, 'A bebida mais gelada da cidade, perfeita para refrescar seu dia! Venha experimentar e sentir o verdadeiro sabor da refrescância!', '2025-06-10 15:38:00', '2025-06-10 15:38:00', '2025-06-10 18:38:01');
 
 -- Copiando estrutura para tabela cardapio_digital.categoria
 CREATE TABLE IF NOT EXISTS `categoria` (
@@ -72,10 +88,10 @@ CREATE TABLE IF NOT EXISTS `categoria` (
 
 -- Copiando dados para a tabela cardapio_digital.categoria: ~4 rows (aproximadamente)
 REPLACE INTO `categoria` (`IdCategoria`, `DescricaoCategoria`, `Imagem`, `CadAtivo`) VALUES
-	(1, 'BEBIDA', 'C:\\wamp64\\www\\PROJETOS\\CardapioDigital\\app\\assets\\Categoria\\Bebidas.png', 'S'),
-	(2, 'LANCHES', 'C:\\wamp64\\www\\PROJETOS\\CardapioDigital\\app\\assets\\Categoria\\Espetos.png', 'S'),
-	(3, 'PORCOES', 'C:\\wamp64\\www\\PROJETOS\\CardapioDigital\\app\\assets\\Categoria\\Lanche.png', 'S'),
-	(4, 'ESPETOS', 'C:\\wamp64\\www\\PROJETOS\\CardapioDigital\\app\\assets\\Categoria\\Porcoes.png', 'S');
+	(1, 'BEBIDA', 'app\\assets\\Categoria\\Bebidas.png', 'S'),
+	(2, 'LANCHES', 'app\\assets\\Categoria\\Lanche.png', 'S'),
+	(3, 'PORCOES', 'app\\assets\\Categoria\\Porcoes.png', 'S'),
+	(4, 'ESPETOS', 'app\\assets\\Categoria\\Espetos.png', 'S');
 
 -- Copiando estrutura para tabela cardapio_digital.empresa
 CREATE TABLE IF NOT EXISTS `empresa` (
@@ -93,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `empresa` (
   KEY `IdEmpresa2` (`IdEmpresa`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
--- Copiando dados para a tabela cardapio_digital.empresa: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela cardapio_digital.empresa: ~0 rows (aproximadamente)
 REPLACE INTO `empresa` (`IdEmpresa`, `RazaoSocial`, `NomeFantasia`, `Telefone`, `Endereco`, `Cidade`, `Uf`, `Cnpj`, `EmpAtiva`) VALUES
 	(1, 'Robson Moura', 'Robson Moura', '34 3453-1490', 'Av. Sergipe 357, São Joao', 'Limeira do oeste', 'MG', '45052914806', 'S');
 
@@ -131,7 +147,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   KEY `IdUsuario2` (`IdUsuario`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
--- Copiando dados para a tabela cardapio_digital.usuario: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela cardapio_digital.usuario: ~0 rows (aproximadamente)
 REPLACE INTO `usuario` (`IdUsuario`, `NomeUsuario`, `Email`, `Senha`) VALUES
 	(1, 'Robson Moura', 'robsoni10@gmail.com', '1234');
 
