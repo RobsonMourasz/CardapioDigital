@@ -1,5 +1,6 @@
+let lista = [];
 (() => {
-    let lista = [];
+    
     document.addEventListener('DOMContentLoaded', async () => {
 
         const response = await fetch('routes/api/produtos.php?busca=all');
@@ -58,9 +59,34 @@
         
     });
     
+    const observer = new MutationObserver(() => {
+        const quantidadeInput = document.getElementById('quantidade');
+        if (quantidadeInput) {
+            quantidadeInput.addEventListener('input', (e) => {
+                atualizaValor(e);
+            });
+            observer.disconnect(); // Para evitar verificações desnecessárias
+        }
+    });
+    
+    observer.observe(document.body, { childList: true, subtree: true });
+    
 
 
 })();
+
+function atualizaValor(e){
+    const quantidade = e.target.value;
+    const campoValor = document.querySelector('.campo-valor');
+    const produtoId = document.querySelector('.item-pedido input[type="number"]').getAttribute('id_produto');
+    const produto = lista.produtos.find(p => p.IdProduto == produtoId);
+    
+    if (produto) {
+        campoValor.textContent = `${quantidade} x R$ ${(produto.VrVenda * quantidade).toFixed(2)}`;
+    } else {
+        console.error('Produto não encontrado');
+    }
+}
 
 async function carregarTabela(data) {
     let img = null;
@@ -139,7 +165,7 @@ async function preencherFormularioPedido(data){
     divPedido.className = 'item-pedido';
     divPedido.innerHTML = `<input type="number" id_produto="${data.IdProduto}" name="${data.IdProduto}" hidden>
                 <div class="icone">
-                    <img src="${data.Imagem}" alt="icone pedido" title="icone do item pedido">
+                    <img src="${img}" alt="icone pedido" title="icone do item pedido">
                 </div>
                 <div class="descricao">
                     <p class="Produto">${data.DescricaoProduto}</p>
@@ -147,7 +173,7 @@ async function preencherFormularioPedido(data){
                 <div class="informacoes-pedido">
                     <label for="quantidade">Quantidade:</label>
                     <input type="number" id="quantidade" name="quantidade" min="1" value="1">
-                    <p class="campo-valor">1 x R$ 32,00</p>
+                    <p class="campo-valor">1 x R$ ${data.VrVenda.toFixed(2)}</p>
                     <label for="observacao">Observação:</label>
                     <textarea id="observacao" name="observacao" rows="4"></textarea>
                 </div>`;
