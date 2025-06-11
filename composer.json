@@ -2,7 +2,7 @@
     "name": "robson/cardapiodigital",
     "autoload": {
         "psr-4": {
-            "Cardapiodigital\\": "src/"
+            "src\\": "src/"
         }
     },
     "authors": [

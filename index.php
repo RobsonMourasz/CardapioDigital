@@ -25,7 +25,7 @@
             </div>
         </div> <!-- Navigation bar with logo and company details -->
         <div class="menu-opcoes">
-            <ul class="lista">
+            <ul class="lista" id="lista-categorias">
                 <li class="item"><a href="">Bebidas</a></li>
                 <li class="item"><a href="">Espetos</a></li>
                 <li class="item"><a href="">Lanches</a></li>
@@ -45,7 +45,10 @@
     <div class="title-cardapio">
         <h1>Bebidas</h1>
     </div>
-    <div class="cardapio">
+
+
+    <div class="cardapio" id="cardapio">
+        
         <div class="card" id="produto5">
             <div class="sessao1">
                 <img src="app/assets/Categoria/Bebidas.png" alt="bebidas">
@@ -106,6 +109,7 @@
         <h1>Espetos</h1>
     </div>
     <div class="cardapio">
+
         <div class="card" id="produto1">
             <div class="sessao1">
                 <img src="app/assets/Categoria/Espetos.png" alt="bebidas">
@@ -150,7 +154,7 @@
             </div>
         </div>
 
-    </div>
+    </div> <!-- Cardapio section with products listed in cards -->
 
     <div class="pedido d-none" id="pedido">
         <div class="close-modal">&times;</div>
