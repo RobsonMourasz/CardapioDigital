@@ -1,5 +1,5 @@
 (() => {
-
+    let lista = [];
     document.addEventListener('DOMContentLoaded', async () => {
 
         const response = await fetch('routes/api/produtos.php?busca=all');
@@ -8,12 +8,14 @@
             return;
         }
 
-        const produtos = await response.json();
-        carregarTabela(produtos);
+        lista = await response.json();
+        carregarTabela(lista);
     });
 
-    document.addEventListener('load', async () => {
+    window.addEventListener("load", function() {
+
         document.querySelector(".carregando").classList.add("d-none");
+
         const modal = document.querySelectorAll('.close-modal');
         modal.forEach(element => {
             element.addEventListener('click', (e) => {
@@ -31,18 +33,32 @@
             modalSacola.classList.add('d-none');
         });
     
-        const card = document.querySelectorAll('.card');
-        console.log(card);
-        card.forEach(element => {
-            element.addEventListener('click', (e) => {
-                console.log(e.target.closest('.card'));
-                const modalPedido = document.querySelector('#pedido');
-                const iconeSacola = document.querySelector('.sacola-compras');
-                modalPedido.classList.remove('d-none');
-                iconeSacola.classList.add('d-none');
+        
+        setTimeout(() => {
+            const card = document.querySelectorAll('.card');
+            card.forEach(element => {
+                console.error(element)
+                element.addEventListener('click', (e) => {
+                    console.log(e.target.closest('.card'));
+                    const modalPedido = document.querySelector('#pedido');
+                    const iconeSacola = document.querySelector('.sacola-compras');
+                    modalPedido.classList.remove('d-none');
+                    iconeSacola.classList.add('d-none');
+                    const produtoId = e.target.closest('.card').getAttribute('id');
+                    const produto = lista.produtos.find(p => p.IdProduto == produtoId);
+                    if (produto) {
+                        preencherFormularioPedido(produto);
+                    } else {
+                        console.error('Produto não encontrado');
+                    }
+                })
             })
-        });
-    })
+
+        }), 1000;
+        
+    });
+    
+
 
 })();
 
@@ -60,8 +76,6 @@ async function carregarTabela(data) {
     cardapio.innerHTML = '';
 
     let categorias = Array.from(new Set(data.categoria.map(categoria => categoria)));
-
-    let DescricaoProduto = new Set(data.produtos.map(produtos => produtos));
 
     categorias.forEach(categoria => {
         let li = document.createElement('li');
@@ -101,4 +115,42 @@ async function carregarTabela(data) {
         `;
         cardapio.appendChild(card);
     });
+}
+
+async function preencherFormularioPedido(data){
+
+    if (data.Imagem == null || data.Imagem == '') {
+        const categoriaEncontrada = lista.categoria.find(categoria => categoria.IdCategoria == data.IdCategoria);
+
+        if (categoriaEncontrada) {
+            img = categoriaEncontrada.Imagem;
+        } else {
+            img = 'app/assetes/sem_imagem.png';
+        }
+
+    }else{
+        img = produto.Imagem;
+    }
+
+    let formPedido = document.getElementById('pedidoForm');
+    formPedido.innerHTML = ''; // Limpa o formulário antes de adicionar o novo item
+    let divPedido;
+    divPedido = document.createElement('div');
+    divPedido.className = 'item-pedido';
+    divPedido.innerHTML = `<input type="number" id_produto="${data.IdProduto}" name="${data.IdProduto}" hidden>
+                <div class="icone">
+                    <img src="${data.Imagem}" alt="icone pedido" title="icone do item pedido">
+                </div>
+                <div class="descricao">
+                    <p class="Produto">${data.DescricaoProduto}</p>
+                </div>
+                <div class="informacoes-pedido">
+                    <label for="quantidade">Quantidade:</label>
+                    <input type="number" id="quantidade" name="quantidade" min="1" value="1">
+                    <p class="campo-valor">1 x R$ 32,00</p>
+                    <label for="observacao">Observação:</label>
+                    <textarea id="observacao" name="observacao" rows="4"></textarea>
+                </div>`;
+    formPedido.appendChild(divPedido);
+
 }

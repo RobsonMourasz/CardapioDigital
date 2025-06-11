@@ -160,43 +160,10 @@
         <div class="close-modal">&times;</div>
         <h2>Seus Pedidos</h2>
         <form id="pedidoForm">
-            <div class="item-pedido">
-                <input type="number" id_produto="id_produto" name="id_produto" hidden>
-                <div class="icone">
-                    <img src="app/assets/Categoria/Lanche.png" alt="icone pedido" title="icone do item pedido">
-                </div>
-                <div class="descricao">
-                    <p class="Produto">X -TUDO </p>
-                </div>
-                <div class="informacoes-pedido">
-                    <label for="quantidade">Quantidade:</label>
-                    <input type="number" id="quantidade" name="quantidade" min="1" value="1">
-                    <p class="campo-valor">1 x R$ 32,00</p>
-                    <label for="observacao">Observação:</label>
-                    <textarea id="observacao" name="observacao" rows="4"></textarea>
-                </div>
-            </div>
 
-            <div class="item-pedido">
-                <input type="number" id_produto="id_produto" name="id_produto" hidden>
-                <div class="icone">
-                    <img src="app/assets/Categoria/Bebidas.png" alt="icone pedido" title="icone do item pedido">
-                </div>
-                <div class="descricao">
-                    <p class="Produto">Coca Cola 2 Litross </p>
-                </div>
-                <div class="informacoes-pedido">
-                    <label for="quantidade">Quantidade:</label>
-                    <input type="number" id="quantidade" name="quantidade" min="1" value="1">
-                    <p class="campo-valor">1 x R$ 12,00</p>
-                    <label for="observacao">Observação:</label>
-                    <textarea id="observacao" name="observacao" rows="4"></textarea>
-                </div>
-            </div>
-
-
-            <button type="submit">Enviar Pedido</button>
+            
         </form>
+        <button type="submit">Enviar Pedido</button>
         <div id="mensagem"></div>
     </div>
 
