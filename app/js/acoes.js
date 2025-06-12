@@ -1,6 +1,6 @@
 let lista = [];
 (() => {
-    
+
     document.addEventListener('DOMContentLoaded', async () => {
 
         const response = await fetch('routes/api/produtos.php?busca=all');
@@ -13,10 +13,8 @@ let lista = [];
         carregarTabela(lista);
     });
 
-    window.addEventListener("load", function() {
-
+    window.addEventListener("load", function () {
         document.querySelector(".carregando").classList.add("d-none");
-
         const modal = document.querySelectorAll('.close-modal');
         modal.forEach(element => {
             element.addEventListener('click', (e) => {
@@ -26,21 +24,30 @@ let lista = [];
                 iconeSacola.classList.remove('d-none');
             });
         })
-    
+
         const modalSacola = document.querySelector('.sacola-compras');
         modalSacola.addEventListener('click', () => {
             const modalPedido = document.querySelector('#pedido');
             modalPedido.classList.remove('d-none');
             modalSacola.classList.add('d-none');
         });
-    
-        
-        setTimeout(() => {
-            const card = document.querySelectorAll('.card');
+
+    });
+
+    const observer = new MutationObserver(() => {
+        const quantidadeInput = document.getElementById('quantidade');
+        if (quantidadeInput) {
+            quantidadeInput.addEventListener('input', (e) => {
+                atualizaValor(e);
+            });
+            observer.disconnect(); // Para evitar verificações desnecessárias
+        }
+
+        const card = document.querySelectorAll('.card');
+
+        if (card.length > 0) {
             card.forEach(element => {
-                console.error(element)
                 element.addEventListener('click', (e) => {
-                    console.log(e.target.closest('.card'));
                     const modalPedido = document.querySelector('#pedido');
                     const iconeSacola = document.querySelector('.sacola-compras');
                     modalPedido.classList.remove('d-none');
@@ -54,33 +61,19 @@ let lista = [];
                     }
                 })
             })
-
-        }), 1000;
-        
-    });
-    
-    const observer = new MutationObserver(() => {
-        const quantidadeInput = document.getElementById('quantidade');
-        if (quantidadeInput) {
-            quantidadeInput.addEventListener('input', (e) => {
-                atualizaValor(e);
-            });
-            observer.disconnect(); // Para evitar verificações desnecessárias
         }
+
     });
-    
     observer.observe(document.body, { childList: true, subtree: true });
-    
-
-
 })();
 
-function atualizaValor(e){
+function atualizaValor(e) {
+
     const quantidade = e.target.value;
     const campoValor = document.querySelector('.campo-valor');
     const produtoId = document.querySelector('.item-pedido input[type="number"]').getAttribute('id_produto');
     const produto = lista.produtos.find(p => p.IdProduto == produtoId);
-    
+
     if (produto) {
         campoValor.textContent = `${quantidade} x R$ ${(produto.VrVenda * quantidade).toFixed(2)}`;
     } else {
@@ -89,6 +82,7 @@ function atualizaValor(e){
 }
 
 async function carregarTabela(data) {
+    let categoriaAtual = null;
     let img = null;
     if (!data || data.length === 0) {
         console.error('Nenhum produto encontrado');
@@ -121,9 +115,19 @@ async function carregarTabela(data) {
                 img = 'app/assetes/sem_imagem.png';
             }
 
-        }else{
+        } else {
             img = produto.Imagem;
         }
+
+        if (categoriaAtual != produto.IdCategoria) {
+            let cat = categorias.find(categoria => categoria.IdCategoria == produto.IdCategoria);
+            categoriaAtual = produto.IdCategoria;
+            let categoriaDiv = document.createElement('div');
+            categoriaDiv.className = 'title-cardapio';
+            categoriaDiv.innerHTML = `<h3>${cat.DescricaoCategoria}</h3>`;
+            cardapio.appendChild(categoriaDiv);
+        }
+
         let card = document.createElement('div');
         card.className = 'card';
         card.setAttribute('id', produto.IdProduto);
@@ -143,7 +147,7 @@ async function carregarTabela(data) {
     });
 }
 
-async function preencherFormularioPedido(data){
+async function preencherFormularioPedido(data) {
 
     if (data.Imagem == null || data.Imagem == '') {
         const categoriaEncontrada = lista.categoria.find(categoria => categoria.IdCategoria == data.IdCategoria);
@@ -154,7 +158,7 @@ async function preencherFormularioPedido(data){
             img = 'app/assetes/sem_imagem.png';
         }
 
-    }else{
+    } else {
         img = produto.Imagem;
     }
 
