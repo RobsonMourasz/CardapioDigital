@@ -35,6 +35,7 @@ let lista = [];
     });
 
     const observer = new MutationObserver(() => {
+        
         const quantidadeInput = document.getElementById('quantidade');
         if (quantidadeInput) {
             quantidadeInput.addEventListener('input', (e) => {
@@ -42,9 +43,9 @@ let lista = [];
             });
             observer.disconnect(); // Para evitar verificações desnecessárias
         }
-
         const card = document.querySelectorAll('.card');
-
+        const produtosJaAdicionados = new Set(); // Usamos um Set para evitar duplicações
+        
         if (card.length > 0) {
             card.forEach(element => {
                 element.addEventListener('click', (e) => {
@@ -52,16 +53,21 @@ let lista = [];
                     const iconeSacola = document.querySelector('.sacola-compras');
                     modalPedido.classList.remove('d-none');
                     iconeSacola.classList.add('d-none');
+        
                     const produtoId = e.target.closest('.card').getAttribute('id');
-                    const produto = lista.produtos.find(p => p.IdProduto == produtoId);
-                    if (produto) {
+                    let produto = lista.produtos.find(p => p.IdProduto == produtoId);
+        
+                    console.log(produto);
+        
+                    if (produto && !produtosJaAdicionados.has(produto.IdProduto)) {
                         preencherFormularioPedido(produto);
-                    } else {
-                        console.error('Produto não encontrado');
+                        produtosJaAdicionados.add(produto.IdProduto); // Marca o produto como adicionado
                     }
-                })
-            })
+                });
+            });
         }
+        
+        
 
     });
     observer.observe(document.body, { childList: true, subtree: true });
@@ -163,7 +169,9 @@ async function preencherFormularioPedido(data) {
     }
 
     let formPedido = document.getElementById('pedidoForm');
-    formPedido.innerHTML = ''; // Limpa o formulário antes de adicionar o novo item
+    if (!formPedido.querySelector('.item-pedido')) {
+        formPedido.innerHTML = ''; // Limpa o formulário somente se não houver itens
+    }
     let divPedido;
     divPedido = document.createElement('div');
     divPedido.className = 'item-pedido';
