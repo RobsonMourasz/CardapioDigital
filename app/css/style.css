@@ -170,8 +170,8 @@
 
 .pedido {
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: 0;
+    right: 0;
     background: white;
     padding: 20px;
     border-radius: 8px;
@@ -184,6 +184,11 @@
     cursor: pointer;
     font-size: 2em;
 }
+.pedido h2{
+    display: inline-block;
+    width: 100%;
+    padding: 0 0 1em 0;
+}
 
 .pedido #pedidoForm .icone{
     width: 100%;
@@ -193,8 +198,19 @@
     margin: 20px 0;
 }
 
+.pedido #pedidoForm .item-pedido{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+}
 .pedido #pedidoForm .item-pedido .icone img{
-    width: 100px;
+    width: 80px;
     height: auto;
     border-radius: 50%;
 }
@@ -209,11 +225,30 @@
     display: flex;
     flex-direction: column;
 }
-
+.pedido #pedidoForm .item-pedido .informacoes-pedido .informacoes-quantidade{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.pedido #pedidoForm .item-pedido .informacoes-pedido .informacoes-quantidade .qtd-label{
+    margin: .5em 0 0 0;
+}
+.pedido #pedidoForm .item-pedido .informacoes-pedido .informacoes-quantidade .qtd-input{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: .5em 0 0 0;
+}
+.pedido #pedidoForm .item-pedido .informacoes-pedido .informacoes-quantidade .minus,
+.pedido #pedidoForm .item-pedido .informacoes-pedido .informacoes-quantidade .plus{
+    margin: 0 .5em ;
+}
 .pedido #pedidoForm .item-pedido .informacoes-pedido .campo-valor{
     display: flex;
     align-items: center;
-    justify-content: space-between;
     margin-bottom: 10px;
     font-family: monospace;
 
@@ -232,8 +267,25 @@
     text-align: center;
     appearance: textfield; /* Remove setas padrão do navegador */
 }
-
-.pedido input[type="number"]::-webkit-inner-spin-button,
+.pedido input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.pedido .minus, .pedido .plus {
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.pedido input[type="number"] {
+    width: 60px;
+    text-align: center;
+    font-size: 18px;
+    border: 1px solid #ccc;
+}
 .pedido input[type="number"]::-webkit-outer-spin-button {
     opacity: 1;
     cursor: pointer;
@@ -257,6 +309,57 @@
 .pedido  button:hover {
     background-color: #218838;
 }
+
+.pedido .metodo-pagamento,
+.pedido .entrega{ 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+
+}
+.pedido .metodo-pagamento h3,
+.pedido .entrega h3{
+    font-weight: 600;
+    font-family: monospace;
+    color: var(--text);
+}
+.pedido .metodo-pagamento select,
+.pedido .entrega select{
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    outline: none;
+    border: 2px solid transparent;
+}
+.pedido .detalhe-endereco{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px;
+    outline: none;
+    border: 2px solid transparent;
+}
+.pedido .detalhe-endereco textarea,
+.pedido #pedidoForm textarea{
+    width: 100%;
+    padding: 10px 10px 15px 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    outline: none;
+    border: 2px solid transparent;
+}
+
 
 .pedido #mensagem {
     margin-top: 10px;

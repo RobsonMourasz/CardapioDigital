@@ -1,4 +1,5 @@
 let lista = [];
+let pegaCard = null;
 (() => {
 
     document.addEventListener('DOMContentLoaded', async () => {
@@ -35,7 +36,7 @@ let lista = [];
     });
 
     const observer = new MutationObserver(() => {
-        
+
         const quantidadeInput = document.getElementById('quantidade');
         if (quantidadeInput) {
             quantidadeInput.addEventListener('input', (e) => {
@@ -43,34 +44,52 @@ let lista = [];
             });
             observer.disconnect(); // Para evitar verificações desnecessárias
         }
-        const card = document.querySelectorAll('.card');
-        const produtosJaAdicionados = new Set(); // Usamos um Set para evitar duplicações
-        
-        if (card.length > 0) {
-            card.forEach(element => {
-                element.addEventListener('click', (e) => {
-                    const modalPedido = document.querySelector('#pedido');
-                    const iconeSacola = document.querySelector('.sacola-compras');
-                    modalPedido.classList.remove('d-none');
-                    iconeSacola.classList.add('d-none');
-        
-                    const produtoId = e.target.closest('.card').getAttribute('id');
-                    let produto = lista.produtos.find(p => p.IdProduto == produtoId);
-        
-                    console.log(produto);
-        
-                    if (produto && !produtosJaAdicionados.has(produto.IdProduto)) {
-                        preencherFormularioPedido(produto);
-                        produtosJaAdicionados.add(produto.IdProduto); // Marca o produto como adicionado
-                    }
-                });
-            });
-        }
-        
-        
 
     });
+
+    const obj = new MutationObserver(() => {
+
+        pegaCard = document.querySelectorAll('.card');
+        if (pegaCard.length > 0) {
+
+            pegaCard.forEach(element => {
+                element.addEventListener('click', (e) => {
+                    const iconeSacola = document.querySelector('.sacola-compras');
+                    iconeSacola.classList.remove('d-none');
+
+                    const produtoId = e.target.closest('.card').getAttribute('id');
+                    produtoSelecionado = lista.produtos.find(p => p.IdProduto == produtoId);
+
+                    preencherFormularioPedido(produtoSelecionado);
+                });
+            });
+
+            obj.disconnect(); // Para evitar verificações desnecessárias            
+        }
+
+    });
+
+
+
     observer.observe(document.body, { childList: true, subtree: true });
+    obj.observe(document.body, { childList: true, subtree: true });
+
+    document.getElementById('entrega').addEventListener('input', () => {
+        const entrega = document.getElementById('entrega').value;
+        if (entrega === 'entregar') {
+            document.querySelector('.detalhe-endereco').classList.remove('d-none');
+        }else{
+            document.querySelector('.detalhe-endereco').classList.add('d-none');
+        }
+    });
+
+    // document.getElementById('formaPgto').addEventListener('input', (e) => {
+
+    // })
+
+    // document.getElementById('').addEventListener('input', (e) => {
+        
+    // })
 })();
 
 function atualizaValor(e) {
@@ -183,11 +202,17 @@ async function preencherFormularioPedido(data) {
                     <p class="Produto">${data.DescricaoProduto}</p>
                 </div>
                 <div class="informacoes-pedido">
-                    <label for="quantidade">Quantidade:</label>
-                    <input type="number" id="quantidade" name="quantidade" min="1" value="1">
-                    <p class="campo-valor">1 x R$ ${data.VrVenda.toFixed(2)}</p>
+                    <div class="informacoes-quantidade">
+                        <div class="qtd-label"><label for="quantidade">Quantidade:</label></div>
+                        <div class="qtd-input">
+                            <button class="minus">-</button>
+                            <input type="number" class="quantidade" name="quantidade" min="1" value="1" readonly>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                    <p class="campo-valor"> <small class="qtd">1</small> x R$ <small class="vr" valor="${data.VrVenda.toFixed(2)}">${data.VrVenda.toFixed(2)}</small></p>
                     <label for="observacao">Observação:</label>
-                    <textarea id="observacao" name="observacao" rows="4"></textarea>
+                    <textarea id="observacao" name="observacao" rows="4" placeholder="Digite aqui algo que deseja retirar ou acrescentar"></textarea>
                 </div>`;
     formPedido.appendChild(divPedido);
 
