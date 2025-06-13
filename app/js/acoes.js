@@ -23,14 +23,18 @@ let pegaCard = null;
                 const iconeSacola = document.querySelector('.sacola-compras');
                 parentDiv.classList.add('d-none');
                 iconeSacola.classList.remove('d-none');
+                verificarQtdPedidosNaSacola();
             });
         })
 
         const modalSacola = document.querySelector('.sacola-compras');
         modalSacola.addEventListener('click', () => {
             const modalPedido = document.querySelector('#pedido');
+            if (modalPedido.classList.contains('d-none')) {
+                modalSacola.classList.add('d-none');
+                console.error('removeu modal sacola')
+            }
             modalPedido.classList.remove('d-none');
-            modalSacola.classList.add('d-none');
         });
 
     });
@@ -55,12 +59,15 @@ let pegaCard = null;
             pegaCard.forEach(element => {
                 element.addEventListener('click', (e) => {
                     const iconeSacola = document.querySelector('.sacola-compras');
-                    iconeSacola.classList.remove('d-none');
-
+                    if (document.getElementById('pedido').classList.contains('d-none')) {
+                        iconeSacola.classList.remove('d-none');
+                        console.error("meras")
+                    }
                     const produtoId = e.target.closest('.card').getAttribute('id');
                     produtoSelecionado = lista.produtos.find(p => p.IdProduto == produtoId);
 
                     preencherFormularioPedido(produtoSelecionado);
+                    verificarQtdPedidosNaSacola();
                 });
             });
 
@@ -85,6 +92,13 @@ let pegaCard = null;
 
     document.getElementById('enviar-pedido').addEventListener('click', async (e) => {
         e.preventDefault();
+
+        const verificaPedido = document.querySelector('.item-pedido');
+        if (!verificaPedido) {
+            mensagemAviso('mensagem', 'Selecione produtos para fazer o pedido');
+            return;
+        }
+
         console.log('Enviando pedido...');
 
         if (document.getElementById('formaPgto').value === '' ||
@@ -204,8 +218,10 @@ async function carregarTabela(data) {
                 <h2>${produto.DescricaoProduto}</h2>
                 <p>${produto.Ingredientes}</p>
                 <small>R$ ${produto.VrVenda.toFixed(2)}</small>
+                <div class="btn-add-carrinho"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                </svg> carrinho</div>
             </div>
-
         `;
         cardapio.appendChild(card);
     });
@@ -263,7 +279,7 @@ async function preencherFormularioPedido(data) {
 function mensagemAviso(idElemento, mensagem) {
     const elemento = document.getElementById(idElemento);
     if (elemento) {
-        
+
         elemento.textContent = mensagem;
         elemento.style.color = 'white';
         elemento.style.background = 'red';
@@ -277,4 +293,9 @@ function mensagemAviso(idElemento, mensagem) {
         console.error(`Elemento com ID ${idElemento} não encontrado.`);
     }
 
+}
+
+function verificarQtdPedidosNaSacola() {
+    const sacola = document.querySelectorAll('#pedidoForm .item-pedido')
+    document.querySelector('.sacola-compras a').style.setProperty('--quantidade', `"${sacola.length}"`)
 }

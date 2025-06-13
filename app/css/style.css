@@ -58,7 +58,10 @@
     flex-wrap: nowrap;
     width: 100%;
     text-align: center;
+    align-items: center;
+    justify-content: start;
     overflow-x: auto;
+    background-color: rgba(0, 0, 0, .1);
 }
 .menu-opcoes .lista::-webkit-scrollbar{
     height: 5px;
@@ -92,6 +95,7 @@
     color: var(--text);
     padding: 0 0 0 20px;
     margin: 20px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
 }
 
 .cardapio{
@@ -149,6 +153,22 @@
     color: #7a7a7a;
     cursor: pointer;
 }
+.cardapio .card .sessao2 .btn-add-carrinho{
+    width: 100%;
+    background-color: #218838;
+    color: white;
+    text-align: center;
+    padding: .5em 0;
+    margin: .5em 0;
+    border-radius: 5px;
+    position: relative;
+}
+.cardapio .card .sessao2 .btn-add-carrinho svg{
+    display: inline-block;
+    position: absolute;
+    left: 78px;
+}
+
 .sacola-compras{
     width: 40px;
     height: 40px;
@@ -166,6 +186,25 @@
 .sacola-compras img{
     width: 30px;
     height: 30px;
+}
+.sacola-compras a{
+    position: relative;
+}
+
+.sacola-compras a::after{
+    content: var(--quantidade);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: -2.5px;
+    right: -5px;
+    color: white;
+    font-weight: 600;
+    font-family: monospace;
+    font-size: 1.8em;
 }
 
 .pedido {
@@ -416,5 +455,37 @@
     }
     100% {
         transform: rotate(360deg);
+    }
+}
+
+@media screen and (max-width:501px) {
+    .nav{
+        flex-direction: column;
+    }
+    
+    .nav .dados-empresa{
+
+        align-items: center;
+
+    }
+    
+    .nav .dados-empresa .title{
+        font-size: 1.5rem;
+        font-weight: 600;
+        font-family: monospace;
+    }
+    
+    .nav .dados-empresa .status{
+        font-size: 1rem;
+        font-weight: 500;
+        font-family: monospace;
+        padding: .5em 0;
+    }
+    
+    .nav .dados-empresa .status .online{
+        background-color: green;
+        border-radius: 10px;
+        padding: 0.1em .5em;
+        color: #f8f5f5;
     }
 }

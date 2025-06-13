@@ -26,14 +26,8 @@
         </div> <!-- Navigation bar with logo and company details -->
         <div class="menu-opcoes">
             <ul class="lista" id="lista-categorias">
-                <li class="item"><a href="">Bebidas</a></li>
-                <li class="item"><a href="">Espetos</a></li>
-                <li class="item"><a href="">Lanches</a></li>
-                <li class="item"><a href="">Porcoes</a></li>
-                <li class="item"><a href="">Outros</a></li>
-                <li class="item"><a href="">Outros</a></li>
 
-            </ul>
+            </ul> <!-- lista -->
         </div>
     </div> <!-- Container for the digital menu content -->
 
