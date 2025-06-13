@@ -350,6 +350,25 @@
     background-color: #218838;
 }
 
+.pedido .totalizador{
+    display: inline-block;
+    width: 100%;
+    padding: .5em;
+    font-family: monospace;
+}
+.pedido .totalizador p{
+    border-bottom: 1px solid rgba(0, 0, 0, .5);
+    padding: .5em 0;
+}
+.pedido .totalizador .vr-pedido
+.pedido .totalizador .vr-pagar{
+    background-color: #218838;
+}
+.pedido .totalizador .tx-entrega,
+.pedido .totalizador .tx-maquininha{
+    background-color: red;
+}
+
 .pedido .metodo-pagamento,
 .pedido .entrega{ 
     display: flex;

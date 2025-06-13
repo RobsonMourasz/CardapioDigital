@@ -3,7 +3,6 @@ let pegaCard = null;
 (() => {
 
     document.addEventListener('DOMContentLoaded', async () => {
-
         const response = await fetch('routes/api/produtos.php?busca=all');
         if (!response.ok) {
             console.error('Erro ao carregar os produtos');
@@ -32,7 +31,6 @@ let pegaCard = null;
             const modalPedido = document.querySelector('#pedido');
             if (modalPedido.classList.contains('d-none')) {
                 modalSacola.classList.add('d-none');
-                console.error('removeu modal sacola')
             }
             modalPedido.classList.remove('d-none');
         });
@@ -61,13 +59,13 @@ let pegaCard = null;
                     const iconeSacola = document.querySelector('.sacola-compras');
                     if (document.getElementById('pedido').classList.contains('d-none')) {
                         iconeSacola.classList.remove('d-none');
-                        console.error("meras")
                     }
                     const produtoId = e.target.closest('.card').getAttribute('id');
                     produtoSelecionado = lista.produtos.find(p => p.IdProduto == produtoId);
 
                     preencherFormularioPedido(produtoSelecionado);
                     verificarQtdPedidosNaSacola();
+                    
                 });
             });
 
@@ -76,7 +74,16 @@ let pegaCard = null;
 
     });
 
+    document.querySelector('#formaPgto').addEventListener('input', ()=>{
+        if (document.querySelector('#formaPgto').value == 'cartao') {
 
+            const vr = responsavelPeloValorQuantidade()
+            atualizaValorPedido(vr[0],vr[1],'s','n')
+
+        }else{
+
+        }
+    })
 
     observer.observe(document.body, { childList: true, subtree: true });
     obj.observe(document.body, { childList: true, subtree: true });
@@ -84,6 +91,8 @@ let pegaCard = null;
     document.getElementById('entrega').addEventListener('input', () => {
         const entrega = document.getElementById('entrega').value;
         if (entrega === 'entregar') {
+            const vr = responsavelPeloValorQuantidade()
+            atualizaValorPedido(vr[0],vr[1],'s','s')
             document.querySelector('.detalhe-endereco').classList.remove('d-none');
         } else {
             document.querySelector('.detalhe-endereco').classList.add('d-none');
@@ -268,12 +277,13 @@ async function preencherFormularioPedido(data) {
                     <p class="campo-valor"> <small class="qtd">1</small> x R$ <small class="vr" valor="${data.VrVenda.toFixed(2)}">${data.VrVenda.toFixed(2)}</small></p>
                     <label for="observacao">Observação:</label>
                     <textarea id="observacao" name="observacao" rows="4" placeholder="Digite aqui algo que deseja retirar ou acrescentar"></textarea>
-                    <button style="background-color:red" onclick="this.closest('.item-pedido').remove()">
+                    <button style="background-color:red" onclick="this.closest('.item-pedido').remove();">
                         Remover Item
                     </button>
                 </div>`;
     formPedido.appendChild(divPedido);
-
+    const vr = responsavelPeloValorQuantidade()
+    atualizaValorPedido(vr[0],1,'n','n')
 }
 
 function mensagemAviso(idElemento, mensagem) {
@@ -298,4 +308,59 @@ function mensagemAviso(idElemento, mensagem) {
 function verificarQtdPedidosNaSacola() {
     const sacola = document.querySelectorAll('#pedidoForm .item-pedido')
     document.querySelector('.sacola-compras a').style.setProperty('--quantidade', `"${sacola.length}"`)
+    responsavelPeloValorQuantidade()
 }
+
+function atualizaValorPedido(valor, qtd, txCartao, txEntrega) {
+    const vrTxEntrega = 2.00;
+    const txMaquininha = 2.00;
+
+    let cardTotalPedido = document.querySelector('.pedido .totalizador .vr-pedido');
+    let cardTaxaEntrega = document.querySelector('.pedido .totalizador .tx-entrega');
+    let cardTaxaMaquininha = document.querySelector('.pedido .totalizador .tx-maquininha');
+    let cardValorTotal = document.querySelector('.pedido .totalizador .vr-pagar');
+
+    let vrTotal = parseFloat(valor);
+    cardTotalPedido.textContent = valor;
+
+    if (txCartao == 's') {
+        if (cardTaxaMaquininha.textContent == "") {
+            console.warn("asdasdasd")
+            vrTotal = vrTotal + txMaquininha;
+            cardTaxaMaquininha.textContent = txMaquininha.toFixed(2);
+        }
+
+    } 
+
+    if (txEntrega == 's') {
+
+        if (cardTaxaEntrega.textContent == "entregar"){
+            vrTotal = vrTotal + vrTxEntrega;
+            cardTaxaEntrega.textContent = vrTxEntrega.toFixed(2);
+        }
+
+    }
+
+    cardValorTotal.textContent = vrTotal;
+}
+
+function responsavelPeloValorQuantidade() {
+    let valorTotal = 0;
+    let qtdProdTotal = 0;
+
+    // Pegando todos os produtos
+    const produtos = document.querySelectorAll('#pedidoForm .informacoes-pedido .campo-valor');
+
+    produtos.forEach(produto => {
+        let valorVenda = parseFloat(produto.querySelector('.vr').getAttribute('valor'));
+        let qtdProd = parseFloat(produto.querySelector('.qtd').textContent);
+        
+        // Somando corretamente o valor total e a quantidade total
+        valorTotal += valorVenda * qtdProd;
+        qtdProdTotal += qtdProd;
+    });
+
+    // Retornando um array com os valores calculados
+    return [valorTotal.toFixed(2), qtdProdTotal];
+}
+

@@ -45,7 +45,13 @@
         <form id="pedidoForm">
         </form> <!-- Form for submitting the order -->
 
-        
+        <div class="totalizador">
+            <p>Total do pedido:  R$ <span class="vr-pedido"></span></p>
+            <p>Taxa Entrega:  R$ <span class="tx-entrega"></span></p>
+            <p>Taxa maquininha:  R$ <span class="tx-maquininha"></span></p>
+            <p>Valor a pagar:  R$ <span class="vr-pagar"></span></p>
+        </div>
+
         <div class="metodo-pagamento">
             <h3>Forma Pagamento</h3>
             <select name="formaPgto" id="formaPgto">
@@ -95,6 +101,8 @@ document.addEventListener("click", (event) => {
         input.value = quantidade;
         campoQtd.textContent = quantidade;
         valorUnitario.textContent = (valorUnitarioAttr * quantidade).toFixed(2).replace('.', ',');
+        const vr = responsavelPeloValorQuantidade()
+        atualizaValorPedido(vr[0],vr[1],'n','n')
     }
 });
 
