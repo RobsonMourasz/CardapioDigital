@@ -85,6 +85,17 @@ let pegaCard = null;
         }
     })
 
+    document.querySelector('#entrega').addEventListener('input', ()=>{
+        if (document.querySelector('#entrega').value == 'entregar') {
+
+            const vr = responsavelPeloValorQuantidade()
+            atualizaValorPedido(vr[0],vr[1],'n','s')
+
+        }else{
+
+        }
+    })
+
     observer.observe(document.body, { childList: true, subtree: true });
     obj.observe(document.body, { childList: true, subtree: true });
 
@@ -334,7 +345,7 @@ function atualizaValorPedido(valor, qtd, txCartao, txEntrega) {
 
     if (txEntrega == 's') {
 
-        if (cardTaxaEntrega.textContent == "entregar"){
+        if (cardTaxaEntrega.textContent == ""){
             vrTotal = vrTotal + vrTxEntrega;
             cardTaxaEntrega.textContent = vrTxEntrega.toFixed(2);
         }
