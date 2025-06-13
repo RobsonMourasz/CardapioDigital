@@ -334,10 +334,12 @@ function atualizaValorPedido(valor, qtd, txCartao, txEntrega) {
     let vrTotal = parseFloat(valor);
     cardTotalPedido.textContent = valor;
 
+    let adicionais = 0;
+
     if (txCartao == 's') {
         if (cardTaxaMaquininha.textContent == "") {
             console.warn("asdasdasd")
-            vrTotal = vrTotal + txMaquininha;
+            adicionais += txMaquininha;
             cardTaxaMaquininha.textContent = txMaquininha.toFixed(2);
         }
 
@@ -346,12 +348,12 @@ function atualizaValorPedido(valor, qtd, txCartao, txEntrega) {
     if (txEntrega == 's') {
 
         if (cardTaxaEntrega.textContent == ""){
-            vrTotal = vrTotal + vrTxEntrega;
+            adicionais += vrTxEntrega;
             cardTaxaEntrega.textContent = vrTxEntrega.toFixed(2);
         }
 
     }
-
+    vrTotal = vrTotal + adicionais
     cardValorTotal.textContent = vrTotal;
 }
 
