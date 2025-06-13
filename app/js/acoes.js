@@ -95,13 +95,37 @@ let pegaCard = null;
 
         }
 
-        if (document.getElementById('endereco').value === '' ||
-            document.getElementById('endereco').value === null ||
-            document.getElementById('endereco').value === undefined) {
-            mensagemAviso('mensagem', 'Preencha o campo endereço de forma correta');
+        if (document.getElementById('entrega').value === '' ||
+            document.getElementById('entrega').value === null ||
+            document.getElementById('entrega').value === undefined) {
+            mensagemAviso('mensagem', 'Selecione o tipo de entrega');
             return;
 
         }
+
+        if (document.getElementById('entrega').value === 'entregar') {
+            if (document.getElementById('endereco').value.length < 8) {
+                mensagemAviso('mensagem', 'Preencha o campo endereço de forma correta');
+                return;
+            }
+
+        }
+
+        const formPedido = document.getElementById('pedidoForm');
+        const itensPedido = Array.from(formPedido.querySelectorAll('.item-pedido')).map(item => {
+            const produtoId = item.querySelector('.item-pedido input[type="number"]').getAttribute('id_produto');
+            const quantidade = item.querySelector('.informacoes-pedido .campo-valor .qtd').textContent;
+            const observacao = item.querySelector('[name="observacao"]').value;
+            return {
+                IdProduto: produtoId,
+                Quantidade: quantidade,
+                Observacao: observacao
+            };
+        });
+
+        console.log('Itens do pedido:', itensPedido);
+        console.log('Forma de pagamento:', document.getElementById('formaPgto').value)
+        console.log('Endereço:', document.getElementById('endereco').value);
 
     });
 

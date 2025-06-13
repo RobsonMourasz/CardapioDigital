@@ -68,8 +68,8 @@
                 <option value="retirar">Retirar no Local</option>
                 <option value="entregar">Entregar no Endereço</option>
             </select>
-            <div class="detalhe-endereco">
-                <textarea name="endereco" id="endereco" placeholder="Digite aqi seu endereco completo, bairro, endereco, numero, local" minlength="8"></textarea>
+            <div class="detalhe-endereco d-none">
+                <textarea name="endereco" id="endereco" placeholder="Digite aqi seu endereco completo, bairro, endereco, numero, local"></textarea>
             </div>
         </div>
         <div id="mensagem" class="d-none"></div>
@@ -89,7 +89,6 @@ document.addEventListener("click", (event) => {
         let input = container.querySelector(".quantidade");
         let campoValor = container.querySelector(".campo-valor");
         let campoQtd = campoValor.querySelector(".qtd");
-        console.log(campoQtd);
         let valorUnitario = campoValor.querySelector(".vr");
         let valorUnitarioAttr = campoValor.querySelector(".vr").getAttribute("valor");
         let quantidade = parseInt(input.value);
