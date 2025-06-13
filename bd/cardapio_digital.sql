@@ -84,14 +84,17 @@ CREATE TABLE IF NOT EXISTS `categoria` (
   PRIMARY KEY (`IdCategoria`),
   UNIQUE KEY `IdCategoria` (`IdCategoria`),
   KEY `IdCategoria2` (`IdCategoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
--- Copiando dados para a tabela cardapio_digital.categoria: ~4 rows (aproximadamente)
+-- Copiando dados para a tabela cardapio_digital.categoria: ~6 rows (aproximadamente)
 REPLACE INTO `categoria` (`IdCategoria`, `DescricaoCategoria`, `Imagem`, `CadAtivo`) VALUES
 	(1, 'BEBIDA', 'app\\assets\\Categoria\\Bebidas.png', 'S'),
 	(2, 'LANCHES', 'app\\assets\\Categoria\\Lanche.png', 'S'),
 	(3, 'PORCOES', 'app\\assets\\Categoria\\Porcoes.png', 'S'),
-	(4, 'ESPETOS', 'app\\assets\\Categoria\\Espetos.png', 'S');
+	(4, 'ESPETOS', 'app\\assets\\Categoria\\Espetos.png', 'S'),
+	(5, 'OUTRAS CATEGORIAS', NULL, 'N'),
+	(6, 'TESTE', NULL, 'N'),
+	(7, 'TESTE02', NULL, 'N');
 
 -- Copiando estrutura para tabela cardapio_digital.empresa
 CREATE TABLE IF NOT EXISTS `empresa` (
