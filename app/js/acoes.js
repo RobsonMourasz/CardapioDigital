@@ -263,8 +263,10 @@ async function preencherFormularioPedido(data) {
 function mensagemAviso(idElemento, mensagem) {
     const elemento = document.getElementById(idElemento);
     if (elemento) {
+        
         elemento.textContent = mensagem;
-        elemento.style.color = 'red';
+        elemento.style.color = 'white';
+        elemento.style.background = 'red';
         elemento.classList.remove('d-none');
         setTimeout(() => {
             elemento.textContent = '';
