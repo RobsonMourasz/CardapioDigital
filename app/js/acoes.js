@@ -122,7 +122,6 @@ let pegaCard = null;
                 Observacao: observacao
             };
         });
-
         console.log('Itens do pedido:', itensPedido);
         console.log('Forma de pagamento:', document.getElementById('formaPgto').value)
         console.log('Endereço:', document.getElementById('endereco').value);
