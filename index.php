@@ -69,12 +69,12 @@
                 <option value="entregar">Entregar no Endereço</option>
             </select>
             <div class="detalhe-endereco">
-                <textarea name="endereco" id="endereco" placeholder="Digite aqi seu endereco completo, bairro, endereco, numero, local"></textarea>
+                <textarea name="endereco" id="endereco" placeholder="Digite aqi seu endereco completo, bairro, endereco, numero, local" minlength="8"></textarea>
             </div>
         </div>
-        <div id="mensagem"></div>
+        <div id="mensagem" class="d-none"></div>
 
-        <button type="submit">Enviar Pedido</button>
+        <button type="button" id="enviar-pedido">Enviar Pedido</button>
     </div>
 
     <div class="sacola-compras d-none"><a href="#"><img src="app/assets/sacola.png" alt="sacola de compras" title="Sacola de Compras"></a></div>

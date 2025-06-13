@@ -78,18 +78,34 @@ let pegaCard = null;
         const entrega = document.getElementById('entrega').value;
         if (entrega === 'entregar') {
             document.querySelector('.detalhe-endereco').classList.remove('d-none');
-        }else{
+        } else {
             document.querySelector('.detalhe-endereco').classList.add('d-none');
         }
     });
 
-    // document.getElementById('formaPgto').addEventListener('input', (e) => {
+    document.getElementById('enviar-pedido').addEventListener('click', async (e) => {
+        e.preventDefault();
+        console.log('Enviando pedido...');
 
-    // })
+        if (document.getElementById('formaPgto').value === '' ||
+            document.getElementById('formaPgto').value === null ||
+            document.getElementById('formaPgto').value === undefined) {
+            mensagemAviso('mensagem', 'Selecione uma forma de pagamento');
+            return;
 
-    // document.getElementById('').addEventListener('input', (e) => {
-        
-    // })
+        }
+
+        if (document.getElementById('endereco').value === '' ||
+            document.getElementById('endereco').value === null ||
+            document.getElementById('endereco').value === undefined) {
+            mensagemAviso('mensagem', 'Preencha o campo endereço de forma correta');
+            return;
+
+        }
+
+    });
+
+
 })();
 
 function atualizaValor(e) {
@@ -213,7 +229,27 @@ async function preencherFormularioPedido(data) {
                     <p class="campo-valor"> <small class="qtd">1</small> x R$ <small class="vr" valor="${data.VrVenda.toFixed(2)}">${data.VrVenda.toFixed(2)}</small></p>
                     <label for="observacao">Observação:</label>
                     <textarea id="observacao" name="observacao" rows="4" placeholder="Digite aqui algo que deseja retirar ou acrescentar"></textarea>
+                    <button style="background-color:red" onclick="this.closest('.item-pedido').remove()">
+                        Remover Item
+                    </button>
                 </div>`;
     formPedido.appendChild(divPedido);
+
+}
+
+function mensagemAviso(idElemento, mensagem) {
+    const elemento = document.getElementById(idElemento);
+    if (elemento) {
+        elemento.textContent = mensagem;
+        elemento.style.color = 'red';
+        elemento.classList.remove('d-none');
+        setTimeout(() => {
+            elemento.textContent = '';
+            elemento.style.color = 'none';
+            elemento.classList.add('d-none');
+        }, 5000);
+    } else {
+        console.error(`Elemento com ID ${idElemento} não encontrado.`);
+    }
 
 }
