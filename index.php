@@ -102,7 +102,7 @@ document.addEventListener("click", (event) => {
         campoQtd.textContent = quantidade;
         valorUnitario.textContent = (valorUnitarioAttr * quantidade).toFixed(2).replace('.', ',');
         const vr = responsavelPeloValorQuantidade()
-        atualizaValorPedido(vr[0],vr[1],'n','n')
+        atualizaValorPedido(vr[0],vr[1])
     }
 });
 

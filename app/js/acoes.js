@@ -65,7 +65,7 @@ let pegaCard = null;
 
                     preencherFormularioPedido(produtoSelecionado);
                     verificarQtdPedidosNaSacola();
-                    
+
                 });
             });
 
@@ -74,38 +74,57 @@ let pegaCard = null;
 
     });
 
-    document.querySelector('#formaPgto').addEventListener('input', ()=>{
+    document.querySelector('#formaPgto').addEventListener('input', () => {
         if (document.querySelector('#formaPgto').value == 'cartao') {
-
+            
+            document.querySelector('#pedido .totalizador .tx-maquininha').textContent = "2.00";
             const vr = responsavelPeloValorQuantidade()
-            atualizaValorPedido(vr[0],vr[1],'s','n')
+            atualizaValorPedido(vr[0], vr[1])
 
-        }else{
+        } else {
 
+            document.querySelector('#pedido .totalizador .tx-maquininha').textContent = "";
+            const vr = responsavelPeloValorQuantidade()
+            atualizaValorPedido(vr[0], vr[1])
         }
     })
 
-    document.querySelector('#entrega').addEventListener('input', ()=>{
+    const escutarBtnRemover = new MutationObserver(() => {
+
+        document.querySelectorAll(".remover-item-carrinho").forEach(btnRemover => {
+            btnRemover.addEventListener("click", (e) => {
+                console.log(e.target.closest('.item-pedido'));
+                const vr = responsavelPeloValorQuantidade()
+                atualizaValorPedido(vr[0], vr[1])
+            });
+        });
+
+    });
+
+    
+
+    document.querySelector('#entrega').addEventListener('input', () => {
         if (document.querySelector('#entrega').value == 'entregar') {
 
+            document.querySelector('#pedido .totalizador .tx-entrega').textContent = "2.00";
             const vr = responsavelPeloValorQuantidade()
-            atualizaValorPedido(vr[0],vr[1],'n','s')
+            atualizaValorPedido(vr[0], vr[1])
 
-        }else{
+        } else {
 
+            document.querySelector('#pedido .totalizador .tx-entrega').textContent = "";
+            const vr = responsavelPeloValorQuantidade()
+            atualizaValorPedido(vr[0], vr[1])
         }
     })
-
-    observer.observe(document.body, { childList: true, subtree: true });
-    obj.observe(document.body, { childList: true, subtree: true });
 
     document.getElementById('entrega').addEventListener('input', () => {
         const entrega = document.getElementById('entrega').value;
         if (entrega === 'entregar') {
-            const vr = responsavelPeloValorQuantidade()
-            atualizaValorPedido(vr[0],vr[1],'s','s')
+
             document.querySelector('.detalhe-endereco').classList.remove('d-none');
         } else {
+
             document.querySelector('.detalhe-endereco').classList.add('d-none');
         }
     });
@@ -162,6 +181,9 @@ let pegaCard = null;
 
     });
 
+    observer.observe(document.body, { childList: true, subtree: true });
+    escutarBtnRemover.observe(document.body, { childList: true, subtree: true });
+    obj.observe(document.body, { childList: true, subtree: true });
 
 })();
 
@@ -288,13 +310,13 @@ async function preencherFormularioPedido(data) {
                     <p class="campo-valor"> <small class="qtd">1</small> x R$ <small class="vr" valor="${data.VrVenda.toFixed(2)}">${data.VrVenda.toFixed(2)}</small></p>
                     <label for="observacao">Observação:</label>
                     <textarea id="observacao" name="observacao" rows="4" placeholder="Digite aqui algo que deseja retirar ou acrescentar"></textarea>
-                    <button style="background-color:red" onclick="this.closest('.item-pedido').remove();">
+                    <button class="remover-item-carrinho" style="background-color:red" onclick="this.closest('.item-pedido').remove();">
                         Remover Item
                     </button>
                 </div>`;
     formPedido.appendChild(divPedido);
     const vr = responsavelPeloValorQuantidade()
-    atualizaValorPedido(vr[0],1,'n','n')
+    atualizaValorPedido(vr[0], 1)
 }
 
 function mensagemAviso(idElemento, mensagem) {
@@ -322,9 +344,7 @@ function verificarQtdPedidosNaSacola() {
     responsavelPeloValorQuantidade()
 }
 
-function atualizaValorPedido(valor, qtd, txCartao, txEntrega) {
-    const vrTxEntrega = 2.00;
-    const txMaquininha = 2.00;
+function atualizaValorPedido(valor, qtd) {
 
     let cardTotalPedido = document.querySelector('.pedido .totalizador .vr-pedido');
     let cardTaxaEntrega = document.querySelector('.pedido .totalizador .tx-entrega');
@@ -336,22 +356,11 @@ function atualizaValorPedido(valor, qtd, txCartao, txEntrega) {
 
     let adicionais = 0;
 
-    if (txCartao == 's') {
-        if (cardTaxaMaquininha.textContent == "") {
-            console.warn("asdasdasd")
-            adicionais += txMaquininha;
-            cardTaxaMaquininha.textContent = txMaquininha.toFixed(2);
-        }
-
-    } 
-
-    if (txEntrega == 's') {
-
-        if (cardTaxaEntrega.textContent == ""){
-            adicionais += vrTxEntrega;
-            cardTaxaEntrega.textContent = vrTxEntrega.toFixed(2);
-        }
-
+    if (cardTaxaEntrega.textContent != ""){
+        adicionais += parseFloat(cardTaxaEntrega.textContent)
+    }
+    if (cardTaxaMaquininha.textContent != ""){
+        adicionais += parseFloat(cardTaxaMaquininha.textContent)
     }
     vrTotal = vrTotal + adicionais
     cardValorTotal.textContent = vrTotal;
@@ -367,7 +376,7 @@ function responsavelPeloValorQuantidade() {
     produtos.forEach(produto => {
         let valorVenda = parseFloat(produto.querySelector('.vr').getAttribute('valor'));
         let qtdProd = parseFloat(produto.querySelector('.qtd').textContent);
-        
+
         // Somando corretamente o valor total e a quantidade total
         valorTotal += valorVenda * qtdProd;
         qtdProdTotal += qtdProd;
