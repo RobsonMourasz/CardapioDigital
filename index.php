@@ -10,6 +10,7 @@
 
 <body>
     <div class="carregando d-none"></div>
+    <div class="mensagem"></div>
     <div class="container">
         <div class="nav">
             <div class="logo-tipo">
@@ -35,21 +36,21 @@
 
     </div> <!-- Banner for promotions, can be filled with images or text -->
 
-    <div class="cardapio" id="cardapio">
+    <div class="cardapio d-none" id="cardapio">
 
     </div> <!-- Cardapio section with products listed in cards -->
 
     <div class="pedido d-none" id="pedido">
         <div class="close-modal">&times;</div>
-        <h2>Seus Pedidos</h2>
+        <h2 class="title-pedido">Seus Pedidos</h2>
         <form id="pedidoForm">
         </form> <!-- Form for submitting the order -->
 
         <div class="totalizador">
-            <p>Total do pedido:  R$ <span class="vr-pedido"></span></p>
-            <p>Taxa Entrega:  R$ <span class="tx-entrega"></span></p>
-            <p>Taxa maquininha:  R$ <span class="tx-maquininha"></span></p>
-            <p>Valor a pagar:  R$ <span class="vr-pagar"></span></p>
+            <p>Total do pedido: R$ <span class="vr-pedido"></span></p>
+            <p>Taxa Entrega: R$ <span class="tx-entrega"></span></p>
+            <p>Taxa maquininha: R$ <span class="tx-maquininha"></span></p>
+            <p>Valor a pagar: R$ <span class="vr-pagar"></span></p>
         </div>
 
         <div class="metodo-pagamento">
@@ -60,6 +61,17 @@
                 <option value="cartao">Cartao</option>
                 <option value="pix">Pix</option>
             </select>
+        </div>
+        <div class="troco d-none">
+            <h3>Deseja Troco?</h3>
+            <select name="troco" id="troco">
+                <option value="">--selecione</option>
+                <option value="sim">Sim, desejo troco</option>
+                <option value="nao">Não é preciso troco </option>
+            </select>
+        </div>
+        <div class="valor-troco d-none">
+            <textarea name="valor-troco" id="valor-troco" placeholder="Digite o valor do troco ex: troco para 100,00 "></textarea>
         </div>
         <div class="entrega">
             <h3>Entrega</h3>
@@ -72,8 +84,6 @@
                 <textarea name="endereco" id="endereco" placeholder="Digite aqi seu endereco completo, bairro, endereco, numero, local"></textarea>
             </div>
         </div>
-        <div id="mensagem" class="d-none"></div>
-
         <button type="button" id="enviar-pedido">Enviar Pedido</button>
     </div>
 
@@ -82,31 +92,29 @@
 <script src="app/js/acoes.js"></script>
 <script>
     let verificado = false;
-document.addEventListener("click", (event) => {
-    event.preventDefault();
-    if (event.target.classList.contains("minus") || event.target.classList.contains("plus")) {
-        let container = event.target.closest(".informacoes-pedido");
-        let input = container.querySelector(".quantidade");
-        let campoValor = container.querySelector(".campo-valor");
-        let campoQtd = campoValor.querySelector(".qtd");
-        let valorUnitario = campoValor.querySelector(".vr");
-        let valorUnitarioAttr = campoValor.querySelector(".vr").getAttribute("valor");
-        let quantidade = parseInt(input.value);
+    document.addEventListener("click", (event) => {
+        event.preventDefault();
+        if (event.target.classList.contains("minus") || event.target.classList.contains("plus")) {
+            let container = event.target.closest(".informacoes-pedido");
+            let input = container.querySelector(".quantidade");
+            let campoValor = container.querySelector(".campo-valor");
+            let campoQtd = campoValor.querySelector(".qtd");
+            let valorUnitario = campoValor.querySelector(".vr");
+            let valorUnitarioAttr = campoValor.querySelector(".vr").getAttribute("valor");
+            let quantidade = parseInt(input.value);
 
-        if (event.target.classList.contains("minus")) {
-            quantidade = Math.max(1, quantidade - 1);
-        } else {
-            quantidade += 1;
+            if (event.target.classList.contains("minus")) {
+                quantidade = Math.max(1, quantidade - 1);
+            } else {
+                quantidade += 1;
+            }
+            input.value = quantidade;
+            campoQtd.textContent = quantidade;
+            valorUnitario.textContent = (valorUnitarioAttr * quantidade).toFixed(2).replace('.', ',');
+            const vr = responsavelPeloValorQuantidade()
+            atualizaValorPedido(vr[0], vr[1])
         }
-        input.value = quantidade;
-        campoQtd.textContent = quantidade;
-        valorUnitario.textContent = (valorUnitarioAttr * quantidade).toFixed(2).replace('.', ',');
-        const vr = responsavelPeloValorQuantidade()
-        atualizaValorPedido(vr[0],vr[1])
-    }
-});
-
-
-
+    });
 </script>
+
 </html>

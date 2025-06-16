@@ -370,7 +370,9 @@
 }
 
 .pedido .metodo-pagamento,
-.pedido .entrega{ 
+.pedido .entrega,
+.pedido .troco,
+.pedido .valor-troco{ 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -379,13 +381,16 @@
 
 }
 .pedido .metodo-pagamento h3,
-.pedido .entrega h3{
+.pedido .entrega h3,
+.pedido .troco,
+.pedido .valor-troco{
     font-weight: 600;
     font-family: monospace;
     color: var(--text);
 }
 .pedido .metodo-pagamento select,
-.pedido .entrega select{
+.pedido .entrega select,
+.pedido .troco select{
 
     display: flex;
     flex-direction: column;
@@ -399,7 +404,8 @@
     outline: none;
     border: 2px solid transparent;
 }
-.pedido .detalhe-endereco{
+.pedido .detalhe-endereco,
+.pedido .troco{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -410,7 +416,8 @@
     border: 2px solid transparent;
 }
 .pedido .detalhe-endereco textarea,
-.pedido #pedidoForm textarea{
+.pedido #pedidoForm textarea,
+.pedido .valor-troco textarea{
     width: 100%;
     padding: 10px 10px 15px 10px;
     border-radius: 10px;
@@ -420,17 +427,41 @@
 }
 
 
-.pedido #mensagem {
-    display: inline-block;
+.mensagem{
+    display: flex;
     width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin-bottom: 20px;
-    outline: none;
-    border: 2px solid transparent;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: red;
+    color: #f3f3f3;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.mensagem::after{
+    content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima nulla fugit dolor suscipit eos distinctio delectus atque sapiente ut, enim soluta, maiores impedit amet culpa, voluptatibus sequi corrupti. Dignissimos expedita odio facere suscipit dolorem! Deleniti et mollitia reprehenderit doloremque impedit soluta praesentium accusamus. Nemo ducimus odit quasi pariatur, quod inventore.';
+    width: 50%;
+    line-height: 30px;
+    font-size: 1.5em;
     font-family: monospace;
-    color: var(--text);
+    z-index: 1002;
+}
+
+.mensagem::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 35%;
+    width: 400px;
+    height: 400px;
+    z-index: 1001;
+    background-image: url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbWRkZXI0emcxdDdtYzh5NHdiZGMwc2dldzYxeXpvZTJmemE3OHM3ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/4IDRoWwV1bhfwNew0z/giphy.gif');
+    background-size: auto;
+    background-repeat: no-repeat;
 }
 
 .d-none{

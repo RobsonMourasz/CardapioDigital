@@ -87,7 +87,21 @@ let pegaCard = null;
             const vr = responsavelPeloValorQuantidade()
             atualizaValorPedido(vr[0], vr[1])
         }
+
+        if (document.getElementById('formaPgto').value == 'dinheiro'){
+            document.querySelector('.troco').classList.remove('d-none')
+        }else{
+            document.querySelector('.troco').classList.add('d-none')
+        }
     })
+
+    document.querySelector('#troco').addEventListener('input', () => {
+        if (  document.querySelector('#troco').value =='sim' ) {
+            document.querySelector('.valor-troco').classList.remove('d-none')
+        }else{
+            document.querySelector('.valor-troco').classList.add('d-none')
+        }
+    });
 
     const escutarBtnRemover = new MutationObserver(() => {
 
@@ -148,12 +162,25 @@ let pegaCard = null;
 
         }
 
+
         if (document.getElementById('entrega').value === '' ||
             document.getElementById('entrega').value === null ||
             document.getElementById('entrega').value === undefined) {
             mensagemAviso('mensagem', 'Selecione o tipo de entrega');
             return;
 
+        }
+
+        if ( document.getElementById('formaPgto').value === 'dinheiro' ) {
+            if ( document.getElementById('troco').value === '' ){
+                mensagemAviso('mensagem', 'Selecione o tipo de troco');
+                return;
+            }
+        }
+
+        if (document.querySelector('#troco').value =='sim' && document.querySelector('#valor-troco').value.length < 8) {
+            mensagemAviso('mensagem', 'Preencha o campo troco de forma correta');
+            return;  
         }
 
         if (document.getElementById('entrega').value === 'entregar') {
@@ -164,20 +191,34 @@ let pegaCard = null;
 
         }
 
+        if (document.getElementById('entrega').value === 'retirar'){
+            document.getElementById('endereco').value = 'retirada no local.'
+        }
+        let precisaTroco = document.getElementById('endereco').value
         const formPedido = document.getElementById('pedidoForm');
         const itensPedido = Array.from(formPedido.querySelectorAll('.item-pedido')).map(item => {
             const produtoId = item.querySelector('.item-pedido input[type="number"]').getAttribute('id_produto');
             const quantidade = item.querySelector('.informacoes-pedido .campo-valor .qtd').textContent;
             const observacao = item.querySelector('[name="observacao"]').value;
+            const formaPgto = document.getElementById('formaPgto').value;
+            const enderecoEntrega = document.getElementById('endereco').value
+            if ( document.getElementById('troco').value == 'sim' ){
+                precisaTroco = document.getElementById('valor-troco').value
+            }else{
+                precisaTroco = "Não é preciso de troco"
+            }   
+            
             return {
                 IdProduto: produtoId,
                 Quantidade: quantidade,
-                Observacao: observacao
+                ObsProduto: observacao,
+                formaPgto: formaPgto,
+                precisaTroco,precisaTroco,
+                enderecoEntrega: enderecoEntrega
             };
         });
         console.log('Itens do pedido:', itensPedido);
-        console.log('Forma de pagamento:', document.getElementById('formaPgto').value)
-        console.log('Endereço:', document.getElementById('endereco').value);
+        limparPreencherFormularioPedido();
 
     });
 
@@ -317,6 +358,13 @@ async function preencherFormularioPedido(data) {
     formPedido.appendChild(divPedido);
     const vr = responsavelPeloValorQuantidade()
     atualizaValorPedido(vr[0], 1)
+}
+
+async function limparPreencherFormularioPedido(){
+    let formPedido = document.getElementById('pedidoForm');
+    formPedido.innerText = '';
+    document.querySelector('.title-pedido').innerText = '';
+    document.querySelector('.title-pedido').innerText = 'Pedido Enviado!';
 }
 
 function mensagemAviso(idElemento, mensagem) {
