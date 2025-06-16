@@ -7,9 +7,9 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['add'])){
         $url = 'https://wa.me/34999918179';
         $ultimoPedido = src\class\Conexao::getPesquisaBD('SELECT MAX(a.idPedido) AS UltimoPedido FROM cadpedido a LIMIT	1', '', []);
-        $proxPedido = $ultimoPedido++;
+        //$proxPedido = $ultimoPedido++;
 
-        $dadosPedido = [];
+        //$dadosPedido = [];
 
         if (isset($_POST)){
 
