@@ -213,7 +213,7 @@ let pegaCard = null;
                 Quantidade: quantidade,
                 ObsProduto: observacao,
                 formaPgto: formaPgto,
-                precisaTroco,precisaTroco,
+                precisaTroco: precisaTroco,
                 enderecoEntrega: enderecoEntrega
             };
         });
@@ -433,3 +433,11 @@ function responsavelPeloValorQuantidade() {
     return [valorTotal.toFixed(2), qtdProdTotal];
 }
 
+async function enviarPedido(data) {
+    const response = await fetch('', {
+        method: 'POST',
+        body: new FormData(data),
+    })
+    const res = await response.json();
+    console.log(res)
+}
