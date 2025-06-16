@@ -37,6 +37,28 @@ REPLACE INTO `cadpagamento` (`IdPagamento`, `PrazoPagamento`, `DescricaoPagament
 	(3, 30, 'Cartao Credito', 'S'),
 	(4, 0, 'Pix', 'S');
 
+-- Copiando estrutura para tabela cardapio_digital.cadpedido
+CREATE TABLE IF NOT EXISTS `cadpedido` (
+  `idPedido` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ValorPedido` double(14,2) DEFAULT 0.00,
+  `ValorEntrega` double(14,2) DEFAULT 0.00,
+  `ValorAdicional` double(14,2) DEFAULT 0.00,
+  `FormaPagamento` int(2) DEFAULT NULL,
+  `Controle` varchar(255) NOT NULL,
+  `IpCliente` varchar(255) DEFAULT NULL,
+  `EnderecoEntrega` varchar(255) DEFAULT NULL,
+  `ObservacaoPedido` varchar(255) DEFAULT NULL,
+  `DataPedido` datetime DEFAULT NULL,
+  PRIMARY KEY (`idPedido`),
+  UNIQUE KEY `idPedido` (`idPedido`),
+  KEY `idPedido2` (`idPedido`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- Copiando dados para a tabela cardapio_digital.cadpedido: ~2 rows (aproximadamente)
+REPLACE INTO `cadpedido` (`idPedido`, `ValorPedido`, `ValorEntrega`, `ValorAdicional`, `FormaPagamento`, `Controle`, `IpCliente`, `EnderecoEntrega`, `ObservacaoPedido`, `DataPedido`) VALUES
+	(1, 10.00, 10.00, 0.00, NULL, '1', NULL, NULL, NULL, NULL),
+	(2, 10.00, 10.00, 0.00, NULL, '1', NULL, NULL, NULL, NULL);
+
 -- Copiando estrutura para tabela cardapio_digital.cadprodutos
 CREATE TABLE IF NOT EXISTS `cadprodutos` (
   `IdProduto` int(10) unsigned NOT NULL AUTO_INCREMENT,

@@ -209,6 +209,7 @@ let pegaCard = null;
             }   
             
             return {
+                add: 'add',
                 IdProduto: produtoId,
                 Quantidade: quantidade,
                 ObsProduto: observacao,
@@ -218,6 +219,7 @@ let pegaCard = null;
             };
         });
         console.log('Itens do pedido:', itensPedido);
+        enviarPedido(itensPedido);
         limparPreencherFormularioPedido();
 
     });
@@ -434,10 +436,26 @@ function responsavelPeloValorQuantidade() {
 }
 
 async function enviarPedido(data) {
-    const response = await fetch('', {
+    // Criando o objeto FormData
+    const formData = new FormData();
+
+    // Adicionando os valores manualmente
+    data.forEach(item => {
+        formData.append('add', item.add);
+        formData.append('IdProduto[]', item.IdProduto);
+        formData.append('Quantidade[]', item.Quantidade);
+        formData.append('ObsProduto[]', item.ObsProduto);
+        formData.append('formaPgto', item.formaPgto);
+        formData.append('precisaTroco', item.precisaTroco);
+        formData.append('enderecoEntrega', item.enderecoEntrega);
+    });
+
+    // Enviando os dados com fetch
+    const response = await fetch('routes/api/carrinho.php', {
         method: 'POST',
-        body: new FormData(data),
-    })
+        body: formData,
+    });
+
     const res = await response.json();
-    console.log(res)
+    console.log(res);
 }
