@@ -148,7 +148,7 @@ let pegaCard = null;
 
         const verificaPedido = document.querySelector('.item-pedido');
         if (!verificaPedido) {
-            mensagemAviso('mensagem', 'Selecione produtos para fazer o pedido');
+            mensagemAviso('Selecione produtos para fazer o pedido');
             return;
         }
 
@@ -157,7 +157,7 @@ let pegaCard = null;
         if (document.getElementById('formaPgto').value === '' ||
             document.getElementById('formaPgto').value === null ||
             document.getElementById('formaPgto').value === undefined) {
-            mensagemAviso('mensagem', 'Selecione uma forma de pagamento');
+            mensagemAviso('Selecione uma forma de pagamento');
             return;
 
         }
@@ -166,26 +166,26 @@ let pegaCard = null;
         if (document.getElementById('entrega').value === '' ||
             document.getElementById('entrega').value === null ||
             document.getElementById('entrega').value === undefined) {
-            mensagemAviso('mensagem', 'Selecione o tipo de entrega');
+            mensagemAviso('Selecione o tipo de entrega');
             return;
 
         }
 
         if ( document.getElementById('formaPgto').value === 'dinheiro' ) {
             if ( document.getElementById('troco').value === '' ){
-                mensagemAviso('mensagem', 'Selecione o tipo de troco');
+                mensagemAviso('Selecione o tipo de troco');
                 return;
             }
         }
 
         if (document.querySelector('#troco').value =='sim' && document.querySelector('#valor-troco').value.length < 8) {
-            mensagemAviso('mensagem', 'Preencha o campo troco de forma correta');
+            mensagemAviso('Preencha o campo troco de forma correta');
             return;  
         }
 
         if (document.getElementById('entrega').value === 'entregar') {
             if (document.getElementById('endereco').value.length < 8) {
-                mensagemAviso('mensagem', 'Preencha o campo endereço de forma correta');
+                mensagemAviso('Preencha o campo endereço de forma correta');
                 return;
             }
 
@@ -367,21 +367,20 @@ async function limparPreencherFormularioPedido(){
     document.querySelector('.title-pedido').innerText = 'Pedido Enviado!';
 }
 
-function mensagemAviso(idElemento, mensagem) {
-    const elemento = document.getElementById(idElemento);
+function mensagemAviso(mensagem) {
+    
+    const elemento = document.querySelector('.mensagem');
+    document.getElementById('cardapio').classList.add('d-none');
+    elemento.classList.remove('d-none')
     if (elemento) {
+        elemento.style.setProperty('--texto-erro', `"${mensagem}"`)
 
-        elemento.textContent = mensagem;
-        elemento.style.color = 'white';
-        elemento.style.background = 'red';
-        elemento.classList.remove('d-none');
         setTimeout(() => {
-            elemento.textContent = '';
-            elemento.style.color = 'none';
-            elemento.classList.add('d-none');
-        }, 5000);
+            elemento.classList.add('d-none')
+            document.getElementById('cardapio').classList.remove('d-none');
+        }, 4000);
     } else {
-        console.error(`Elemento com ID ${idElemento} não encontrado.`);
+        console.error(`Elemento com ID ${elemento} não encontrado.`);
     }
 
 }

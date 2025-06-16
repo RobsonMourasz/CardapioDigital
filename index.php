@@ -10,7 +10,7 @@
 
 <body>
     <div class="carregando d-none"></div>
-    <div class="mensagem"></div>
+    <div class="mensagem d-none"></div>
     <div class="container">
         <div class="nav">
             <div class="logo-tipo">
@@ -36,7 +36,7 @@
 
     </div> <!-- Banner for promotions, can be filled with images or text -->
 
-    <div class="cardapio d-none" id="cardapio">
+    <div class="cardapio" id="cardapio">
 
     </div> <!-- Cardapio section with products listed in cards -->
 
