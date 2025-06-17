@@ -5,6 +5,9 @@ header('Content-Type: application/json; charset=utf-8');
 if ( $_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['add'])){
         $ultimoPedido = src\class\Conexao::getPesquisaBD('SELECT MAX(a.idPedido) AS UltimoPedido FROM cadpedido a LIMIT	1', '', []);
+        if (empty($ultimoPedido) || $ultimoPedido == "" || $ultimoPedido == null){
+            $ultimoPedido = 0;
+        }
         $proxPedido = $ultimoPedido[0]['UltimoPedido'] + 1;
 
         if (isset($_POST)){
