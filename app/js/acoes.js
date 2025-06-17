@@ -202,20 +202,32 @@ let pegaCard = null;
             const observacao = item.querySelector('[name="observacao"]').value;
             const formaPgto = document.getElementById('formaPgto').value;
             const enderecoEntrega = document.getElementById('endereco').value
+            const VrBrutoPedido = document.querySelector('.totalizador .vr-pedido')
             if ( document.getElementById('troco').value == 'sim' ){
                 precisaTroco = document.getElementById('valor-troco').value
             }else{
                 precisaTroco = "Não é preciso de troco"
-            }   
+            }
+
+            const txEntrega = document.querySelector('.totalizador .tx-entrega').textContent.trim() === "" 
+            ? 0 
+            : document.querySelector('.totalizador .tx-entrega').textContent;
+
+            const txMaquininha = document.querySelector('.totalizador .tx-maquininha').textContent.trim() === "" 
+            ? 0 
+            : document.querySelector('.totalizador .tx-maquininha').textContent;
             
             return {
                 add: 'add',
                 IdProduto: produtoId,
                 Quantidade: quantidade,
+                VrBrutoPedido: VrBrutoPedido,
                 ObsProduto: observacao,
                 formaPgto: formaPgto,
                 precisaTroco: precisaTroco,
-                enderecoEntrega: enderecoEntrega
+                enderecoEntrega: enderecoEntrega,
+                txEntrega: txEntrega,
+                txMaquininha, txMaquininha
             };
         });
         console.log('Itens do pedido:', itensPedido);
@@ -443,10 +455,13 @@ async function enviarPedido(data) {
         formData.append('add', item.add);
         formData.append('IdProduto[]', item.IdProduto);
         formData.append('Quantidade[]', item.Quantidade);
+        formData.append('VrBrutoPedido', item.VrBrutoPedido);
         formData.append('ObsProduto[]', item.ObsProduto);
         formData.append('formaPgto', item.formaPgto);
         formData.append('precisaTroco', item.precisaTroco);
         formData.append('enderecoEntrega', item.enderecoEntrega);
+        formData.append('txEntrega', item.txEntrega);
+        formData.append('txMaquininha', item.txMaquininha);
     });
 
     // Enviando os dados com fetch
@@ -456,7 +471,7 @@ async function enviarPedido(data) {
     });
 
     const res = await response.json();
-    enviarMensagem(data)
+    //enviarMensagem(data)
 }
 
 async function enviarMensagem(item) {
