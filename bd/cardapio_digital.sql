@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `cadpedido` (
   `ValorPedido` double(14,2) DEFAULT 0.00,
   `ValorEntrega` double(14,2) DEFAULT 0.00,
   `ValorAdicional` double(14,2) DEFAULT 0.00,
-  `FormaPagamento` int(2) DEFAULT NULL,
+  `FormaPagamento` varchar(50) DEFAULT NULL,
   `Controle` varchar(255) NOT NULL,
   `IpCliente` varchar(255) DEFAULT NULL,
   `EnderecoEntrega` varchar(255) DEFAULT NULL,
@@ -52,12 +52,9 @@ CREATE TABLE IF NOT EXISTS `cadpedido` (
   PRIMARY KEY (`idPedido`),
   UNIQUE KEY `idPedido` (`idPedido`),
   KEY `idPedido2` (`idPedido`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
--- Copiando dados para a tabela cardapio_digital.cadpedido: ~2 rows (aproximadamente)
-REPLACE INTO `cadpedido` (`idPedido`, `ValorPedido`, `ValorEntrega`, `ValorAdicional`, `FormaPagamento`, `Controle`, `IpCliente`, `EnderecoEntrega`, `ObservacaoPedido`, `DataPedido`) VALUES
-	(1, 10.00, 10.00, 0.00, NULL, '1', NULL, NULL, NULL, NULL),
-	(2, 10.00, 10.00, 0.00, NULL, '1', NULL, NULL, NULL, NULL);
+-- Copiando dados para a tabela cardapio_digital.cadpedido: ~0 rows (aproximadamente)
 
 -- Copiando estrutura para tabela cardapio_digital.cadprodutos
 CREATE TABLE IF NOT EXISTS `cadprodutos` (
