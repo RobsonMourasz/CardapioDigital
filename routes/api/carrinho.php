@@ -5,31 +5,37 @@ header('Content-Type: application/json; charset=utf-8');
 if ( $_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['add'])){
         $ultimoPedido = src\class\Conexao::getPesquisaBD('SELECT MAX(a.idPedido) AS UltimoPedido FROM cadpedido a LIMIT	1', '', []);
-        $proxPedido = $ultimoPedido[0]['UltimoPedido']++;
+        $proxPedido = $ultimoPedido[0]['UltimoPedido'] + 1;
 
         if (isset($_POST)){
             $produto = [];
+            
             $total = 0;
             foreach ($_POST['IdProduto'] as $key => $value) {
                 $produto[] = src\class\Conexao::getPesquisaBD('SELECT* FROM cadprodutos where IdProduto IN(?)','i',[$value]);
             }
+
             $controle = uniqid();
-            $VrBrutoPedido = $_POST['VrBrutoPedido'];
-            $obsProduto = $_POST['ObsProduto'];
+            $VrBrutoPedido = doubleval($_POST['VrBrutoPedido']);
             $enderecoEntrega = $_POST['enderecoEntrega'];
             $formaPgto = $_POST['formaPgto'];
             $txEntrega  = doubleval($_POST['txEntrega']);
-            $troco = doubleval($_POST['precisaTroco']);
-            $txMaquininha = $_POST['txMaquininha'];
+            $txMaquininha = doubleval($_POST['txMaquininha']);
             $VrLiquidoPedido = $VrBrutoPedido;
             $ip_cliente = $_SERVER['REMOTE_ADDR'];
-            if ($troco != 0){
+            $obsPedido = $_POST['precisaTroco'];
+
+            if ($txEntrega != 0){
                 $VrLiquidoPedido = $VrLiquidoPedido + $troco;
             }
             if ($txMaquininha){
                 $VrLiquidoPedido = $VrLiquidoPedido + $txMaquininha;
             }
-            src\class\Conexao::insertBD('INSERT INTO cadpedido (idPedido, ValorPedido, ValorEntrega, ValorAdicional, FormaPagamento, Controle, IpCliente, EnderecoEntrega, ObservacaoPedido, DataPedido) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)','i,d,d,d,s,s,s,s,s,s',[$proxPedido, $VrLiquidoPedido, $txEntrega, $txMaquininha, $formaPgto, $controle, $ip_cliente, $enderecoEntrega, $obsProduto, date('YYYY-mm-dd')]);
+            $respPedido = src\class\Conexao::insertBD('INSERT INTO cadpedido (idPedido, ValorPedido, ValorEntrega, ValorAdicional, FormaPagamento, Controle, IpCliente, EnderecoEntrega, ObservacaoPedido, DataPedido) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)','idddssssss',[$proxPedido, $VrLiquidoPedido, $txEntrega, $txMaquininha, $formaPgto, $controle, $ip_cliente, $enderecoEntrega, $obsPedido, date('Y-m-d h:m:s')]);
+
+            if ($respPedido){
+                $pedido = src\class\Conexao::getPesquisaBD('SELECT MAX(a.idPedido) AS UltimoPedido FROM cadpedido a LIMIT	1', '', []);
+            }
 
             // foreach ($produto as $key => $prod) {
             //     # code...

@@ -202,7 +202,7 @@ let pegaCard = null;
             const observacao = item.querySelector('[name="observacao"]').value;
             const formaPgto = document.getElementById('formaPgto').value;
             const enderecoEntrega = document.getElementById('endereco').value
-            const VrBrutoPedido = document.querySelector('.totalizador .vr-pedido')
+            const VrBrutoPedido = document.querySelector('.totalizador .vr-pedido').textContent
             if ( document.getElementById('troco').value == 'sim' ){
                 precisaTroco = document.getElementById('valor-troco').value
             }else{
