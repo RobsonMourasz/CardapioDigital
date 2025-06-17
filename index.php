@@ -89,6 +89,7 @@
 
     <div class="sacola-compras d-none"><a href="#"><img src="app/assets/sacola.png" alt="sacola de compras" title="Sacola de Compras"></a></div>
 </body>
+<script src="app/js/constantes.js"></script>
 <script src="app/js/acoes.js"></script>
 <script>
     let verificado = false;

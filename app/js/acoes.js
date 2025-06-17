@@ -438,7 +438,6 @@ function responsavelPeloValorQuantidade() {
 async function enviarPedido(data) {
     // Criando o objeto FormData
     const formData = new FormData();
-
     // Adicionando os valores manualmente
     data.forEach(item => {
         formData.append('add', item.add);
@@ -457,5 +456,61 @@ async function enviarPedido(data) {
     });
 
     const res = await response.json();
-    console.log(res);
+    enviarMensagem(data)
 }
+
+async function enviarMensagem(item) {
+    pedido = [];
+    item.forEach(item => {
+        pedido.push(`🌟 Pedido Confirmado! 🌟
+
+            Olá, caro cliente! 😊
+
+            Seu pedido foi recebido com sucesso. Aqui estão os detalhes:
+
+            📌 Produto: ${item.IdProduto} 
+            📦 Quantidade: ${item.Quantidade}
+            📝 Observações: ${item.ObsProduto}
+            💰 Valor item: R$ [Valor Total] 
+            🚚 Taxa de Entrega: R$ [Taxa de Entrega] 
+            💳 Taxa do Cartão: R$ [Taxa de Cartão] 
+            🔢 Total Final: R$ [Total]
+            💰 Troco: ${item.precisaTroco} 
+            💰 Forma Pagamento: ${item.formaPgto} 
+            🚚 Enderco: ${item.enderecoEntrega}
+
+            📝 Ingredientes: [Lista de Ingredientes]
+
+            Agradecemos a sua compra! 💙 Qualquer dúvida, estamos à disposição.
+
+            ________________________________________`);
+    });
+    const mensagemPedido = pedido.join("\n");
+    const sendTextMessage = async () => {
+      try {
+        const response = await fetch('https://v2-api.gzappy.com/message/send-text', {
+          method: 'POST',
+          headers: {
+            'Authorization': TOKEN,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            phone: "5534999918179",
+            message: mensagemPedido,
+          })
+        });
+    
+        const data = await response.json();
+        console.log('Mensagem enviada com sucesso:', data);
+      } catch (error) {
+        console.error('Erro ao enviar mensagem:', error);
+      }
+    };
+    
+    // Executar a função
+    sendTextMessage();
+}
+
+
+
+
