@@ -52,9 +52,11 @@ CREATE TABLE IF NOT EXISTS `cadpedido` (
   PRIMARY KEY (`idPedido`),
   UNIQUE KEY `idPedido` (`idPedido`),
   KEY `idPedido2` (`idPedido`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
--- Copiando dados para a tabela cardapio_digital.cadpedido: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela cardapio_digital.cadpedido: ~1 rows (aproximadamente)
+REPLACE INTO `cadpedido` (`idPedido`, `ValorPedido`, `ValorEntrega`, `ValorAdicional`, `FormaPagamento`, `Controle`, `IpCliente`, `EnderecoEntrega`, `ObservacaoPedido`, `DataPedido`) VALUES
+	(1, 65.00, 0.00, 0.00, 'pix', '6852b2d9b898c', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-18 12:06:41');
 
 -- Copiando estrutura para tabela cardapio_digital.cadprodutos
 CREATE TABLE IF NOT EXISTS `cadprodutos` (
@@ -134,6 +136,20 @@ CREATE TABLE IF NOT EXISTS `empresa` (
 -- Copiando dados para a tabela cardapio_digital.empresa: ~0 rows (aproximadamente)
 REPLACE INTO `empresa` (`IdEmpresa`, `RazaoSocial`, `NomeFantasia`, `Telefone`, `Endereco`, `Cidade`, `Uf`, `Cnpj`, `EmpAtiva`) VALUES
 	(1, 'Robson Moura', 'Robson Moura', '34 3453-1490', 'Av. Sergipe 357, São Joao', 'Limeira do oeste', 'MG', '45052914806', 'S');
+
+-- Copiando estrutura para tabela cardapio_digital.mvpedido
+CREATE TABLE IF NOT EXISTS `mvpedido` (
+  `NumPedido` varchar(255) DEFAULT NULL,
+  `IdProduto` int(10) NOT NULL,
+  `Qtd` double NOT NULL DEFAULT 0,
+  `ObsProduto` varchar(255) NOT NULL,
+  `DataLancemento` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- Copiando dados para a tabela cardapio_digital.mvpedido: ~2 rows (aproximadamente)
+REPLACE INTO `mvpedido` (`NumPedido`, `IdProduto`, `Qtd`, `ObsProduto`, `DataLancemento`) VALUES
+	('6852b2d9b898c', 1, 2, '', '2025-06-18'),
+	('6852b2d9b898c', 10, 1, '', '2025-06-18');
 
 -- Copiando estrutura para tabela cardapio_digital.situacao
 CREATE TABLE IF NOT EXISTS `situacao` (
