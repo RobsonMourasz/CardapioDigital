@@ -3,3 +3,74 @@
     padding: 0;
     box-sizing: border-box;
 }
+header{
+    display: flex;
+    width: 100%;
+    padding: 10px 0;
+    border-bottom: 1px solid black;
+}
+
+header .toggle-menu{
+    display: flex;
+    width: 200px;
+    text-align: end;
+    font-size: 2.5em;
+    align-items: center;
+    justify-content: end;
+}
+header .toggle-menu i{
+    cursor: pointer;
+    user-select: none;
+}
+header .logo-tipo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    margin-left: 1em;
+}
+header .logo-tipo img{
+    width: 90%;
+    border-radius: 50%;
+}
+header .informacoes-sistema{
+    width: calc(100% - 300px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: monospace;
+    margin: .5em;
+}
+
+nav{
+    display: flex;
+    flex-direction: column;
+    max-width: 200px;
+    height: calc(100vh - 102px);
+    padding: 1em;
+    border-right: 1px solid black;
+    overflow-y: auto;
+    transition: max-width 0.5s ease-in-out, padding .4s ease;
+}
+
+.ocultar-toggle{
+    max-width: 0 !important;
+    padding: 0 !important;
+}
+
+footer{
+    width: 100%;
+    display: flex;
+    padding: 10px 0;
+    border-top: 1px solid black;
+}
+
+@media screen and (max-width:501px) {
+    header .logo-tipo{
+        display: none;
+    }
+    header .informacoes-sistema{
+        width: calc(100% - 200px);
+    }
+}
