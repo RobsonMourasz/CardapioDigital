@@ -14,8 +14,14 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST') {
             $produto = [];
             
             $total = 0;
+            $qtd = 0;
             foreach ($_POST['IdProduto'] as $key => $value) {
-                $produto[] = src\class\Conexao::getPesquisaBD('SELECT* FROM cadprodutos where IdProduto IN(?)','i',[$value]);
+                $produto[] = [
+                    'dados' => src\class\Conexao::getPesquisaBD('SELECT* FROM cadprodutos where IdProduto IN(?)','i',[$value]),
+                    'qtd' => $_POST['Quantidade'][$key],
+                    'obsProduto' => $_POST['ObsProduto'][$key]
+                ];
+
             }
 
             $controle = uniqid();
@@ -37,12 +43,12 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST') {
             $respPedido = src\class\Conexao::insertBD('INSERT INTO cadpedido (idPedido, ValorPedido, ValorEntrega, ValorAdicional, FormaPagamento, Controle, IpCliente, EnderecoEntrega, ObservacaoPedido, DataPedido) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)','idddssssss',[$proxPedido, $VrLiquidoPedido, $txEntrega, $txMaquininha, $formaPgto, $controle, $ip_cliente, $enderecoEntrega, $obsPedido, date('Y-m-d h:m:s')]);
 
             if ($respPedido){
-                $pedido = src\class\Conexao::getPesquisaBD('SELECT MAX(a.idPedido) AS UltimoPedido FROM cadpedido a LIMIT	1', '', []);
+                $numPedido = src\class\Conexao::getPesquisaBD('SELECT MAX(a.idPedido) AS UltimoPedido FROM cadpedido a LIMIT	1', '', []);
             }
 
-            // foreach ($produto as $key => $prod) {
-            //     # code...
-            // }
+            foreach ($produto as $key => $prod) {
+                src\class\Conexao::insertBD('INSERT INTO mvpedido (NumPedido, IdProduto, Qtd, ObsProduto, DataLancemento) VALUES (?, ?, ?, ?, ?)','sidss',[$controle, $prod['dados'][0]['IdProduto'], $prod['qtd'], $prod['obsProduto'], date('Y-m-d') ]);
+            }
 
         }
         //var_dump($produto[1][0]['DescricaoProduto']);

@@ -1,0 +1,106 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(to right, #ff6f00, #ff8f00);
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.login-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 500px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.login-box:hover {
+    transform: scale(1.05);
+}
+
+.login-box form{
+    width: 100%;
+}
+h1 {
+    color: #ff6f00;
+    margin-bottom: 20px;
+}
+
+h1 span {
+    font-weight: bold;
+    color: #ff8f00;
+}
+
+input {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #f5f5f5;
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus {
+    background: #fff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+button {
+    background: #ff6f00;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #ff8f00;
+}
+
+.signup-link {
+    margin-top: 15px;
+}
+
+.signup-link a {
+    color: #ff6f00;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.signup-link a:hover {
+    color: #ff8f00;
+}
+
+@media screen and (max-width: 600px) {
+    .login-box{
+        width: 80%;
+    }
+}
