@@ -3,6 +3,11 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+body{
+    background-color: aliceblue;
+}
+
 header{
     display: flex;
     width: 100%;
@@ -43,9 +48,17 @@ header .informacoes-sistema{
     margin: .5em;
 }
 
+main{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: calc(100vh - 102px);
+}
+
 nav{
     display: flex;
     flex-direction: column;
+    width: 100%;
     max-width: 200px;
     height: calc(100vh - 102px);
     padding: 1em;
@@ -53,10 +66,38 @@ nav{
     overflow-y: auto;
     transition: max-width 0.5s ease-in-out, padding .4s ease;
 }
-
 .ocultar-toggle{
     max-width: 0 !important;
     padding: 0 !important;
+}
+nav .menu-itens{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-size: 1.2em;
+    font-family: monospace;
+}
+nav .lista-itens{
+    display: inline-block;
+}
+nav .lista-itens .item{
+    display: block;
+    list-style: none;
+    padding: .5em 0;
+}
+nav .lista-itens .item a {
+    display: inline-block;
+    text-decoration: none;
+    transition: .5s ease;
+}
+nav .lista-itens .item a:hover{
+    transform: scale(1.1);
+}
+
+section{
+    display: flex;
+    width: calc(100% - 200px);
+    padding: 1em;
 }
 
 footer{

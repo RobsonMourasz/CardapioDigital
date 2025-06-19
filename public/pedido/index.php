@@ -17,28 +17,61 @@
         </div>
 
         <div class="logo-tipo">
-            <img src="../../app/assets/logo.png" alt="" >
+            <img src="../../app/assets/logo.png" alt="">
 
         </div>
 
         <div class="informacoes-sistema">
-            Bem vindo ao sistema 
+            Bem vindo ao sistema
         </div>
 
     </header>
 
-    <nav>
+    <main>
+        <nav>
+            <div class="menu-itens">
+                <ul class="lista-itens">
+                    <li class="item"><a href="pedidos">Pedidos</a></li>
+                    <li class="item"><a href="vendas">Vendas</a></li>
+                    <li class="item"><a href="produtos">Produtos</a></li>
+                    <li class="item"><a href="categoria">Categorias</a></li>
+                </ul>
+            </div>
+        </nav>
 
-    </nav>
+        <section>
+            <?php
 
-    <section>
+            if (isset($_GET['url'])) {
+                if ($_GET['url'] == 'logoff') {
+                    die(header("Location: ../src/logoff.php"));
+                }
+                if (file_exists('page/' . $_GET['url'] . '.php')) {
+                    include 'page/' . $_GET['url'] . '.php';
+                } else {
+                    include 'page/404.php';
+                }
+            } else {
+                include 'page/pedidos.php';
+            }
 
-    </section>
+            ?>
+        </section>
+    </main>
 
     <footer>
 
     </footer>
     <script src="../../app/js/pedido.index.js"></script>
+    <script>
+        // Substitui a URL atual sem recarregar
+        // const novaUrl = '/projetos/CardapioDigital/public/pedido/vendas/pedidos';
+        // window.history.pushState({}, '', novaUrl);
+        function limparParametrosURL() {
+            window.history.replaceState({}, "", window.location.pathname);
+        }
+        document.addEventListener("DOMContentLoaded", limparParametrosURL);
+    </script>
 </body>
 
 </html>
