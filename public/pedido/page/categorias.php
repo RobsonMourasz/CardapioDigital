@@ -1,6 +1,6 @@
 <div class="content">
     <div class="content-header">
-        <h1>Titulo da Pagina</h1>
+        <h1>Categorias</h1>
     </div> <!-- content-header -->
     <div class="content-body">
 
