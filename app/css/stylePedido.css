@@ -55,6 +55,7 @@ main{
     flex-direction: row;
     width: 100%;
     height: calc(100vh - 102px);
+    padding-bottom: 1em;
 }
 
 nav{
@@ -129,8 +130,74 @@ footer{
     margin: 1em 0;
 }
 
-main{
-    padding-bottom: 1em;
+.conteiner{
+    width: 100%;
+    height: 50vh;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    overflow-x: auto;
+}
+.card{
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    height: 150px;
+    background-color: #2b2b2b;
+    border-radius: 10px;
+    margin: .5em;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+.card-header{
+    width: 100%;
+    color: white;
+    text-align: center;
+    padding: .5em;
+    user-select: none;
+}
+.card-header .title-pedido >span{
+    background-color: #891788;
+    padding: .2em;
+    border-radius: 8px;
+    font-size: .8em;
+}
+.card-body{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card-body > textarea{
+    text-align: justify;
+    background: #2b2b2b;
+    color: white;
+    resize: none;
+    border: none;
+    outline: none;
+}
+.card-body > textarea::-webkit-scrollbar{
+    width: 5px;
+    height: 5px;
+    background: #2b2b2b;
+}
+.card-body > textarea::-webkit-scrollbar-thumb{
+    background-color: #565656;
+}
+
+.card-footer{
+    width: calc(100% - 1.2em);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    margin: 0 .5em;
+    color: white;
+    user-select: none;
+}
+.card-footer .status-pedido >span{
+    color: yellow;
 }
 
 @media screen and (max-width:501px) {
@@ -140,4 +207,92 @@ main{
     header .informacoes-sistema{
         width: calc(100% - 200px);
     }
+    .conteiner{
+        height: 60vh;
+    }
+
+    .btn-responsivo{
+        width: 100%;
+    }
+}
+
+.background-modal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    background-color: rgba(0, 0, 0, .5);
+    top: 0;
+    right: 0;
+    z-index: 999;
+}
+.background-modal .modal{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 600px;
+    min-height: 400px;
+    max-height: 600px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 10px 5px 30px black;
+    font-family: sans-serif !important;
+    margin: 1em 0;
+}
+.background-modal .modal .modal-header{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap-reverse;
+    padding: .5em;
+}
+.background-modal .modal .modal-header > h2{
+    color: #333333;
+    width: 95%;
+}
+.background-modal .modal .modal-header > [aria-hidden="true"]{
+    cursor: pointer;
+}
+.background-modal .modal .modal-body{
+    height: 100%;
+    max-height: 80%;
+    background-color: #891788;
+    overflow-x: auto;
+}
+
+.background-modal .modal .modal-footer{
+    padding: .5em;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.btn{
+    display: inline-block;
+    padding: .5em 1em;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    margin: .5em;
+}
+
+.bg-success{
+    background-color: #21c063 !important;
+    color: white !important;
+}
+.bg-primary{
+    background-color: #22b0ff !important;
+    color: white !important;   
+}
+.bg-danger{
+    background-color: #ff0c00 !important;
+    color: white !important;
+}
+
+.d-none{
+    display: none !important;
 }

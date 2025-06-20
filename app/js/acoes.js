@@ -107,7 +107,6 @@ let pegaCard = null;
 
         document.querySelectorAll(".remover-item-carrinho").forEach(btnRemover => {
             btnRemover.addEventListener("click", (e) => {
-                console.log(e.target.closest('.item-pedido'));
                 const vr = responsavelPeloValorQuantidade()
                 atualizaValorPedido(vr[0], vr[1])
             });
@@ -151,8 +150,6 @@ let pegaCard = null;
             mensagemAviso('Selecione produtos para fazer o pedido');
             return;
         }
-
-        console.log('Enviando pedido...');
 
         if (document.getElementById('formaPgto').value === '' ||
             document.getElementById('formaPgto').value === null ||
@@ -230,7 +227,7 @@ let pegaCard = null;
                 txMaquininha, txMaquininha
             };
         });
-        console.log('Itens do pedido:', itensPedido);
+
         enviarPedido(itensPedido);
         limparPreencherFormularioPedido();
 
@@ -471,36 +468,39 @@ async function enviarPedido(data) {
     });
 
     const res = await response.json();
-    //enviarMensagem(data)
+    if ( res.status == "success" ) {
+        enviarMensagem(res.result)
+    }else{
+        mensagemAviso(res.result);
+    }
+
 }
 
 async function enviarMensagem(item) {
     pedido = [];
+    const cabecalho = `🌟 Pedido Confirmado! #${item[0].idPedido.UltimoPedido} 🌟
+    Olá, caro cliente! 😊
+    Seu pedido foi recebido com sucesso. Aqui estão os detalhes:`;
     item.forEach(item => {
-        pedido.push(`🌟 Pedido Confirmado! 🌟
-
-            Olá, caro cliente! 😊
-
-            Seu pedido foi recebido com sucesso. Aqui estão os detalhes:
-
-            📌 Produto: ${item.IdProduto} 
-            📦 Quantidade: ${item.Quantidade}
-            📝 Observações: ${item.ObsProduto}
-            💰 Valor item: R$ [Valor Total] 
-            🚚 Taxa de Entrega: R$ [Taxa de Entrega] 
-            💳 Taxa do Cartão: R$ [Taxa de Cartão] 
-            🔢 Total Final: R$ [Total]
-            💰 Troco: ${item.precisaTroco} 
-            💰 Forma Pagamento: ${item.formaPgto} 
-            🚚 Enderco: ${item.enderecoEntrega}
-
-            📝 Ingredientes: [Lista de Ingredientes]
-
-            Agradecemos a sua compra! 💙 Qualquer dúvida, estamos à disposição.
-
+        pedido.push(`
+            📌 Produto: ${item.dados[0].DescricaoProduto} 
+            📦 Quantidade: ${item.qtd}
+            📝 Observações: ${item.dados.ObsProduto ?? "Sem observações"}
+            💰 Preço unitário: R$ ${item.dados[0].VrVenda.toFixed(2)} 
             ________________________________________`);
     });
-    const mensagemPedido = pedido.join("\n");
+    const footer = `
+    🔢 Total pedido: R$ ${item[0].valorTotal.toFixed(2)}
+    💰 Troco: ${item[0].obsPedido} 
+    🚚 Enderco: ${item[0].endreco}
+    💰 Forma Pagamento: ${item[0].formaPgto}
+    
+    Agradecemos a sua compra! 💙 Qualquer dúvida, estamos à disposição.`
+
+    const msg = [cabecalho, ...pedido, footer];
+    const mensagemPedido = msg.join("\n");
+    console.log('asdasd', item[0])
+    console.log(mensagemPedido);
     const sendTextMessage = async () => {
       try {
         const response = await fetch('https://v2-api.gzappy.com/message/send-text', {

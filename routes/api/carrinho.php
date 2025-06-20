@@ -35,7 +35,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST') {
             $obsPedido = $_POST['precisaTroco'];
 
             if ($txEntrega != 0){
-                $VrLiquidoPedido = $VrLiquidoPedido + $troco;
+                $VrLiquidoPedido = $VrLiquidoPedido + $txEntrega;
             }
             if ($txMaquininha){
                 $VrLiquidoPedido = $VrLiquidoPedido + $txMaquininha;
@@ -51,9 +51,18 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST') {
             }
 
         }
-        //var_dump($produto[1][0]['DescricaoProduto']);
+
+        foreach ($produto as $key => $item) {
+            $produto[$key]['idPedido'] = $numPedido[0];
+            $produto[$key]['controle'] = $controle;
+            $produto[$key]['valorTotal'] = $VrLiquidoPedido;
+            $produto[$key]['formaPgto'] = $formaPgto;
+            $produto[$key]['endreco'] = $enderecoEntrega;
+            $produto[$key]['obsPedido'] = $obsPedido;
+        }
+        
         http_response_code(200);
-        die(json_encode(['status' => 'success', 'result' => 'Método encontrado!']));
+        die(json_encode(['status' => 'success', 'result' => $produto]));
     }else{
         http_response_code(405);
         die(json_encode(['status'=>'error','result' => 'Método não encontrado']));
