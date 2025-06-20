@@ -5,7 +5,7 @@
 }
 
 body{
-    background-color: aliceblue;
+    background-color: #2b2b2b;
 }
 
 header{
@@ -22,6 +22,7 @@ header .toggle-menu{
     font-size: 2.5em;
     align-items: center;
     justify-content: end;
+    color: white;
 }
 header .toggle-menu i{
     cursor: pointer;
@@ -46,6 +47,7 @@ header .informacoes-sistema{
     align-items: center;
     font-family: monospace;
     margin: .5em;
+    color: white;
 }
 
 main{
@@ -89,6 +91,7 @@ nav .lista-itens .item a {
     display: inline-block;
     text-decoration: none;
     transition: .5s ease;
+    color: white;
 }
 nav .lista-itens .item a:hover{
     transform: scale(1.1);
@@ -96,7 +99,7 @@ nav .lista-itens .item a:hover{
 
 section{
     display: flex;
-    width: calc(100% - 200px);
+    width: 100%;
     padding: 1em;
     height: 100%;
     overflow-y: auto;
