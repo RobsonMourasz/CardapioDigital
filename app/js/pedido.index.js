@@ -10,5 +10,9 @@
         }
     })
 
-
+    const width = window.innerWidth;
+    if ( width <= 501 ) {
+        document.querySelector('nav').classList.add('ocultar-toggle')
+    }
+    
 })();
