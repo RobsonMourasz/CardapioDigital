@@ -174,6 +174,7 @@ footer {
     padding: .2em;
     border-radius: 8px;
     font-size: .8em;
+    position: relative;
 }
 
 .card-body {
@@ -237,6 +238,32 @@ footer {
     transition: .2s ease-in-out;
 }
 .card-footer .botao >i:hover{
+    transform: scale(1.2);
+}
+
+.btn-lista-ordenada ul{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.btn-lista-ordenada ul li{
+    display: inline-block;
+    width: 100%;
+    list-style: none;
+    padding: 1em ;
+    border-radius: 5px;
+    margin: .5em;
+    background-color: #22b0ff;
+}
+.btn-lista-ordenada ul li a{
+    display: inline-block;
+    width: 90%;
+    text-decoration: none;
+    transition: .2s ease-in-out;
+    margin: auto;
+}
+.btn-lista-ordenada ul li a:hover{
     transform: scale(1.2);
 }
 
@@ -392,4 +419,8 @@ select:hover {
 
 .d-none {
     display: none !important;
+}
+
+.text-align-center{
+    text-align: center !important;
 }
