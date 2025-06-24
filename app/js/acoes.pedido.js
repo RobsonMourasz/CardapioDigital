@@ -14,7 +14,9 @@
     });
 
     window.addEventListener('DOMContentLoaded', buscarDados())
-
+    window.addEventListener('load', ()=>{
+        document.querySelector('.carregando').classList.add('d-none')
+    })
 
 })();
 
