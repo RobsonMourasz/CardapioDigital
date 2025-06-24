@@ -3,7 +3,7 @@
         <h1>Pedidos</h1>
     </div> <!-- content-header -->
     <div class="content-body">
-        <div class="conteiner">
+        <div class="conteiner" id="add_pedidos">
 
             <div class="card" pedido="1">
                 <div class="card-header">

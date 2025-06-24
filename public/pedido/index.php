@@ -10,6 +10,8 @@
 </head>
 
 <body>
+    <div class="carregando"></div>
+    <div class="avisos d-none .fade-out" id="avisos"></div>
     <header>
 
         <div class="toggle-menu">
@@ -62,8 +64,8 @@
     <footer>
 
     </footer>
-    <script src="../../app/js/pedido.index.js"></script>
     <script src="../../app/js/acoes.pedido.js"></script>
+    <script src="../../app/js/pedido.index.js"></script>
     <script>
         // Substitui a URL atual sem recarregar
         // const novaUrl = '/projetos/CardapioDigital/public/pedido/vendas/pedidos';
