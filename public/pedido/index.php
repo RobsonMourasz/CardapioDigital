@@ -12,58 +12,60 @@
 <body>
     <div class="carregando"></div>
     <div class="avisos d-none .fade-out" id="avisos"></div>
-    <header>
+    <div class="conteudo">
+        <header>
 
-        <div class="toggle-menu">
-            <i class="bi bi-list"></i>
-        </div>
-
-        <div class="logo-tipo">
-            <img src="../../app/assets/logo.png" alt="">
-
-        </div>
-
-        <div class="informacoes-sistema">
-            Bem vindo ao sistema
-        </div>
-
-    </header>
-
-    <main>
-        <nav>
-            <div class="menu-itens">
-                <ul class="lista-itens">
-                    <li class="item"><a href="pedidos">Pedidos</a></li>
-                    <li class="item"><a href="vendas">Vendas</a></li>
-                    <li class="item"><a href="produtos">Produtos</a></li>
-                    <li class="item"><a href="categoria">Categorias</a></li>
-                </ul>
+            <div class="toggle-menu">
+                <i class="bi bi-list"></i>
             </div>
-        </nav>
 
-        <section>
-            <?php
+            <div class="logo-tipo">
+                <img src="../../app/assets/logo.png" alt="">
 
-            if (isset($_GET['url'])) {
-                if ($_GET['url'] == 'logoff') {
-                    die(header("Location: ../src/logoff.php"));
-                }
-                if (file_exists('page/' . $_GET['url'] . '.php')) {
-                    include 'page/' . $_GET['url'] . '.php';
+            </div>
+
+            <div class="informacoes-sistema">
+                Bem vindo ao sistema
+            </div>
+
+        </header>
+
+        <main>
+            <nav>
+                <div class="menu-itens">
+                    <ul class="lista-itens">
+                        <li class="item"><a href="pedidos">Pedidos</a></li>
+                        <li class="item"><a href="vendas">Vendas</a></li>
+                        <li class="item"><a href="produtos">Produtos</a></li>
+                        <li class="item"><a href="categoria">Categorias</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <section>
+                <?php
+
+                if (isset($_GET['url'])) {
+                    if ($_GET['url'] == 'logoff') {
+                        die(header("Location: ../src/logoff.php"));
+                    }
+                    if (file_exists('page/' . $_GET['url'] . '.php')) {
+                        include 'page/' . $_GET['url'] . '.php';
+                    } else {
+                        include 'page/404.php';
+                    }
                 } else {
-                    include 'page/404.php';
+                    include 'page/pedidos.php';
                 }
-            } else {
-                include 'page/pedidos.php';
-            }
 
-            ?>
-        </section>
-    </main>
+                ?>
+            </section>
+        </main>
 
-    <footer>
+        <footer>
 
-    </footer>
+        </footer>
+    </div>
     <script src="../../app/js/acoes.pedido.js"></script>
     <script src="../../app/js/pedido.index.js"></script>
     <script>
