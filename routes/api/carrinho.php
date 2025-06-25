@@ -40,7 +40,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($txMaquininha){
                 $VrLiquidoPedido = $VrLiquidoPedido + $txMaquininha;
             }
-            $respPedido = src\class\Conexao::insertBD('INSERT INTO cadpedido (idPedido, ValorPedido, ValorEntrega, ValorAdicional, FormaPagamento, Controle, IpCliente, EnderecoEntrega, ObservacaoPedido, DataPedido) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)','idddssssss',[$proxPedido, $VrLiquidoPedido, $txEntrega, $txMaquininha, $formaPgto, $controle, $ip_cliente, $enderecoEntrega, $obsPedido, date('Y-m-d h:m:s')]);
+            $respPedido = src\class\Conexao::insertBD('INSERT INTO cadpedido (idPedido, idSituacao, ValorPedido, ValorEntrega, ValorAdicional, FormaPagamento, Controle, IpCliente, EnderecoEntrega, ObservacaoPedido, DataPedido) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)','iidddssssss',[$proxPedido, 3, $VrLiquidoPedido, $txEntrega, $txMaquininha, $formaPgto, $controle, $ip_cliente, $enderecoEntrega, $obsPedido, date('Y-m-d h:m:s')]);
 
             if ($respPedido){
                 $numPedido = src\class\Conexao::getPesquisaBD('SELECT MAX(a.idPedido) AS UltimoPedido FROM cadpedido a LIMIT	1', '', []);

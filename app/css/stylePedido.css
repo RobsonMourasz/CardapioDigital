@@ -186,7 +186,7 @@ footer {
 }
 
 .card-body>textarea {
-    text-align: justify;
+    text-align: start;
     background: #2b2b2b;
     color: white;
     resize: none;
