@@ -1,23 +1,30 @@
+let pedidosAberto = [];
+
 (() => {
 
-    document.querySelectorAll('[id-modal="modal"]').forEach(modal => {
-        modal.addEventListener('click', (e) => {
-            const modal_id = document.getElementById(e.target.getAttribute('id-modal'))
-            const background = modal_id.closest('.background-modal')
-            if (e.target.getAttribute('attr') === 'fechar') {
-                background.classList.add('d-none')
-            } else {
-                background.classList.remove('d-none')
-            }
+    const modal = new MutationObserver(() => {
+        document.querySelectorAll('[id-modal="modal"]').forEach(modal => {
+            modal.addEventListener('click', (e) => {
 
-        })
-    });
+                const modal_id = document.getElementById(e.target.getAttribute('id-modal'))
+                const background = modal_id.closest('.background-modal')
+                if (e.target.getAttribute('attr') === 'fechar') {
+                    background.classList.add('d-none')
+                } else {
+                    background.classList.remove('d-none')
+                    addBotoesModal(pedidosAberto[0].acoes)
+                    preencherModal(pedidosAberto[0],e.target.getAttribute('id-pedido'))
+                }
+
+            })
+        });
+    })
 
     window.addEventListener('DOMContentLoaded', buscarDados())
     window.addEventListener('load', () => {
         document.querySelector('.carregando').classList.add('d-none')
     })
-
+    modal.observe(document.body, { childList: true, subtree: true });
 })();
 
 async function buscarDados() {
@@ -27,9 +34,12 @@ async function buscarDados() {
     if (dados.status == 'ok') {
         chamarTelaAvisos('success', dados.status);
         carregarPedido(dados.result)
+        pedidosAberto.push(dados.result)
+        console.log(pedidosAberto)
     } else {
         chamarTelaAvisos('danger', dados.result)
     }
+
 }
 
 
@@ -38,22 +48,30 @@ async function carregarPedido(data) {
     tabela.innerHTML = '';
     document.getElementById('info-pedidos').innerHTML = `<div class="qtd-atendimentos">Qtd Pedidos Aberto: ${data.cad_pedido.length}</div>`;
 
-    const produtos = new Map(data.mv_pedido.map(p => [p.NumPedido, p]));
+    const produtosPorPedido = new Map();
+    data.mv_pedido.forEach(produto => {
+        if (!produtosPorPedido.has(produto.NumPedido)) {
+            produtosPorPedido.set(produto.NumPedido, []);
+        }
+        produtosPorPedido.get(produto.NumPedido).push(produto);
+    });
+
     const pedidosCompletos = data.cad_pedido.map(pedido => {
-        const mv = produtos.get(pedido.Controle); // Supondo que 'controle' esteja presente no cad_pedido
+        const produtos = produtosPorPedido.get(pedido.Controle) || [];
         return {
             ...pedido,
-            ...mv // isso inclui os campos de mv_pedido ao objeto final
+            produtos // lista de produtos
         };
     });
-    
+
     pedidosCompletos.forEach(pedido => {
-        let texto =
-        `📦 Produto: ${pedido.DescricaoProduto}\n` +
-        `📦 Quantidade: ${pedido.Qtd}\n` +
-        `💰 Valor: R$ ${pedido.VrVenda.toFixed(2)}\n` +
-        `📝 ==== OBSERVACOES ====: ${pedido.ObsProduto || 'Nenhuma'} ==== FIM OBSERVACOES ====\n` +
-        `🥣 Ingredientes: ${pedido.Ingredientes}\n`;
+        let texto = pedido.produtos.map(produto =>
+            `📦 Produto: ${produto.DescricaoProduto}\n` +
+            `📦 Quantidade: ${produto.Qtd}\n` +
+            `💰 Valor: R$ ${produto.VrVenda}\n` +
+            `📝 ==== OBSERVACOES ====: ${produto.ObsProduto || 'Nenhuma'} ==== FIM OBSERVACOES ====\n` +
+            `🥣 Ingredientes: ${produto.Ingredientes}\n`
+        ).join('\n-----------------------------\n');
 
         let tipoEntrega = '';
         if (pedido.EnderecoEntrega == 'retirada no local.') { tipoEntrega = 'Retirada' } else { tipoEntrega = 'Delivery' }
@@ -75,9 +93,69 @@ async function carregarPedido(data) {
                     <p>(${tipoEntrega})</p>
                 </div>
                 <div class="botao">
-                    <i class="btn bi bi-clipboard2-pulse-fill" id-modal="modal" attr="abrir"></i>
+                    <i class="btn bi bi-clipboard2-pulse-fill" id-modal="modal" id-pedido=${pedido.idPedido} attr="abrir"></i>
                 </div>
             </div>`;
         tabela.appendChild(card)
     });
+}
+
+
+function addBotoesModal(acoes) {
+
+    let btns = document.getElementById('btn-visualizar-pedidos');
+    btns.innerHTML = "";
+    //pedidosAberto
+
+    acoes.forEach(btn => {
+        let btnAcoes = document.createElement("a");
+        btnAcoes.classList.add('btn')
+        btnAcoes.classList.add('btn-responsivo')
+        btnAcoes.classList.add('bg-success')
+        btnAcoes.classList.add('font-8em')
+        btnAcoes.innerText = `${btn.DescriacaoSituacao}`;
+        btns.appendChild(btnAcoes);
+    });
+
+}
+
+function preencherModal(data, idPedido) {
+    console.log(data)
+    let tipoEntrega = '';
+    if (data.cad_pedido.EnderecoEntrega == 'retirada no local.') { tipoEntrega = 'Retirada' } else { tipoEntrega = 'Delivery' }
+    let produtos = document.querySelector('.tabela-responsiva .pedido .produtos');
+    const cabecalho = document.querySelector('.tabela-responsiva .pedido .cabecalho');
+    cabecalho.querySelector('.comanda').innerText = `Pedido: ${idPedido}`;
+    cabecalho.querySelector('.tipo-entrega').innerText = `${tipoEntrega}`;
+
+    const produtosPorPedido = new Map();
+    data.mv_pedido.forEach(produto => {
+        if (!produtosPorPedido.has(produto.NumPedido)) {
+            produtosPorPedido.set(produto.NumPedido, []);
+        }
+        produtosPorPedido.get(produto.NumPedido).push(produto);
+    });
+
+    const pedidosCompletos = data.cad_pedido.map(pedido => {
+        const produtos = produtosPorPedido.get(pedido.Controle) || [];
+        return {
+            ...pedido,
+            produtos // lista de produtos
+        };
+    });
+
+    produtos.innerHTML = ``;
+    pedidosCompletos.forEach(produto => {
+        let item = document.createElement('div');
+        item.classList.add('produto');
+        item.innerHTML = `<p><strong>📦 Produto:</strong> ${produto.DescricaoProduto}</p>
+                            <p><strong>📦 Quantidade:</strong> ${produto.Qtd}</p>
+                            <p><strong>💰 Valor:</strong> R$ ${produto.VrVenda}</p>
+                            <p><strong>📝 Observações:</strong> ${produto.ObsProduto || 'Nenhuma'}</p>
+                            <p><strong>🥣 Ingredientes:</strong> ${produto.Ingredientes}</p>`;
+        produtos.appendChild(item);
+    });
+
+    const rodape = document.querySelector('.tabela-responsiva .pedido .rodape .status').innerText = `Status: ${data.cad_pedido.DescriacaoSituacao}`;
+
 }

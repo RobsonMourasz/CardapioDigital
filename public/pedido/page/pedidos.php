@@ -4,49 +4,11 @@
         <div class="info-pedidos" id="info-pedidos"></div>
     </div> <!-- content-header -->
     <div class="content-body">
+
         <div class="conteiner" id="add_pedidos">
-            
-            <div class="card" pedido="1">
-                    <div class="card-header">
-                        <h3 class="title-pedido">Comanda: <span>Pedido:1</span></h3>
-                    </div>
-                    <div class="card-body">
-                        <textarea name="itens-do-pedido" cols="22" rows="5" readonly>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Id, minima.
-                        </textarea>
-                    </div>
-                    <div class="card-footer">
-                        <div class="footer-info">
-                            <p class="status-pedido">Status: <span>Na chapa</span> </p>
-                            <p>(Delivery)</p>
-                        </div>
-                        <div class="botao">
-                            <i class="btn bi bi-clipboard2-pulse-fill" id-modal="modal" attr="abrir"></i>
-                        </div>
-                    </div>
-            </div> <!-- card -->
 
-            <div class="card" pedido="2">
-                <div class="card-header">
-                    <h3 class="title-pedido">Comanda: <span>Pedido:2</span></h3>
-                </div>
-                <div class="card-body">
-                    <textarea name="itens-do-pedido" cols="22" rows="5" readonly>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Id, minima.
-                    </textarea>
-                </div>
-                <div class="card-footer">
-                    <div class="footer-info">
-                        <p class="status-pedido">Status: <span>Na chapa</span> </p>
-                        <p>(Retirada)</p>
-                    </div>
-                    <div class="botao">
-                        <i class="btn bi bi-clipboard2-pulse-fill" id-modal="modal" attr="abrir"></i>
-                    </div>
-                </div>
-            </div> <!-- card -->
+        </div> <!-- conteiner add_pedidos -->
 
-        </div>
     </div> <!-- content-body -->
 
 </div> <!-- content-->
@@ -58,17 +20,34 @@
             <span id-modal="modal" attr="fechar" aria-hidden="true">&#x2715;</span>
         </div>
         <div class="modal-body">
-            <div class="group-input btn-lista-ordenada">
-                <ul>
-                    <li><a class="text-align-center" href="">Iniciado</a></li>
-                    <li><a class="text-align-center" href="">Preparando</a></li>
-                    <li><a class="text-align-center" href="">Em rota</a></li>
-                    <li><a class="text-align-center" href="">Concluido</a></li>
-                    <li><a class="text-align-center" href="">Cancelado</a></li>
-                </ul>
+
+            <div class="tabela-responsiva">
+                <!-- Repetir isso para cada pedido -->
+                <div class="pedido">
+                    <div class="cabecalho">
+                        <span class="comanda">Pedido: 12345</span>
+                        <span class="tipo-entrega">Retirada</span>
+                    </div>
+                    <div class="produtos">
+                        <!-- Repetir isso para cada produto -->
+                        <div class="produto">
+                            <p><strong>📦 Produto:</strong> X-Burger</p>
+                            <p><strong>📦 Quantidade:</strong> 2</p>
+                            <p><strong>💰 Valor:</strong> R$ 24,00</p>
+                            <p><strong>📝 Observações:</strong> Sem cebola</p>
+                            <p><strong>🥣 Ingredientes:</strong> Pão, carne, queijo, alface</p>
+                        </div>
+
+                        
+                    </div>
+                    <div class="rodape">
+                        <span class="status">Status: Em preparo</span>
+                    </div>
+                </div>
             </div>
+
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer" id="btn-visualizar-pedidos">
             <button class="btn btn-responsivo bg-success">Enviar</button>
             <button class="btn btn-responsivo bg-danger">Enviar</button>
         </div>

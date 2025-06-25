@@ -360,6 +360,48 @@ footer {
     animation: fade-out 1s ease-in-out forwards;
 }
 
+.tabela-responsiva {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .pedido {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  
+  .cabecalho,
+  .rodape {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .produto {
+    background-color: #f9f9f9;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    border-radius: 6px;
+    border: 1px dashed #aaa;
+  }
+  
+  .produto p {
+    margin: 0.3rem 0;
+    font-size: 0.95rem;
+  }
+  
+  .status {
+    font-weight: bold;
+    color: #007bff;
+  }
+
 @keyframes loading {
     0%{
         transform: rotate(0);
@@ -418,6 +460,12 @@ footer {
         width: auto;
         justify-content: start !important;
     }
+
+    .cabecalho,
+    .rodape {
+      flex-direction: column;
+      align-items: flex-start;
+    }
 }
 
 .background-modal {
@@ -467,7 +515,6 @@ footer {
 .background-modal .modal .modal-body {
     height: 100%;
     max-height: 80%;
-    background-color: #891788;
     overflow-x: auto;
 }
 
@@ -475,6 +522,7 @@ footer {
     padding: .5em;
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 }
@@ -553,4 +601,8 @@ select:hover {
 
 .text-align-center {
     text-align: center !important;
+}
+
+.font-8em{
+    font-size: .8em !important;
 }

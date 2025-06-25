@@ -15,9 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] === "GET"){
             LEFT JOIN situacao b ON a.idSituacao = b.IdSituacao
             WHERE b.DescriacaoSituacao <> "Cancelado" AND b.DescriacaoSituacao <> "Concluido" )','',[]);
 
+        $acoes = src\class\Conexao::getPesquisaBD('SELECT * FROM situacao WHERE SituacaoAtivo = "S"','',[]);
         die(json_encode([ 
             "status" => "ok",
-            "result" => ["cad_pedido" => $cadPedido, "mv_pedido" => $mvPedido]
+            "result" => ["cad_pedido" => $cadPedido, "mv_pedido" => $mvPedido, "acoes" => $acoes]
         ]));
     }
 }else{
