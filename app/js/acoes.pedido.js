@@ -109,10 +109,11 @@ function addBotoesModal(acoes) {
 
     acoes.forEach(btn => {
         let btnAcoes = document.createElement("a");
-        btnAcoes.classList.add('btn')
-        btnAcoes.classList.add('btn-responsivo')
-        btnAcoes.classList.add('bg-success')
-        btnAcoes.classList.add('font-8em')
+        btnAcoes.classList.add('btn');
+        btnAcoes.classList.add('btn-responsivo');
+        btnAcoes.classList.add('bg-success');
+        btnAcoes.classList.add('font-8em');
+        btnAcoes.href = `?mudarAcao=${btn.DescriacaoSituacao}`;
         btnAcoes.innerText = `${btn.DescriacaoSituacao}`;
         btns.appendChild(btnAcoes);
     });

@@ -536,6 +536,8 @@ footer {
     border: none;
     margin: .5em;
     cursor: pointer;
+    text-decoration: none;
+    list-style: none;
 }
 
 .group-input {
