@@ -205,7 +205,7 @@ footer {
 }
 
 .card-footer {
-    width: calc(100% - 1.2em);
+    width: calc(100%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -366,41 +366,57 @@ footer {
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
-  }
+}
   
-  .pedido {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 1rem;
-    background-color: #fff;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  }
+.pedido {
+border: 1px solid #ccc;
+border-radius: 8px;
+padding: 1rem;
+background-color: #fff;
+box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
   
-  .cabecalho,
-  .rodape {
+.cabecalho,
+.rodape {
+display: flex;
+justify-content: space-between;
+margin-bottom: 0.5rem;
+flex-wrap: wrap;
+}
+
+.pedido .cabecalho .tipo-entrega{
+    font-weight: 600;
+}
+  
+.produto {
+background-color: #f9f9f9;
+padding: 0.75rem;
+margin-bottom: 0.5rem;
+border-radius: 6px;
+border: 1px dashed #aaa;
+}
+  
+.produto p {
+margin: 0.3rem 0;
+font-size: 0.95rem;
+}
+  
+.status {
+font-weight: bold;
+color: #007bff;
+}
+
+
+.enviando{
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-    flex-wrap: wrap;
-  }
-  
-  .produto {
-    background-color: #f9f9f9;
-    padding: 0.75rem;
-    margin-bottom: 0.5rem;
-    border-radius: 6px;
-    border: 1px dashed #aaa;
-  }
-  
-  .produto p {
-    margin: 0.3rem 0;
-    font-size: 0.95rem;
-  }
-  
-  .status {
-    font-weight: bold;
-    color: #007bff;
-  }
+    width: 16px;
+    height: 16px;
+    border: 2px dashed #2b2b2b;
+    border-radius: 50%;
+    position: absolute;
+    left: 5px;
+    animation: loading 1s infinite forwards;
+}
 
 @keyframes loading {
     0%{
@@ -530,7 +546,7 @@ footer {
 
 .btn {
     display: inline-block;
-    padding: .5em 1em;
+    padding: .5em 2em;
     border-radius: 5px;
     outline: none;
     border: none;
@@ -538,6 +554,7 @@ footer {
     cursor: pointer;
     text-decoration: none;
     list-style: none;
+    position: relative;
 }
 
 .group-input {
@@ -607,4 +624,9 @@ select:hover {
 
 .font-8em{
     font-size: .8em !important;
+}
+
+i{
+    display: inline-block;
+    padding: .5em;
 }

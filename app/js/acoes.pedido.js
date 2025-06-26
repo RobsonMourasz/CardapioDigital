@@ -12,7 +12,7 @@ let pedidosAberto = [];
                     background.classList.add('d-none')
                 } else {
                     background.classList.remove('d-none')
-                    addBotoesModal(pedidosAberto[0].acoes)
+                    addBotoesModal(pedidosAberto[0].acoes, e.target.getAttribute('id-pedido'))
                     preencherModal(pedidosAberto[0], e.target.getAttribute('id-pedido'))
                 }
 
@@ -20,21 +20,17 @@ let pedidosAberto = [];
         });
     })
 
+    document.querySelector('.background-modal').addEventListener('click', (e)=>{
+        if (e.target.classList.contains('background-modal')){
+            e.target.classList.add('d-none')
+        }
+    })
+
     window.addEventListener('DOMContentLoaded', buscarDados())
     window.addEventListener('load', () => {
         document.querySelector('.carregando').classList.add('d-none')
     })
     
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('mudarAcao')) {
-        const valor = urlParams.get('mudarAcao');
-
-        // Aqui você chama sua lógica com o ID que veio
-        console.log(valor);
-
-        // Evita que a URL fique com o parâmetro visível (opcional)
-        history.replaceState({}, document.title, window.location.pathname);
-    }
     modal.observe(document.body, { childList: true, subtree: true });
 })();
 
@@ -43,7 +39,6 @@ async function buscarDados() {
     const response = await fetch('../../routes/api/pedidos.php?busca=all');
     const dados = await response.json();
     if (dados.status == 'ok') {
-        chamarTelaAvisos('success', dados.status);
         carregarPedido(dados.result)
         pedidosAberto.push(dados.result)
 
@@ -76,13 +71,12 @@ async function carregarPedido(data) {
     });
 
     pedidosCompletos.forEach(pedido => {
+        const titulo = `Total Itens ${pedido.produtos.length}\n`;
         let texto = pedido.produtos.map(produto =>
             `📦 Produto: ${produto.DescricaoProduto}\n` +
             `📦 Quantidade: ${produto.Qtd}\n` +
-            `💰 Valor: R$ ${produto.VrVenda}\n` +
-            `📝 ==== OBSERVACOES ====: ${produto.ObsProduto || 'Nenhuma'} ==== FIM OBSERVACOES ====\n` +
-            `🥣 Ingredientes: ${produto.Ingredientes}\n`
-        ).join('\n-----------------------------\n');
+            `📝 OBSERVACOES : ${produto.ObsProduto || '--'}`
+        ).join('\n-------------------\n');
 
         let tipoEntrega = '';
         if (pedido.EnderecoEntrega == 'retirada no local.') { tipoEntrega = 'Retirada' } else { tipoEntrega = 'Delivery' }
@@ -96,7 +90,7 @@ async function carregarPedido(data) {
             </div>
             
             <div class="card-body">
-                <textarea name="itens-do-pedido" cols="22" rows="5" readonly>${texto}</textarea>
+                <textarea name="itens-do-pedido" cols="22" rows="10" readonly>${titulo}${texto}</textarea>
             </div>
             <div class="card-footer">
                 <div class="footer-info">
@@ -104,7 +98,8 @@ async function carregarPedido(data) {
                     <p>(${tipoEntrega})</p>
                 </div>
                 <div class="botao">
-                    <i class="btn bi bi-clipboard2-pulse-fill" id-modal="modal" id-pedido=${pedido.idPedido} attr="abrir"></i>
+                    <i class="bi bi-clipboard2-pulse-fill" id-modal="modal" id-pedido=${pedido.idPedido} attr="abrir"></i>
+                    <i class="bi bi-file-earmark-pdf-fill" onclick="ChamarImpressaoCozinha()"></i>
                 </div>
             </div>`;
         tabela.appendChild(card)
@@ -112,20 +107,20 @@ async function carregarPedido(data) {
 }
 
 
-function addBotoesModal(acoes) {
+function addBotoesModal(acoes, id) {
 
     let btns = document.getElementById('btn-visualizar-pedidos');
     btns.innerHTML = "";
-    //pedidosAberto
-
-    acoes.forEach(btn => {
-        let btnAcoes = document.createElement("a");
+    const btnPedidos = acoes.filter(f =>  f.Tela.split(',').map(t => t.trim().toLowerCase()).includes('pedido') )
+    btnPedidos.forEach(btn => {
+        
+        let btnAcoes = document.createElement("button");
         btnAcoes.classList.add('btn');
         btnAcoes.classList.add('btn-responsivo');
         btnAcoes.classList.add('bg-success');
         btnAcoes.classList.add('font-8em');
-        btnAcoes.href = `?mudarAcao=${btn.DescriacaoSituacao}`;
-        btnAcoes.innerText = `${btn.DescriacaoSituacao}`;
+        btnAcoes.setAttribute('onclick', `mudarAcao("${btn.DescriacaoSituacao}",${id})`)
+        btnAcoes.innerHTML = `<strong class="enviando d-none"></strong>${btn.DescriacaoSituacao}`
         btns.appendChild(btnAcoes);
     });
 
@@ -164,12 +159,58 @@ function preencherModal(data, idPedido) {
         item.classList.add('produto');
         item.innerHTML = `<p><strong>📦 Produto:</strong> ${produto.DescricaoProduto}</p>
                             <p><strong>📦 Quantidade:</strong> ${produto.Qtd}</p>
-                            <p><strong>💰 Valor:</strong> R$ ${produto.VrVenda}</p>
                             <p><strong>📝 Observações:</strong> ${produto.ObsProduto || 'Nenhuma'}</p>
                             <p><strong>🥣 Ingredientes:</strong> ${produto.Ingredientes}</p>`;
         produtos.appendChild(item);
     });
 
-    const rodape = document.querySelector('.tabela-responsiva .pedido .rodape .status').innerText = `Status: ${comandaBuscada[0].DescriacaoSituacao}`;
+    document.querySelector('.tabela-responsiva .pedido .rodape .status').innerText = `Status: ${comandaBuscada[0].DescriacaoSituacao}`;
 
+}
+
+async function mudarAcao(acao, id) {
+    let enviar = document.querySelector('.enviando')
+    enviar.classList.remove('d-none')
+    let acoes = [...pedidosAberto[0].acoes];
+    const mudaAcao = acoes.find( a => a.DescriacaoSituacao == acao); 
+    const env = await fetch(`../../routes/api/pedidos.php?altAcao=${mudaAcao.IdSituacao}&idPedido=${id}`);
+    const res = await env.json();
+    if (res.status == 'ok'){
+        enviar.classList.add('d-none')
+        chamarTelaAvisos('success', "Pedido alterado com sucesso");
+        document.querySelector('.tabela-responsiva .pedido .rodape .status').textContent = `Status: ${mudaAcao.DescriacaoSituacao}`
+        buscarDados();
+
+    }else{
+        chamarTelaAvisos('danger', dados.result)
+    }
+}
+
+async function ChamarImpressaoCozinha(layout) {
+    try {
+        const response = await fetch('../../routes/api/impressaocozinha.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(layout)
+        });
+
+        if (!response.ok) throw new Error('Erro ao gerar PDF');
+
+        const blob = await response.blob();
+
+        // Cria um link para baixar o PDF
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'comanda-cozinha.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+
+    } catch (erro) {
+        console.error('Erro ao requisitar a impressão:', erro);
+    }
 }

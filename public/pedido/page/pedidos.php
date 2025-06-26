@@ -29,16 +29,7 @@
                         <span class="tipo-entrega">Retirada</span>
                     </div>
                     <div class="produtos">
-                        <!-- Repetir isso para cada produto -->
-                        <div class="produto">
-                            <p><strong>📦 Produto:</strong> X-Burger</p>
-                            <p><strong>📦 Quantidade:</strong> 2</p>
-                            <p><strong>💰 Valor:</strong> R$ 24,00</p>
-                            <p><strong>📝 Observações:</strong> Sem cebola</p>
-                            <p><strong>🥣 Ingredientes:</strong> Pão, carne, queijo, alface</p>
-                        </div>
 
-                        
                     </div>
                     <div class="rodape">
                         <span class="status">Status: Em preparo</span>
