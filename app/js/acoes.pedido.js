@@ -24,6 +24,17 @@ let pedidosAberto = [];
     window.addEventListener('load', () => {
         document.querySelector('.carregando').classList.add('d-none')
     })
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('mudarAcao')) {
+        const valor = urlParams.get('mudarAcao');
+
+        // Aqui você chama sua lógica com o ID que veio
+        console.log(valor);
+
+        // Evita que a URL fique com o parâmetro visível (opcional)
+        history.replaceState({}, document.title, window.location.pathname);
+    }
     modal.observe(document.body, { childList: true, subtree: true });
 })();
 
