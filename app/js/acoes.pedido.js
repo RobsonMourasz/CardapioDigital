@@ -148,9 +148,7 @@ function preencherModal(data, idPedido) {
     cabecalho.querySelector('.tipo-entrega').innerText = `${tipoEntrega}`;
 
     produtos.innerHTML = ``;
-    console.log(comandaBuscada[0])
     comandaBuscada[0].produtos.forEach(produto => {
-       // console.log(produto)
         let item = document.createElement('div');
         item.classList.add('produto');
         item.innerHTML = `<p><strong>📦 Produto:</strong> ${produto.DescricaoProduto}</p>
