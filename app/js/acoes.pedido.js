@@ -13,7 +13,7 @@ let pedidosAberto = [];
                 } else {
                     background.classList.remove('d-none')
                     addBotoesModal(pedidosAberto[0].acoes)
-                    preencherModal(pedidosAberto[0],e.target.getAttribute('id-pedido'))
+                    preencherModal(pedidosAberto[0], e.target.getAttribute('id-pedido'))
                 }
 
             })
@@ -35,7 +35,7 @@ async function buscarDados() {
         chamarTelaAvisos('success', dados.status);
         carregarPedido(dados.result)
         pedidosAberto.push(dados.result)
-        console.log(pedidosAberto)
+
     } else {
         chamarTelaAvisos('danger', dados.result)
     }
@@ -120,13 +120,8 @@ function addBotoesModal(acoes) {
 }
 
 function preencherModal(data, idPedido) {
-    console.log(data)
+
     let tipoEntrega = '';
-    if (data.cad_pedido.EnderecoEntrega == 'retirada no local.') { tipoEntrega = 'Retirada' } else { tipoEntrega = 'Delivery' }
-    let produtos = document.querySelector('.tabela-responsiva .pedido .produtos');
-    const cabecalho = document.querySelector('.tabela-responsiva .pedido .cabecalho');
-    cabecalho.querySelector('.comanda').innerText = `Pedido: ${idPedido}`;
-    cabecalho.querySelector('.tipo-entrega').innerText = `${tipoEntrega}`;
 
     const produtosPorPedido = new Map();
     data.mv_pedido.forEach(produto => {
@@ -144,8 +139,17 @@ function preencherModal(data, idPedido) {
         };
     });
 
+    const comandaBuscada = pedidosCompletos.filter(item => item.idPedido == idPedido)
+    if (comandaBuscada[0].EnderecoEntrega == 'retirada no local.') { tipoEntrega = 'Retirada' } else { tipoEntrega = 'Delivery' }
+    let produtos = document.querySelector('.tabela-responsiva .pedido .produtos');
+    const cabecalho = document.querySelector('.tabela-responsiva .pedido .cabecalho');
+    cabecalho.querySelector('.comanda').innerText = `Pedido: ${comandaBuscada[0].idPedido}`;
+    cabecalho.querySelector('.tipo-entrega').innerText = `${tipoEntrega}`;
+
     produtos.innerHTML = ``;
-    pedidosCompletos.forEach(produto => {
+    console.log(comandaBuscada[0])
+    comandaBuscada[0].produtos.forEach(produto => {
+       // console.log(produto)
         let item = document.createElement('div');
         item.classList.add('produto');
         item.innerHTML = `<p><strong>📦 Produto:</strong> ${produto.DescricaoProduto}</p>
@@ -156,6 +160,6 @@ function preencherModal(data, idPedido) {
         produtos.appendChild(item);
     });
 
-    const rodape = document.querySelector('.tabela-responsiva .pedido .rodape .status').innerText = `Status: ${data.cad_pedido.DescriacaoSituacao}`;
+    const rodape = document.querySelector('.tabela-responsiva .pedido .rodape .status').innerText = `Status: ${comandaBuscada[0].DescriacaoSituacao}`;
 
 }
