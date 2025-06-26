@@ -3,3 +3,6 @@ https://www.consumer.com.br/sistema-pedidos-delivery/?AfiId=335&gad_source=1&gad
 
 
 https://www.youtube.com/watch?v=nPnChBmjKQg
+
+
+DEPENDENCIAS : composer require mpdf/mpdf

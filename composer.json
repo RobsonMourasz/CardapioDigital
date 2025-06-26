@@ -11,5 +11,7 @@
             "email": "robsonic10@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "mpdf/mpdf": "^8.2"
+    }
 }
