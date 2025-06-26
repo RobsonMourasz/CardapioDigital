@@ -98,8 +98,8 @@ async function carregarPedido(data) {
                     <p>(${tipoEntrega})</p>
                 </div>
                 <div class="botao">
-                    <i class="bi bi-clipboard2-pulse-fill" id-modal="modal" id-pedido=${pedido.idPedido} attr="abrir"></i>
-                    <i class="bi bi-file-earmark-pdf-fill" onclick="ChamarImpressaoCozinha()"></i>
+                    <i class="bi bi-clipboard2-pulse-fill" id-modal="modal" id-pedido=${pedido.idPedido} attr="abrir" title="Abrir Pedido"></i>
+                    <i class="bi bi-file-earmark-pdf-fill" onclick="ChamarImpressaoCozinha(${pedido.idPedido})" title="Gerar PDF"></i>
                 </div>
             </div>`;
         tabela.appendChild(card)
@@ -186,21 +186,40 @@ async function mudarAcao(acao, id) {
     }
 }
 
-async function ChamarImpressaoCozinha(layout) {
+async function ChamarImpressaoCozinha(idPedido) {
+    const pedido = pedidosAberto[0].cad_pedido
+    const itens =  pedidosAberto[0].mv_pedido
+
+    const produtosPorPedido = new Map();
+    itens.forEach(produto => {
+        if (!produtosPorPedido.has(produto.NumPedido)) {
+            produtosPorPedido.set(produto.NumPedido, []);
+        }
+        produtosPorPedido.get(produto.NumPedido).push(produto);
+    });
+
+    const pedidosCompletos = pedido.map(pedido => {
+        const produtos = produtosPorPedido.get(pedido.Controle) || [];
+        return {
+            ...pedido,
+            produtos // lista de produtos
+        };
+    });
+
+    const pedidoSelecionado = pedidosCompletos.filter(pc => pc.idPedido === idPedido)
+    console.log(pedidoSelecionado)
     try {
         const response = await fetch('../../routes/api/impressaocozinha.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(layout)
+            body: JSON.stringify(pedidoSelecionado)
         });
 
         if (!response.ok) throw new Error('Erro ao gerar PDF');
 
         const blob = await response.blob();
-
-        // Cria um link para baixar o PDF
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
