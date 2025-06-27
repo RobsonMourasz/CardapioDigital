@@ -2,6 +2,10 @@ let pedidosAberto = [];
 
 (() => {
 
+    document.querySelector('.aceitar-termos').addEventListener('click', ()=>{
+        document.querySelector('.aceitar-termos').closest('.politica-dados').classList.add('d-none')
+    })
+
     setInterval(() => {
         verificarPedidosPendentes();
         document.querySelector("audio").play();

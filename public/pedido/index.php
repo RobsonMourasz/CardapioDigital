@@ -10,10 +10,11 @@
 </head>
 
 <body>
-    <audio>
-        <source src="../../app/assets/blip-131856.mp3" type="audio/mp3">
-    </audio>
-
+    <audio id="meuAudio" src="../../app/assets/blip-131856.mp3"></audio>
+    <div class="politica-dados">
+        <p>Atenção devido as politicas apresentadas pela Microsoft para que todos os componentes funcionem é preciso que clique em aceitar  </p>
+        <button class="btn bg-success aceitar-termos">Aceitar</button>
+    </div>
     <div class="carregando"></div>
     <div class="avisos d-none .fade-out" id="avisos"></div>
     <div class="conteudo">

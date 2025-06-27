@@ -630,3 +630,24 @@ i{
     display: inline-block;
     padding: .5em;
 }
+
+.politica-dados{
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    z-index: 999;
+    background-color: #007bff;
+    border-radius: 10px ;
+    font-family: monospace;
+    padding: .5em 1em;
+    transform: translate(-45%, 45%);
+}
+
+.politica-dados p {
+    text-align: center;
+    font-size: 1.2em ;
+    line-height: 25px;
+}
