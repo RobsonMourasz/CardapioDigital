@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
             ]));
         }
 
-    } else if (isset($_GET['altAcao']) && isset($_GET['idPedido'])) {
+    } else if (isset($_GET['altAcao']) && !empty($_GET['idPedido'])) {
 
         http_response_code(200);
 
@@ -41,6 +41,33 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
                 'result' => 'Falha ao alterar'
             ]));
 
+        }
+
+    } else if (isset($_GET['verificaPedido']) && !empty($_GET['verificaPedido'])){
+        http_response_code(200);
+
+        try {
+            $res = src\class\Conexao::getPesquisaBD('SELECT * FROM cadpedido a WHERE a.idSituacao IN( SELECT IdSituacao FROM situacao WHERE DescriacaoSituacao LIKE "%Aguardando%" )','',[]);
+            if ( $res ) {
+    
+                if ( count($res) > 0){
+                    die(json_encode([
+                        'status' => 'ok',
+                        'result' => $res
+                    ]));
+                }
+    
+            }else{
+                die(json_encode([
+                    'status' => 'ok',
+                    'result' => false
+                ]));
+            }
+        } catch (\Throwable $th) {
+            die(json_encode([
+                'status' => 'error',
+                'result' => 'Falha na busca'
+            ]));
         }
 
     }

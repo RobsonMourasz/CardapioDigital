@@ -10,6 +10,10 @@
 </head>
 
 <body>
+    <audio>
+        <source src="../../app/assets/blip-131856.mp3" type="audio/mp3">
+    </audio>
+
     <div class="carregando"></div>
     <div class="avisos d-none .fade-out" id="avisos"></div>
     <div class="conteudo">

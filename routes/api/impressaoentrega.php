@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
     <style>
-        .title{
+        .title {
             width: 100%;
             display: flex;
             align-items: center;
@@ -21,12 +21,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             text-align: center;
             font-family: monospace;
         }
-        .dados-empresa{
+
+        .dados-empresa {
             display: flex;
             flex-direction: column;
             font-family: monospace;
             width: 100%;
-            text-align: start;
+            text-align: center;
+            font-size: .8em;
         }
 
         .info-pedido {
@@ -45,24 +47,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         table thead,
         table tbody {
-            padding: .5em;
-
+            padding: .5em 0;
+            text-align: center;
         }
 
-        th{
+        th {
             border-bottom: 1px dashed black;
+            font-size: .8em;
         }
 
-        td{
+        th:nth-child(1){
+            text-align: left;
+        }
+        td:nth-child(1){
+            text-align: left;
+        }
+
+        td {
             font-size: .6em;
+            text-align: center;
         }
 
         th,
-        td,
-        strong {
+        td {
             font-family: 'Calibri', sans-serif, monospace;
             padding: 8px 12px;
-            text-align: left;
         }
 
         .content {
@@ -70,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             padding: 0 0 1em 0;
         }
 
-        .valores{
+        .valores {
             display: flex;
             flex-direction: column;
             width: 100%;
@@ -78,6 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             justify-content: end;
             align-items: end;
             font-family: monospace;
+            padding-top: 1em;
         }
 
         .text {
@@ -89,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             padding: .2em 0;
         }
 
-        .numero-pedido{
+        .numero-pedido {
             width: 100%;
             display: flex;
             align-items: center;
@@ -101,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             font-size: 1.2em;
         }
 
-        .num{
+        .num {
             display: flex;
             width: 100%;
             font-weight: 600;
@@ -110,77 +120,79 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             padding: 0 1em;
         }
 
-        .title-footer{
+        .title-footer {
             text-align: center;
             font-family: sans-serif;
         }
-
     </style>
 
-    <?php
+<?php
     $bodies = "";
     foreach ($pedidos as $pedido) {
         $bodies .= '<div class="content">';
-            $bodies .= '<div class="header">';
-                $bodies .= '<div class="title">';
-                    $bodies .= '<h1>Pedidos</h1>';
-                $bodies .= '</div>' ; // <!-- title -->
-            $bodies .= '</div>' ; // <!-- header -->
-            $bodies .= '<div class="dados-empresa">';
-                $bodies .= '<p>Empresa demonstracao</p>';
-                $bodies .= '<p>Endereco: rua sergipe 357 centro</p>';
-                $bodies .= '<p>Telefone: (34) 3453-1490</p>';
-            $bodies .= '</div>'; // <!-- dados-empresa -->
-            $bodies .= '<div class="info-pedido" id="info-pedidos">';
-                $bodies .= '<p>Pedidos para entrega</p>';
-                $bodies .= '<div class="numero-pedido">Pedido n° <div class="num">'.$pedido['idPedido'].'</div></div>';
-                $bodies .= '<p>Endereco: <strong>'.$pedido['EnderecoEntrega'].'</strong></p>';
-            $bodies .= '</div>' ; // <!-- info-pedidos -->
-            $bodies .= '<div class="body">';
-                $bodies .= '<table>';
-                    $bodies .= '<thead>';
-                        $bodies .= '<tr>';
-                            $bodies .= '<th>Produto</th>';
-                            $bodies .= '<th>Qtd</th>';
-                            $bodies .= '<th>Uni</th>';
-                            $bodies .= '<th>Total</th>';
-                        $bodies .= '</tr>';
-                    $bodies .= '</thead>';
-                    $bodies .= '<tbody>';
-                    (float)$totalItem = 0;
-                    (float)$total = 0;
-                    foreach ($pedido['produtos'] as $item){
-                        
-                        (float)$total = doubleval($item['VrVenda']) * doubleval($item['Qtd']);
-                        (float)$total = number_format($total, 2, ',', '.');
-                        $bodies .= '<tr>';
-                            $bodies .= '<td>'.$item['DescricaoCategoria'].'</td>';
-                            $bodies .= '<td>'.number_format(doubleval($item['Qtd'] , 2, ',', '.')).'</td>';
-                            $bodies .= '<td>'.number_format(doubleval($item['VrVenda'], 2, ',', '.')).'</td>';
-                            $bodies .= '<td>'.(float)number_format($total, 2, ',', '.').'</td>';
-                        $bodies .= '</tr>';
-                        $totalItem = (float)$totalItem + (float)$total;
+        $bodies .= '<div class="header">';
+        $bodies .= '<div class="title">';
+        $bodies .= '<h1>Pedidos</h1>';
+        $bodies .= '</div>'; // <!-- title -->
+        $bodies .= '</div>'; // <!-- header -->
+        $bodies .= '<div class="dados-empresa">';
+        $bodies .= '<p>Empresa demonstracao</p>';
+        $bodies .= '<p>Endereco: rua sergipe 357 centro</p>';
+        $bodies .= '<p>Telefone: (34) 3453-1490</p>';
+        $bodies .= '</div>'; // <!-- dados-empresa -->
+        $bodies .= '<div class="info-pedido" id="info-pedidos">';
+        $bodies .= '<div class="numero-pedido">Pedido n° <div class="num">' . $pedido['idPedido'] . '</div></div>';
+        $bodies .= '<p>Endereco: <strong>' . $pedido['EnderecoEntrega'] . '</strong></p>';
+        $bodies .= '</div>'; // <!-- info-pedidos -->
+        $bodies .= '<div class="body">';
+        $bodies .= '<table>';
+        $bodies .= '<thead>';
+        $bodies .= '<tr>';
+        $bodies .= '<th>Produto</th>';
+        $bodies .= '<th>Qtd</th>';
+        $bodies .= '<th>Uni</th>';
+        $bodies .= '<th>Total</th>';
+        $bodies .= '</tr>';
+        $bodies .= '</thead>';
+        $bodies .= '<tbody>';
+        $totalItem = 0;
+        $total = 0;
+        foreach ($pedido['produtos'] as $item) {
 
-                    }
-               
+            $total = $item['VrVenda'] * $item['Qtd'];
+            $total = $total;
+            $bodies .= '<tr>';
+            $bodies .= '<td>' . $item['DescricaoProduto'] . '</td>';
+            $bodies .= '<td>' . $item['Qtd'] . '</td>';
+            $bodies .= '<td>' . $item['VrVenda'] . '</td>';
+            $bodies .= '<td>' . $total . '</td>';
+            $bodies .= '</tr>';
+            $totalItem = $totalItem + $total;
+        }
+
         $bodies .= '</tbody>';
         $bodies .= '</table>';
         $bodies .= '<div class="valores">';
-            $totalItem = number_format($totalItem, 2, ',', '.');
-            $bodies .= '<div class="text"><strong>Total Produtos:</strong> R$ '.$totalItem.'</div>';
-            $bodies .= '<div class="text"><strong>Taxa Entrega:</strong> R$ '.number_format(doubleval($pedido['ValorEntrega']), 2, ',', '.').'</div>';
-            $bodies .= '<div class="text"><strong>Taxa Cartao:</strong> R$ '. number_format(doubleval($pedido['ValorAdicional']), 2, ',', '.').'</div>';
-            $vr = $totalItem + doubleval($pedido['ValorEntrega']) + doubleval($pedido['ValorAdicional']);
-            $vr = number_format($vr, 2, ',', '.');
-            $bodies .= '<div class="text"><strong>Total a pagar:</strong> R$ '.$vr .'</div>';
-            $bodies .= '<div class="text"><strong>Levar troco:</strong> '.$pedido['ObservacaoPedido'].'</div>';
-        $bodies .= '</div>' ; // <!-- valores -->
-        $bodies .= '</div>' ; // <!-- body -->
+        $totalItem = $totalItem;
+        $bodies .= '<div class="text"><strong>Total Produtos:</strong> R$ ' . $totalItem . '</div>';
+        if (!$pedido['ValorEntrega'] == 0 || !$pedido['ValorEntrega'] == "") {
+            $bodies .= '<div class="text"><strong>Taxa Entrega:</strong> R$ ' . $pedido['ValorEntrega'] . '</div>';
+        }
+        if (!$pedido['ValorAdicional'] == 0 || !$pedido['ValorAdicional'] == "") {
+            $bodies .= '<div class="text"><strong>Taxa Cartao:</strong> R$ ' . $pedido['ValorAdicional'] . '</div>';
+        }
+        $vr = $totalItem + $pedido['ValorEntrega'] + $pedido['ValorAdicional'];
+        $vr = $vr;
+        $bodies .= '<div class="text"><strong>Total a pagar:</strong> R$ ' . $vr . '</div>';
+        if (!$pedido['ObservacaoPedido'] == " Não é preciso de troco") {
+            $bodies .= '<div class="text"><strong>Levar troco:</strong> ' . $pedido['ObservacaoPedido'] . '</div>';
+        }
+        $bodies .= '</div>'; // <!-- valores -->
+        $bodies .= '</div>'; // <!-- body -->
         $bodies .= '<p class="title-footer">Obrigado pela preferencia, volte sempre</p>';
         $bodies .= '</div>';
-
     } // <!-- foreach pedidos -->
-    
+
     echo $bodies;
 
 

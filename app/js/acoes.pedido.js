@@ -2,6 +2,11 @@ let pedidosAberto = [];
 
 (() => {
 
+    setInterval(() => {
+        verificarPedidosPendentes();
+        document.querySelector("audio").play();
+    }, 60000);
+
     const modal = new MutationObserver(() => {
         document.querySelectorAll('[id-modal="modal"]').forEach(modal => {
             modal.addEventListener('click', (e) => {
@@ -20,8 +25,8 @@ let pedidosAberto = [];
         });
     })
 
-    document.querySelector('.background-modal').addEventListener('click', (e)=>{
-        if (e.target.classList.contains('background-modal')){
+    document.querySelector('.background-modal').addEventListener('click', (e) => {
+        if (e.target.classList.contains('background-modal')) {
             e.target.classList.add('d-none')
         }
     })
@@ -30,7 +35,7 @@ let pedidosAberto = [];
     window.addEventListener('load', () => {
         document.querySelector('.carregando').classList.add('d-none')
     })
-    
+
     modal.observe(document.body, { childList: true, subtree: true });
 })();
 
@@ -50,41 +55,50 @@ async function buscarDados() {
 
 
 async function carregarPedido(data) {
-    let tabela = document.getElementById('add_pedidos');
-    tabela.innerHTML = '';
-    document.getElementById('info-pedidos').innerHTML = `<div class="qtd-atendimentos">Qtd Pedidos Aberto: ${data.cad_pedido.length}</div>`;
 
-    const produtosPorPedido = new Map();
-    data.mv_pedido.forEach(produto => {
-        if (!produtosPorPedido.has(produto.NumPedido)) {
-            produtosPorPedido.set(produto.NumPedido, []);
-        }
-        produtosPorPedido.get(produto.NumPedido).push(produto);
-    });
+    if (!Array.isArray(data.cad_pedido)) {
+        let tabela = document.getElementById('add_pedidos');
+        document.getElementById('info-pedidos').innerHTML = `<div class="qtd-atendimentos">Qtd Pedidos Aberto: ${data.cad_pedido.length}</div>`;
+        const msg = document.createElement("h2")
+        msg.textContent= "Nenhum pedido ainda ..."
+        tabela.appendChild(msg);
+    } else {
 
-    const pedidosCompletos = data.cad_pedido.map(pedido => {
-        const produtos = produtosPorPedido.get(pedido.Controle) || [];
-        return {
-            ...pedido,
-            produtos // lista de produtos
-        };
-    });
+        let tabela = document.getElementById('add_pedidos');
+        tabela.innerHTML = '';
+        document.getElementById('info-pedidos').innerHTML = `<div class="qtd-atendimentos">Qtd Pedidos Aberto: ${data.cad_pedido.length}</div>`;
 
-    pedidosCompletos.forEach(pedido => {
-        const titulo = `Total Itens ${pedido.produtos.length}\n`;
-        let texto = pedido.produtos.map(produto =>
-            `📦 Produto: ${produto.DescricaoProduto}\n` +
-            `📦 Quantidade: ${produto.Qtd}\n` +
-            `📝 OBSERVACOES : ${produto.ObsProduto || '--'}`
-        ).join('\n-------------------\n');
+        const produtosPorPedido = new Map();
+        data.mv_pedido.forEach(produto => {
+            if (!produtosPorPedido.has(produto.NumPedido)) {
+                produtosPorPedido.set(produto.NumPedido, []);
+            }
+            produtosPorPedido.get(produto.NumPedido).push(produto);
+        });
 
-        let tipoEntrega = '';
-        if (pedido.EnderecoEntrega == 'retirada no local.') { tipoEntrega = 'Retirada' } else { tipoEntrega = 'Delivery' }
+        const pedidosCompletos = data.cad_pedido.map(pedido => {
+            const produtos = produtosPorPedido.get(pedido.Controle) || [];
+            return {
+                ...pedido,
+                produtos // lista de produtos
+            };
+        });
 
-        let card = document.createElement('div');
-        card.classList.add('card');
-        card.setAttribute('pedido', pedido.idPedido);
-        card.innerHTML = `
+        pedidosCompletos.forEach(pedido => {
+            const titulo = `Total Itens ${pedido.produtos.length}\n`;
+            let texto = pedido.produtos.map(produto =>
+                `📦 Produto: ${produto.DescricaoProduto}\n` +
+                `📦 Quantidade: ${produto.Qtd}\n` +
+                `📝 OBSERVACOES : ${produto.ObsProduto || '--'}`
+            ).join('\n-------------------\n');
+
+            let tipoEntrega = '';
+            if (pedido.EnderecoEntrega == 'retirada no local.') { tipoEntrega = 'Retirada' } else { tipoEntrega = 'Delivery' }
+
+            let card = document.createElement('div');
+            card.classList.add('card');
+            card.setAttribute('pedido', pedido.idPedido);
+            card.innerHTML = `
             <div class="card-header">
                 <h3 class="title-pedido">Comanda: <span>Pedido:${pedido.idPedido}</span></h3>
             </div>
@@ -102,8 +116,9 @@ async function carregarPedido(data) {
                     <i class="bi bi-printer-fill" onclick="ChamarImpressaoCozinha(${pedido.idPedido})" title="Impressão cozinha"></i> <i class="bi bi-scooter" title="Impressao Entrega" onclick="ChamarImpressaoEntrega(${pedido.idPedido})"></i>
                 </div>
             </div>`;
-        tabela.appendChild(card)
-    });
+            tabela.appendChild(card)
+        });
+    }
 }
 
 
@@ -111,9 +126,9 @@ function addBotoesModal(acoes, id) {
 
     let btns = document.getElementById('btn-visualizar-pedidos');
     btns.innerHTML = "";
-    const btnPedidos = acoes.filter(f =>  f.Tela.split(',').map(t => t.trim().toLowerCase()).includes('pedido') )
+    const btnPedidos = acoes.filter(f => f.Tela.split(',').map(t => t.trim().toLowerCase()).includes('pedido'))
     btnPedidos.forEach(btn => {
-        
+
         let btnAcoes = document.createElement("button");
         btnAcoes.classList.add('btn');
         btnAcoes.classList.add('btn-responsivo');
@@ -172,23 +187,23 @@ async function mudarAcao(acao, id) {
     let enviar = document.querySelector('.enviando')
     enviar.classList.remove('d-none')
     let acoes = [...pedidosAberto[0].acoes];
-    const mudaAcao = acoes.find( a => a.DescriacaoSituacao == acao); 
+    const mudaAcao = acoes.find(a => a.DescriacaoSituacao == acao);
     const env = await fetch(`../../routes/api/pedidos.php?altAcao=${mudaAcao.IdSituacao}&idPedido=${id}`);
     const res = await env.json();
-    if (res.status == 'ok'){
+    if (res.status == 'ok') {
         enviar.classList.add('d-none')
         chamarTelaAvisos('success', "Pedido alterado com sucesso");
         document.querySelector('.tabela-responsiva .pedido .rodape .status').textContent = `Status: ${mudaAcao.DescriacaoSituacao}`
         buscarDados();
 
-    }else{
+    } else {
         chamarTelaAvisos('danger', dados.result)
     }
 }
 
 async function ChamarImpressaoCozinha(idPedido) {
     const pedido = pedidosAberto[0].cad_pedido
-    const itens =  pedidosAberto[0].mv_pedido
+    const itens = pedidosAberto[0].mv_pedido
 
     const produtosPorPedido = new Map();
     itens.forEach(produto => {
@@ -207,7 +222,7 @@ async function ChamarImpressaoCozinha(idPedido) {
     });
 
     const pedidoSelecionado = pedidosCompletos.filter(pc => pc.idPedido === idPedido)
-    console.log(pedidoSelecionado)
+
     try {
         const response = await fetch('../../routes/api/impressaocozinha.php', {
             method: 'POST',
@@ -237,7 +252,7 @@ async function ChamarImpressaoCozinha(idPedido) {
 
 async function ChamarImpressaoEntrega(idPedido) {
     const pedido = pedidosAberto[0].cad_pedido
-    const itens =  pedidosAberto[0].mv_pedido
+    const itens = pedidosAberto[0].mv_pedido
 
     const produtosPorPedido = new Map();
     itens.forEach(produto => {
@@ -256,7 +271,7 @@ async function ChamarImpressaoEntrega(idPedido) {
     });
 
     const pedidoSelecionado = pedidosCompletos.filter(pc => pc.idPedido === idPedido)
-    console.log(pedidoSelecionado)
+
     try {
         const response = await fetch('../../routes/api/impressaoentrega.php', {
             method: 'POST',
@@ -280,5 +295,19 @@ async function ChamarImpressaoEntrega(idPedido) {
 
     } catch (erro) {
         console.error('Erro ao requisitar a impressão:', erro);
+    }
+}
+
+async function verificarPedidosPendentes() {
+    const env = await fetch('../../routes/api/pedidos.php?verificaPedido=all');
+    const res = await env.json();
+    if (res.status === "ok") {
+        if (res.result) {
+            chamarTelaAvisos('success', `Existem pedidos em aberto: ${res.result.length}`)
+            buscarDados()
+        }
+    } else {
+        chamarTelaAvisos("danger", res.result)
+        buscarDados()
     }
 }
