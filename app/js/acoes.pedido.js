@@ -99,7 +99,7 @@ async function carregarPedido(data) {
                 </div>
                 <div class="botao">
                     <i class="bi bi-clipboard2-pulse-fill" id-modal="modal" id-pedido=${pedido.idPedido} attr="abrir" title="Abrir Pedido"></i>
-                    <i class="bi bi-file-earmark-pdf-fill" onclick="ChamarImpressaoCozinha(${pedido.idPedido})" title="Gerar PDF"></i>
+                    <i class="bi bi-printer-fill" onclick="ChamarImpressaoCozinha(${pedido.idPedido})" title="Impressão cozinha"></i> <i class="bi bi-scooter" title="Impressao Entrega" onclick="ChamarImpressaoEntrega(${pedido.idPedido})"></i>
                 </div>
             </div>`;
         tabela.appendChild(card)
@@ -210,6 +210,55 @@ async function ChamarImpressaoCozinha(idPedido) {
     console.log(pedidoSelecionado)
     try {
         const response = await fetch('../../routes/api/impressaocozinha.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(pedidoSelecionado)
+        });
+
+        if (!response.ok) throw new Error('Erro ao gerar PDF');
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'comanda-cozinha.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+
+    } catch (erro) {
+        console.error('Erro ao requisitar a impressão:', erro);
+    }
+}
+
+
+async function ChamarImpressaoEntrega(idPedido) {
+    const pedido = pedidosAberto[0].cad_pedido
+    const itens =  pedidosAberto[0].mv_pedido
+
+    const produtosPorPedido = new Map();
+    itens.forEach(produto => {
+        if (!produtosPorPedido.has(produto.NumPedido)) {
+            produtosPorPedido.set(produto.NumPedido, []);
+        }
+        produtosPorPedido.get(produto.NumPedido).push(produto);
+    });
+
+    const pedidosCompletos = pedido.map(pedido => {
+        const produtos = produtosPorPedido.get(pedido.Controle) || [];
+        return {
+            ...pedido,
+            produtos // lista de produtos
+        };
+    });
+
+    const pedidoSelecionado = pedidosCompletos.filter(pc => pc.idPedido === idPedido)
+    console.log(pedidoSelecionado)
+    try {
+        const response = await fetch('../../routes/api/impressaoentrega.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
