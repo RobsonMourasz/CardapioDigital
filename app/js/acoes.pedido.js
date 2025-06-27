@@ -55,8 +55,8 @@ async function buscarDados() {
 
 
 async function carregarPedido(data) {
-
-    if (!Array.isArray(data.cad_pedido)) {
+    console.log(data.cad_pedido)
+    if (data.cad_pedido.length === 0) {
         let tabela = document.getElementById('add_pedidos');
         document.getElementById('info-pedidos').innerHTML = `<div class="qtd-atendimentos">Qtd Pedidos Aberto: ${data.cad_pedido.length}</div>`;
         const msg = document.createElement("h2")
