@@ -59,7 +59,7 @@ async function buscarDados() {
 
 
 async function carregarPedido(data) {
-    console.log(data.cad_pedido)
+
     if (data.cad_pedido.length === 0) {
         let tabela = document.getElementById('add_pedidos');
         document.getElementById('info-pedidos').innerHTML = `<div class="qtd-atendimentos">Qtd Pedidos Aberto: ${data.cad_pedido.length}</div>`;
@@ -166,7 +166,8 @@ function preencherModal(data, idPedido) {
     });
 
     const comandaBuscada = pedidosCompletos.filter(item => item.idPedido == idPedido)
-    if (comandaBuscada[0].EnderecoEntrega == 'retirada no local.') { tipoEntrega = 'Retirada' } else { tipoEntrega = 'Delivery' }
+    // console.log(item);
+    // if (comandaBuscada[0].EnderecoEntrega == 'retirada no local.') { tipoEntrega = 'Retirada' } else { tipoEntrega = 'Delivery' }
     let produtos = document.querySelector('.tabela-responsiva .pedido .produtos');
     const cabecalho = document.querySelector('.tabela-responsiva .pedido .cabecalho');
     cabecalho.querySelector('.comanda').innerText = `Pedido: ${comandaBuscada[0].idPedido}`;
