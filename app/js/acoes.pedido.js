@@ -8,7 +8,7 @@ let pedidosAberto = [];
 
     setInterval(() => {
         verificarPedidosPendentes();
-        document.querySelector("audio").play();
+        
     }, 60000);
 
     const modal = new MutationObserver(() => {
@@ -309,6 +309,7 @@ async function verificarPedidosPendentes() {
         if (res.result) {
             chamarTelaAvisos('success', `Existem pedidos em aberto: ${res.result.length}`)
             buscarDados()
+            document.querySelector("audio").play();
         }
     } else {
         chamarTelaAvisos("danger", res.result)
