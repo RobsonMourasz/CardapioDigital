@@ -11,7 +11,7 @@ let pedidosAberto = [];
     }, 30000);
 
     const modal = new MutationObserver(() => {
-        document.querySelectorAll('[id-modal="modal"]').forEach(modal => {
+        document.querySelectorAll('[id-modal]').forEach(modal => {
             modal.addEventListener('click', (e) => {
 
                 const modal_id = document.getElementById(e.target.getAttribute('id-modal'))

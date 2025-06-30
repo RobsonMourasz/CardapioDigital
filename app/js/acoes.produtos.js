@@ -1,3 +1,4 @@
+
 (() => {
     window.addEventListener('load', (e)=>{
         carregarProdutos();
@@ -26,16 +27,24 @@ async function carregarTabelaProdutos(data) {
         let tr = document.createElement('tr');
         tr.classList.add('text-center');
         tr.innerHTML = `
-            <td><img src="${categorias.find(c => c.IdCategoria === produto.IdCategoria).Imagem}" alt="${categorias.find(c => c.IdCategoria === produto.IdCategoria).DescricaoCategoria}"></td>
+            <td class="ocultar-responsivo"><img width="64" src="../../${categorias.find(c => c.IdCategoria === produto.IdCategoria).Imagem}" alt="${categorias.find(c => c.IdCategoria === produto.IdCategoria).DescricaoCategoria}"></td>
             <td>${produto.DescricaoProduto}</td>
             <td>${categorias.find(c => c.IdCategoria === produto.IdCategoria).DescricaoCategoria}</td>
-            <td>${produto.VrVenda}</td>
+            <td>${getConversaoParaMoeda(produto.VrVenda)}</td>
             <td>
-                <button class="btn btn-primary btn-sm" onclick="editarProduto(${produto.id})">Editar</button>
-                <button class="btn btn-danger btn-sm" onclick="excluirProduto(${produto.id})">Excluir</button>
+                <button id-modal="modal-editar" attr="abrir" class="btn btn-primary btn-sm" onclick="editarProduto(${produto.id})">Editar</button>
+                <button id-modal="modal-excluir" attr="abrir" class="btn btn-danger btn-sm" onclick="excluirProduto(${produto.id})">Excluir</button>
             </td>
         `;
         tabelaProdutos.appendChild(tr);
     });
 
+}
+
+function editarProduto(id) {
+
+};
+
+function excluirProduto(id) {
+    
 }

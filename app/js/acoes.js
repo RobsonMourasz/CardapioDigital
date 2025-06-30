@@ -1,6 +1,20 @@
 let lista = [];
 let pegaCard = null;
 (() => {
+    
+    const menuCat = new MutationObserver(() => {
+        document.querySelectorAll('[scroll="sim"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log("Clicou no link: ", link.getAttribute('href'));
+                const destino = link.getAttribute('href');
+                const elemento = document.querySelector(destino);
+                if (elemento) {
+                    elemento.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    });
 
     document.addEventListener('DOMContentLoaded', async () => {
         const response = await fetch('routes/api/produtos.php?busca=all');
@@ -9,7 +23,8 @@ let pegaCard = null;
             return;
         }
 
-        lista = await response.json();
+        const res = await response.json();
+        lista = res.result;
         carregarTabela(lista);
     });
 
@@ -236,6 +251,7 @@ let pegaCard = null;
     observer.observe(document.body, { childList: true, subtree: true });
     escutarBtnRemover.observe(document.body, { childList: true, subtree: true });
     obj.observe(document.body, { childList: true, subtree: true });
+    menuCat.observe(document.body, { childList: true, subtree: true });
 
 })();
 
@@ -272,7 +288,7 @@ async function carregarTabela(data) {
     categorias.forEach(categoria => {
         let li = document.createElement('li');
         li.className = 'item';
-        li.innerHTML = `<a href="#">${categoria.DescricaoCategoria}</a>`;
+        li.innerHTML = `<a scroll="sim" href="#${categoria.DescricaoCategoria.toLowerCase()}">${categoria.DescricaoCategoria}</a>`;
         listaCategoria.appendChild(li);
 
     });
@@ -296,6 +312,7 @@ async function carregarTabela(data) {
             categoriaAtual = produto.IdCategoria;
             let categoriaDiv = document.createElement('div');
             categoriaDiv.className = 'title-cardapio';
+            categoriaDiv.setAttribute('id', cat.DescricaoCategoria.toLowerCase())
             categoriaDiv.innerHTML = `<h3>${cat.DescricaoCategoria}</h3>`;
             cardapio.appendChild(categoriaDiv);
         }

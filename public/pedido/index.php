@@ -74,9 +74,6 @@
     
     <script src="../../app/js/pedido.index.js"></script>
     <script>
-        // Substitui a URL atual sem recarregar
-        // const novaUrl = '/projetos/CardapioDigital/public/pedido/vendas/pedidos';
-        // window.history.pushState({}, '', novaUrl);
         function limparParametrosURL() {
             window.history.replaceState({}, "", window.location.pathname);
         }

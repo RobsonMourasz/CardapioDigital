@@ -74,3 +74,19 @@ function chamarTelaAvisos(tipo,mensagem){
     }, 5000);
     
 }
+
+function getConversaoParaMoeda(string) {
+
+    if (typeof(string) === 'number'){
+        return string.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }else if (typeof(string) === 'string'){
+        const valor = parseFloat(string.replace(/[^0-9,-]+/g, '').replace(',', '.'));
+        if (isNaN(valor)) {
+            return "Valor inválido";
+        }
+        return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }else{
+        return "R$ 0,00";
+    }
+    
+}
