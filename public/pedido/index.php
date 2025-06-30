@@ -11,7 +11,7 @@
 
 <body>
     <audio id="meuAudio" src="../../app/assets/blip-131856.mp3"></audio>
-    <div class="politica-dados">
+    <div class="politica-dados d-none">
         <p>Atenção devido as politicas apresentadas pela Microsoft para que todos os componentes funcionem é preciso que clique em aceitar  </p>
         <button class="btn bg-success aceitar-termos">Aceitar</button>
     </div>
@@ -71,7 +71,7 @@
 
         </footer>
     </div>
-    <script src="../../app/js/acoes.pedido.js"></script>
+    
     <script src="../../app/js/pedido.index.js"></script>
     <script>
         // Substitui a URL atual sem recarregar

@@ -44,3 +44,4 @@
         </div>
     </div>
 </div>
+<script src="../../app/js/acoes.pedido.js"></script>

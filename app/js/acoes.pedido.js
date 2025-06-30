@@ -1,15 +1,14 @@
 let pedidosAberto = [];
 
 (() => {
-
+    document.querySelector('.politica-dados').classList.remove('d-none');
     document.querySelector('.aceitar-termos').addEventListener('click', ()=>{
-        document.querySelector('.aceitar-termos').closest('.politica-dados').classList.add('d-none')
+        document.querySelector('.aceitar-termos').closest('.politica-dados').classList.add('d-none');
     })
 
     setInterval(() => {
         verificarPedidosPendentes();
-        
-    }, 60000);
+    }, 30000);
 
     const modal = new MutationObserver(() => {
         document.querySelectorAll('[id-modal="modal"]').forEach(modal => {
@@ -49,6 +48,7 @@ async function buscarDados() {
     const dados = await response.json();
     if (dados.status == 'ok') {
         carregarPedido(dados.result)
+        pedidosAberto = []
         pedidosAberto.push(dados.result)
 
     } else {
@@ -62,6 +62,7 @@ async function carregarPedido(data) {
 
     if (data.cad_pedido.length === 0) {
         let tabela = document.getElementById('add_pedidos');
+        tabela.innerHTML = '';
         document.getElementById('info-pedidos').innerHTML = `<div class="qtd-atendimentos">Qtd Pedidos Aberto: ${data.cad_pedido.length}</div>`;
         const msg = document.createElement("h2")
         msg.textContent= "Nenhum pedido ainda ..."
@@ -148,7 +149,6 @@ function addBotoesModal(acoes, id) {
 function preencherModal(data, idPedido) {
 
     let tipoEntrega = '';
-
     const produtosPorPedido = new Map();
     data.mv_pedido.forEach(produto => {
         if (!produtosPorPedido.has(produto.NumPedido)) {
@@ -166,9 +166,8 @@ function preencherModal(data, idPedido) {
     });
 
     const comandaBuscada = pedidosCompletos.filter(item => item.idPedido == idPedido)
-    ...
-    // console.log(item);
-    // if (comandaBuscada[0].EnderecoEntrega == 'retirada no local.') { tipoEntrega = 'Retirada' } else { tipoEntrega = 'Delivery' }
+
+     if (comandaBuscada[0].EnderecoEntrega == 'retirada no local.') { tipoEntrega = 'Retirada' } else { tipoEntrega = 'Delivery' }
     let produtos = document.querySelector('.tabela-responsiva .pedido .produtos');
     const cabecalho = document.querySelector('.tabela-responsiva .pedido .cabecalho');
     cabecalho.querySelector('.comanda').innerText = `Pedido: ${comandaBuscada[0].idPedido}`;

@@ -5,9 +5,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if ( $_GET['busca'] ){
         if ( $_GET['busca'] === 'all'){
-            echo json_encode(['status'=>'success', 'categoria'=> src\class\Conexao::getPesquisaBD('SELECT * FROM categoria WHERE CadAtivo = "S"', '', []), 
-            'produtos'=> src\class\Conexao::getPesquisaBD('SELECT * FROM cadprodutos WHERE ProdAtivo = "S"', '', []), 
-            'formaPgto'=> src\class\Conexao::getPesquisaBD('SELECT * FROM cadpagamento WHERE PagAtivo = "S"', '', [])]);
+            $res = [
+                'categoria'=> src\class\Conexao::getPesquisaBD('SELECT * FROM categoria WHERE CadAtivo = "S"', '', []), 
+                'produtos'=> src\class\Conexao::getPesquisaBD('SELECT * FROM cadprodutos WHERE ProdAtivo = "S"', '', []), 
+                'formaPgto'=> src\class\Conexao::getPesquisaBD('SELECT * FROM cadpagamento WHERE PagAtivo = "S"', '', [])
+            ];
+            die( json_encode([
+                'status'=>'success', 
+                'result' => $res
+            ]));
         }
     }
 

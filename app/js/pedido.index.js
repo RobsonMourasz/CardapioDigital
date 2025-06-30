@@ -14,6 +14,35 @@
     if ( width <= 501 ) {
         document.querySelector('nav').classList.add('ocultar-toggle')
     }
+
+
+    window.addEventListener('load', (e)=>{
+        e.preventDefault();
+    });
+
+    const modal = new MutationObserver(() => {
+        document.querySelectorAll('[id-modal="modal"]').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+
+                const modal_id = document.getElementById(e.target.getAttribute('id-modal'))
+                const background = modal_id.closest('.background-modal')
+                if (e.target.getAttribute('attr') === 'fechar') {
+                    background.classList.add('d-none')
+                } else {
+                    background.classList.remove('d-none')
+                }
+
+            })
+        });
+
+        document.querySelector('.background-modal').addEventListener('click', (e) => {
+            if (e.target.classList.contains('background-modal')) {
+                e.target.classList.add('d-none')
+            }
+        })
+    })
+
+    modal.observe(document.body, { childList: true, subtree: true });
     
 })();
 
