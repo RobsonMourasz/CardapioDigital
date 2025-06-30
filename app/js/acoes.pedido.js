@@ -166,6 +166,7 @@ function preencherModal(data, idPedido) {
     });
 
     const comandaBuscada = pedidosCompletos.filter(item => item.idPedido == idPedido)
+    ...
     // console.log(item);
     // if (comandaBuscada[0].EnderecoEntrega == 'retirada no local.') { tipoEntrega = 'Retirada' } else { tipoEntrega = 'Delivery' }
     let produtos = document.querySelector('.tabela-responsiva .pedido .produtos');
