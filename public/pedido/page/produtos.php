@@ -169,7 +169,7 @@
         </div>
         <div class="modal-footer" id="btn-visualizar-pedidos">
             <button class="btn btn-responsivo bg-danger" attr="modal" id-modal="modal-editar" show="fechar">Cancelar</button>
-            <button class="btn btn-responsivo bg-success">Editar</button>
+            <button class="btn btn-responsivo bg-success" id="btn-editar-produto">Editar</button>
         </div>
     </div>
 </div>

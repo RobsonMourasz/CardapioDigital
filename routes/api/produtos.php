@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
             die(json_encode([
                 'status' => 'success',
-                'result' => 'Cadastrardo com sucesso'
+                'result' => 'Cadastrado com sucesso'
             ]));
 
         }else{
@@ -50,6 +50,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         }
 
+    } 
+
+    if($produtos['method'] == 'editar'){
+
+        if ( src\class\Conexao::insertBD('UPDATE cadprodutos SET IdCategoria = ?, ProdAtivo = ?, DescricaoProduto = ?, Imagem = ?, VrVenda = ?, Estoque = ?, Ingredientes = ?, DataAlteracao = ? WHERE IdProduto = ?','isssddssi',[$produtos['IdCategoria'], 'S', $produtos['DescricaoProduto'], $produtos['Imagem'], $produtos['VrVenda'], $produtos['Estoque'], $produtos['Ingredientes'], date('Y-m-d H:m:s'), $produtos['IdProduto']]) ) {
+
+            die(json_encode([
+                'status' => 'success',
+                'result' => 'Alterado com sucesso'
+            ]));
+
+        }else{
+            die(json_encode([
+                'status' => 'error',
+                'result' => 'Erro ao alterar o item.'
+            ]));
+        }
     }
 
 } else {
