@@ -1,4 +1,6 @@
 
+let produtosCarregados = [];
+let categorias = [];
 (() => {
     window.addEventListener('load', (e)=>{
         carregarProdutos();
@@ -11,6 +13,8 @@ async function carregarProdutos() {
     const recProdutos = await produtos.json();
     if ( recProdutos.status == 'success'){
         carregarTabelaProdutos(recProdutos.result);
+        produtosCarregados.push(recProdutos.result.produtos);
+        categorias.push(recProdutos.result.categoria);
     }else{
         chamarTelaAvisos("danger", "res.result")
     }
@@ -32,8 +36,8 @@ async function carregarTabelaProdutos(data) {
             <td>${categorias.find(c => c.IdCategoria === produto.IdCategoria).DescricaoCategoria}</td>
             <td>${getConversaoParaMoeda(produto.VrVenda)}</td>
             <td>
-                <button id-modal="modal-editar" attr="abrir" class="btn btn-primary btn-sm" onclick="editarProduto(${produto.id})">Editar</button>
-                <button id-modal="modal-excluir" attr="abrir" class="btn btn-danger btn-sm" onclick="excluirProduto(${produto.id})">Excluir</button>
+                <button attr="modal" id-modal="modal-editar" show="abrir" class="btn btn-primary btn-sm" onclick="editarProduto(${produto.IdProduto})">Editar</button>
+                <button attr="modal" id-modal="modal-excluir" show="abrir" class="btn btn-danger btn-sm" onclick="excluirProduto(${produto.IdProduto})">Excluir</button>
             </td>
         `;
         tabelaProdutos.appendChild(tr);
@@ -42,9 +46,84 @@ async function carregarTabelaProdutos(data) {
 }
 
 function editarProduto(id) {
-
+    console.log('id', id)
+    console.log('itens', produtosCarregados[0]);
+    const itens = produtosCarregados[0].filter(prod => prod.IdProduto === id);
+    console.log('itens Listados', itens);
+    if (itens){
+        const modalEditar = document.getElementById('modal-editar');
+        let inputs = modalEditar.querySelectorAll('input ,textarea, select');
+        inputs.forEach(input =>{
+            if (input.name === 'IdProduto') {
+                input.value = itens[0].IdProduto;
+            } else if (input.name === 'DescricaoProduto') {
+                input.value = itens[0].DescricaoProduto;
+            } else if (input.name === 'VrVenda') {
+                input.value = itens[0].VrVenda;
+            } else if (input.name === 'Estoque') {
+                input.value = itens[0].Estoque;
+            } else if (input.name === 'Ingredientes'){
+                input.value = itens[0].Ingredientes;
+            } else if (input.name === 'IdCategoria'){
+                input.value = itens[0].IdCategoria;
+            }
+        })
+    }else{
+        chamarTelaAvisos("danger", "Produto não encontrado.");
+    }
 };
 
 function excluirProduto(id) {
     
+}
+
+const uploadArea = document.getElementById('upload-area');
+const fileInput = document.getElementById('file-input');
+const preview = document.getElementById('preview');
+const message = document.getElementById('upload-message');
+
+// Clique na área para abrir o seletor de arquivos
+uploadArea.addEventListener('click', () => fileInput.click());
+
+// Quando arquivo é selecionado pelo input
+fileInput.addEventListener('change', handleFile);
+
+// Arraste por cima
+uploadArea.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  uploadArea.classList.add('dragover');
+});
+
+// Saiu da área de arraste
+uploadArea.addEventListener('dragleave', () => {
+  uploadArea.classList.remove('dragover');
+});
+
+// Soltou o arquivo
+uploadArea.addEventListener('drop', (e) => {
+  e.preventDefault();
+  uploadArea.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file) {
+    showPreview(file);
+  }
+});
+
+// Lida com o arquivo selecionado
+function handleFile(e) {
+  const file = e.target.files[0];
+  if (file) {
+    showPreview(file);
+  }
+}
+
+// Mostra a imagem
+function showPreview(file) {
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    preview.src = e.target.result;
+    preview.style.display = 'block';
+    message.style.display = 'none';
+  };
+  reader.readAsDataURL(file);
 }

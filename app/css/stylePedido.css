@@ -186,7 +186,8 @@ footer {
     align-items: center;
 }
 
-.card-body>textarea {
+.card-body>textarea,
+.group-input>textarea {
     text-align: start;
     background: #2b2b2b;
     color: white;
@@ -195,13 +196,15 @@ footer {
     outline: none;
 }
 
-.card-body>textarea::-webkit-scrollbar {
+.card-body>textarea::-webkit-scrollbar,
+.group-input>textarea::-webkit-scrollbar {
     width: 5px;
     height: 5px;
     background: #2b2b2b;
 }
 
-.card-body>textarea::-webkit-scrollbar-thumb {
+.card-body>textarea::-webkit-scrollbar-thumb,
+.group-input>textarea::-webkit-scrollbar-thumb {
     background-color: #565656;
 }
 
@@ -603,7 +606,16 @@ table th, table td {
     position: relative;
 }
 
-select {
+.group-input label{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    color: #333;
+    
+}
+
+select, input[type="text"], input[type="number"],
+textarea {
     appearance: none;
     width: 100%;
     padding: 10px 40px 10px 15px;
@@ -683,4 +695,34 @@ i{
     text-align: center;
     font-size: 1.2em ;
     line-height: 25px;
+}
+
+.upload-area {
+  width: 100%;
+  border: 2px dashed #999;
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  color: #666;
+  font-family: sans-serif;
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.upload-area.dragover {
+  background-color: #f0f0f0;
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.upload-message {
+  font-size: 16px;
+}
+
+.preview {
+  margin-top: 20px;
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
 }
