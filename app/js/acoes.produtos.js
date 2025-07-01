@@ -5,6 +5,18 @@ let categorias = [];
     window.addEventListener('load', (e)=>{
         carregarProdutos();
     })
+
+    document.getElementById('btn-novo-produto').addEventListener('click', (e) =>{
+        let cat = document.getElementById('cad-categoria');
+        cat.innerHTML = "";
+        cat.innerHTML = `<option value="" selected disabled>Selecione uma categoria</option>`;
+        categorias[0].forEach(categoria => {
+            let option = document.createElement('option');
+            option.value = categoria.IdCategoria;
+            option.textContent = categoria.DescricaoCategoria;
+            cat.appendChild(option);
+        });
+    })
 })();
 
 async function carregarProdutos() {
@@ -46,10 +58,22 @@ async function carregarTabelaProdutos(data) {
 }
 
 function editarProduto(id) {
-    console.log('id', id)
-    console.log('itens', produtosCarregados[0]);
+
     const itens = produtosCarregados[0].filter(prod => prod.IdProduto === id);
-    console.log('itens Listados', itens);
+
+    const cat = categorias[0];
+    let select = document.getElementById('edt-categoria')
+    if (select){
+        select.innerHTML = "";
+    cat.forEach( categoria =>{
+
+        let option = document.createElement('option');
+        option.value = categoria.IdCategoria;
+        option.textContent = categoria.DescricaoCategoria;
+        select.appendChild(option);
+        
+    })}else{console.error("Select de categoria não encontrado.")}
+
     if (itens){
         const modalEditar = document.getElementById('modal-editar');
         let inputs = modalEditar.querySelectorAll('input ,textarea, select');
@@ -59,7 +83,7 @@ function editarProduto(id) {
             } else if (input.name === 'DescricaoProduto') {
                 input.value = itens[0].DescricaoProduto;
             } else if (input.name === 'VrVenda') {
-                input.value = itens[0].VrVenda;
+                input.value = getConversaoParaMoeda(itens[0].VrVenda);
             } else if (input.name === 'Estoque') {
                 input.value = itens[0].Estoque;
             } else if (input.name === 'Ingredientes'){
@@ -74,7 +98,20 @@ function editarProduto(id) {
 };
 
 function excluirProduto(id) {
-    
+    const itens = produtosCarregados[0].filter(prod => prod.IdProduto === id);
+    if (itens.length > 0) {
+        const modalExcluir = document.getElementById('modal-excluir');
+        let inputs = modalExcluir.querySelectorAll('input');
+        inputs.forEach(input => {
+            if (input.name === 'IdProduto') {
+                input.value = itens[0].IdProduto;
+            } else if (input.name === 'DescricaoProduto') {
+                input.value = itens[0].DescricaoProduto;
+            }
+        });
+    } else {
+        chamarTelaAvisos("danger", "Produto não encontrado.");
+    }
 }
 
 const uploadArea = document.getElementById('upload-area');

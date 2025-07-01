@@ -23,7 +23,6 @@
     const modal = new MutationObserver(() => {
         document.querySelectorAll('[attr="modal"]').forEach(modal => {
             modal.addEventListener('click', (e) => {
-
                 const modal_id = document.getElementById(e.target.getAttribute('id-modal'))
                 const background = modal_id.closest('.background-modal')
                 if (e.target.getAttribute('show') === 'fechar') {
@@ -31,7 +30,6 @@
                 } else {
                     background.classList.remove('d-none')
                 }
-
             })
         });
 

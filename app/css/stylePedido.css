@@ -599,7 +599,6 @@ table th, table td {
     align-items: center;
     justify-content: center;
     padding: .5em 0;
-
 }
 
 .select-wrapper {
@@ -610,6 +609,7 @@ table th, table td {
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin: .5em;
     color: #333;
     
 }
