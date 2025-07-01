@@ -69,6 +69,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
     }
 
+    if ( $produtos['method'] == 'excluir' ){
+        if ( src\class\Conexao::deleteBD('cadprodutos','IdProduto', $produtos['IdProduto']) ){
+
+            die(json_encode([
+                'status' => 'success',
+                'result' => 'Excluido com sucesso'
+            ]));
+
+        }else{
+
+            die(json_encode([
+                'status' => 'error',
+                'result' => 'Erro ao excluir o item.'
+            ]));
+
+        }
+    }
+
 } else {
     http_response_code(405);
     echo json_encode(['error' => 'Método não permitido']);

@@ -103,6 +103,30 @@ let categorias = [];
         }
     });
 
+    document.getElementById('btn-excluir-item').addEventListener('click', async (e) =>{
+        e.preventDefault();
+        const id = document.querySelector('#modal-excluir input[name="IdProduto"]').value;
+        const response = await fetch('../../routes/api/produtos.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ IdProduto: id, method: 'excluir' })
+        });
+
+        const resposta = await response.json();
+        if ( resposta.status == 'success' ) {
+
+            chamarTelaAvisos('success', resposta.result);
+            carregarProdutos();
+            const modal = document.getElementById('modal-excluir');
+            modal.closest('.background-modal').classList.add('d-none');
+            
+        }else{
+            chamarTelaAvisos('danger', resposta.result);
+        }
+    })
+
 })();
 
 async function carregarProdutos() {

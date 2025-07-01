@@ -204,7 +204,7 @@
         </div>
         <div class="modal-footer" id="btn-visualizar-pedidos">
             <button class="btn btn-responsivo bg-danger" attr="modal" id-modal="modal-excluir" show="fechar">Cancelar</button>
-            <button class="btn btn-responsivo bg-success">Confirmar</button>
+            <button class="btn btn-responsivo bg-success" id="btn-excluir-item">Confirmar</button>
         </div>
     </div>
 </div>
