@@ -34,12 +34,12 @@ header .logo-tipo {
     align-items: center;
     justify-content: center;
     width: 60px;
-    height: 60px;
     margin-left: 1em;
 }
 
 header .logo-tipo img {
-    width: 90%;
+    width: 100%;
+    height: 60px;
     border-radius: 50%;
 }
 
