@@ -96,7 +96,7 @@
 
         </div>
         <div class="modal-footer" id="btn-visualizar-pedidos">
-            <button class="btn btn-responsivo bg-success">Cadastrar</button>
+            <button class="btn btn-responsivo bg-success" id="btn-cad-prod">Cadastrar</button>
             <button class="btn btn-responsivo bg-danger">Cancelar</button>
         </div>
     </div>

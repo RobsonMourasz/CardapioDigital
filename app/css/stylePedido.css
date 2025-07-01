@@ -11,7 +11,6 @@ body {
 header {
     display: flex;
     width: 100%;
-    padding: 10px 0;
     border-bottom: 1px solid black;
 }
 
@@ -58,7 +57,7 @@ main {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: calc(100vh - 102px);
+    height: calc(100vh - 125px);
     padding-bottom: 1em;
 }
 
@@ -67,7 +66,7 @@ nav {
     flex-direction: column;
     width: 100%;
     max-width: 200px;
-    height: calc(100vh - 102px);
+    height: calc(100vh - 125px);
     padding: 1em;
     border-right: 1px solid black;
     overflow-y: auto;

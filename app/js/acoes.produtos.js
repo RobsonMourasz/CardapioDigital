@@ -17,6 +17,50 @@ let categorias = [];
             cat.appendChild(option);
         });
     })
+
+    document.getElementById('btn-cad-prod').addEventListener('click', async (e) => {
+        e.preventDefault();
+        let erros = false;
+        const form = document.getElementById('modal-cadastrar');
+        const inputs = form.querySelectorAll('input, textarea, select');
+        const produto = {};
+        inputs.forEach(input => {
+            if (input.name === 'IdCategoria') {
+                if (input.value == ""){chamarTelaAvisos('danger', 'Selecione uma categoria.'); erros = true; return}
+                produto[input.name] = parseInt(input.value);
+            } else if (input.name === 'VrVenda') {
+                produto[input.name] = input.value;
+            } else {
+                if (input.name == 'DescricaoProduto' && input.value.trim() == ''){chamarTelaAvisos('danger', 'Campo descrição não pode ser vazio.'); erros = true; return}
+                produto[input.name] = input.value;
+                produto['method'] = 'cadastrar';
+            }
+        });
+        if (erros) return;
+
+        const response = await fetch('../../routes/api/produtos.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(produto)
+        });
+        const resposta = await response.json();
+
+        if ( resposta.status == 'success' ){
+
+            chamarTelaAvisos("success", resposta.result);
+            inputs.forEach( input =>{
+                console.log(input.name, input.value);
+                input.value = '';
+            });
+            
+            carregarProdutos();
+            const modal = document.getElementById('modal-cadastrar');
+            modal.closest('.background-modal').classList.add('d-none');
+        }
+
+    })
 })();
 
 async function carregarProdutos() {

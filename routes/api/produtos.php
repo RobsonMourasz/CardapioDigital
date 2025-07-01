@@ -1,6 +1,7 @@
 <?php 
 include_once __DIR__ . '/../../vendor/autoload.php';
 header('Content-Type: application/json');
+date_default_timezone_set('America/Sao_Paulo');
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if ( $_GET['busca'] ){
@@ -17,6 +18,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
     }
 
+
+} else if ( $_SERVER['REQUEST_METHOD'] === 'POST' ){
+    http_response_code(200);
+    $dadosJson = file_get_contents('php://input');
+    // Decodifica o JSON para um array associativo
+    $produtos = json_decode($dadosJson, true);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        http_response_code(400);
+        die(json_encode(['
+            status' => 'error',
+            'result' => 'JSON inválido'
+        ]));
+    }
+
+    if($produtos['method'] == 'cadastrar'){
+
+        if (src\class\Conexao::insertBD('INSERT cadprodutos (IdProduto, IdCategoria, ProdAtivo, DescricaoProduto, Imagem, VrVenda, Estoque, Ingredientes, DataCadastro, DataAlteracao, UltimaMovimentacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)','iisssddssss',[NULL, intval($produtos['IdCategoria']), 'S', strtoupper($produtos['DescricaoProduto']), $produtos['Imagem'] ?? NULL, doubleval($produtos['VrVenda']), doubleval($produtos['Estoque']), $produtos['Ingredientes'], date('Y-m-d H:i:s'), date('Y-m-d H:i:s'), date('Y-m-d H:i:s')]) ){
+
+            die(json_encode([
+                'status' => 'success',
+                'result' => 'Cadastrardo com sucesso'
+            ]));
+
+        }else{
+
+            die(json_encode(['
+            status' => 'error',
+            'result' => 'Erro ao inserir o produto'
+            ]));
+
+        }
+
+    }
 
 } else {
     http_response_code(405);
