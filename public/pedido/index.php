@@ -1,3 +1,10 @@
+<?php
+if (!isset($_SESSION)) {
+    session_start();
+}
+$_SESSION['aviso'] = '';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,10 +19,16 @@
 <body>
     <audio id="meuAudio" src="../../app/assets/blip-131856.mp3"></audio>
     <div class="politica-dados d-none">
-        <p>Atenção devido as politicas apresentadas pela Microsoft para que todos os componentes funcionem é preciso que clique em aceitar  </p>
+        <p>Atenção devido as politicas apresentadas pela Microsoft para que todos os componentes funcionem é preciso que clique em aceitar </p>
         <button class="btn bg-success aceitar-termos">Aceitar</button>
     </div>
-    <div class="carregando"></div>
+    <?php
+    if (isset($_SESSION['aviso']) && $_SESSION['aviso'] == '') {
+        echo '<div class="carregando"></div>';
+    }else{
+        echo '<div class="carregando d-none"></div>';
+    }
+    ?>
     <div class="avisos d-none .fade-out" id="avisos"></div>
     <div class="conteudo">
         <header>
@@ -58,6 +71,7 @@
                         include 'page/' . $_GET['url'] . '.php';
                     } else {
                         include 'page/404.php';
+                        $_SESSION['aviso'] = 'Página não encontrada';
                     }
                 } else {
                     include 'page/pedidos.php';
@@ -71,7 +85,7 @@
 
         </footer>
     </div>
-    
+
     <script src="../../app/js/pedido.index.js"></script>
     <script>
         function limparParametrosURL() {

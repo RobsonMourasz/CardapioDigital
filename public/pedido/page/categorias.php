@@ -6,3 +6,5 @@
 
     </div> <!-- content-body -->
 </div> <!-- content-->
+
+<script src="../../app/js/acoes.categorias.js"></script>
