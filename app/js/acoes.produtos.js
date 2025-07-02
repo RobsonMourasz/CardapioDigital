@@ -73,7 +73,10 @@ let categorias = [];
                 if (input.value == "") { chamarTelaAvisos('danger', 'Selecione uma categoria.'); erros = true; return }
                 produto[input.name] = parseInt(input.value);
             } else if (input.name === 'VrVenda') {
-                produto[input.name] = input.value;
+                const valorLimpo = parseFloat(
+                    input.value.replace('R$', '').replace(/\s/g, '').replace('.', '').replace(',', '.')
+                );
+                produto[input.name] = valorLimpo;
             } else {
                 if (input.name == 'DescricaoProduto' && input.value.trim() == '') { chamarTelaAvisos('danger', 'Campo descrição não pode ser vazio.'); erros = true; return }
                 produto[input.name] = input.value;
@@ -103,7 +106,7 @@ let categorias = [];
         }
     });
 
-    document.getElementById('btn-excluir-item').addEventListener('click', async (e) =>{
+    document.getElementById('btn-excluir-item').addEventListener('click', async (e) => {
         e.preventDefault();
         const id = document.querySelector('#modal-excluir input[name="IdProduto"]').value;
         const response = await fetch('../../routes/api/produtos.php', {
@@ -115,14 +118,14 @@ let categorias = [];
         });
 
         const resposta = await response.json();
-        if ( resposta.status == 'success' ) {
+        if (resposta.status == 'success') {
 
             chamarTelaAvisos('success', resposta.result);
             carregarProdutos();
             const modal = document.getElementById('modal-excluir');
             modal.closest('.background-modal').classList.add('d-none');
-            
-        }else{
+
+        } else {
             chamarTelaAvisos('danger', resposta.result);
         }
     })
@@ -135,6 +138,8 @@ async function carregarProdutos() {
     const recProdutos = await produtos.json();
     if (recProdutos.status == 'success') {
         carregarTabelaProdutos(recProdutos.result);
+        produtosCarregados = [];
+        categorias = [];
         produtosCarregados.push(recProdutos.result.produtos);
         categorias.push(recProdutos.result.categoria);
     } else {
