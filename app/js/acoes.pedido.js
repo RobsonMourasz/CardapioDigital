@@ -2,7 +2,7 @@ let pedidosAberto = [];
 
 (() => {
     document.querySelector('.politica-dados').classList.remove('d-none');
-    document.querySelector('.aceitar-termos').addEventListener('click', ()=>{
+    document.querySelector('.aceitar-termos').addEventListener('click', () => {
         document.querySelector('.aceitar-termos').closest('.politica-dados').classList.add('d-none');
     })
 
@@ -65,7 +65,7 @@ async function carregarPedido(data) {
         tabela.innerHTML = '';
         document.getElementById('info-pedidos').innerHTML = `<div class="qtd-atendimentos">Qtd Pedidos Aberto: ${data.cad_pedido.length}</div>`;
         const msg = document.createElement("h2")
-        msg.textContent= "Nenhum pedido ainda ..."
+        msg.textContent = "Nenhum pedido ainda ..."
         tabela.appendChild(msg);
     } else {
 
@@ -167,7 +167,7 @@ function preencherModal(data, idPedido) {
 
     const comandaBuscada = pedidosCompletos.filter(item => item.idPedido == idPedido)
 
-     if (comandaBuscada[0].EnderecoEntrega == 'retirada no local.') { tipoEntrega = 'Retirada' } else { tipoEntrega = 'Delivery' }
+    if (comandaBuscada[0].EnderecoEntrega == 'retirada no local.') { tipoEntrega = 'Retirada' } else { tipoEntrega = 'Delivery' }
     let produtos = document.querySelector('.tabela-responsiva .pedido .produtos');
     const cabecalho = document.querySelector('.tabela-responsiva .pedido .cabecalho');
     cabecalho.querySelector('.comanda').innerText = `Pedido: ${comandaBuscada[0].idPedido}`;
@@ -302,15 +302,27 @@ async function ChamarImpressaoEntrega(idPedido) {
         console.error('Erro ao requisitar a impressão:', erro);
     }
 }
-
+let pedidosRecebidos = [];
 async function verificarPedidosPendentes() {
     const env = await fetch('../../routes/api/pedidos.php?verificaPedido=all');
     const res = await env.json();
     if (res.status === "ok") {
         if (res.result) {
-            chamarTelaAvisos('success', `Existem pedidos em aberto: ${res.result.length}`)
-            buscarDados()
-            document.querySelector("audio").play();
+
+            if (res.result.length > 0) {
+
+                let IdPed = res.result.map(pedido => pedido.idPedido);
+                const temPedidoNovo = IdPed.some(idPedido => !pedidosRecebidos.includes(idPedido));
+
+                if (temPedidoNovo) {
+                    buscarDados()
+                    pedidosRecebidos = IdPed;
+                }
+
+                chamarTelaAvisos('success', `Existem pedidos em aberto: ${res.result.length}`)
+                document.querySelector("audio").play();
+            }
+
         }
     } else {
         chamarTelaAvisos("danger", res.result)
