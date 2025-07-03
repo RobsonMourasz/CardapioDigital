@@ -27,6 +27,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
     }
 
+    if (isset($_GET['acao'])){
+        if ($_GET['acao'] == 'delete'){
+            if ( src\class\Conexao::deleteBD('categoria', 'IdCategoria', $_GET['id']) ){
+                die(json_encode([
+                    'status' => 'success',
+                    'result' => 'Categoria excluída com sucesso!'
+                ]));
+            }else{
+                die(json_encode([
+                    'status' => 'error',
+                    'result' => 'Categoria não foi excluida'
+                ]));            
+            }
+        }
+    }
+
 }else{
 
     http_response_code(405);
