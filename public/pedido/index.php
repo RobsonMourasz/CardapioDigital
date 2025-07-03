@@ -2,7 +2,12 @@
 if (!isset($_SESSION)) {
     session_start();
 }
-$_SESSION['aviso'] = '';
+
+if (file_exists('page/' . $_GET['url'] . '.php')){
+    $_SESSION['aviso'] = '';
+}else{
+    $_SESSION['aviso'] = 'Página não encontrada';
+}
 ?>
 
 <!DOCTYPE html>
@@ -71,7 +76,6 @@ $_SESSION['aviso'] = '';
                         include 'page/' . $_GET['url'] . '.php';
                     } else {
                         include 'page/404.php';
-                        $_SESSION['aviso'] = 'Página não encontrada';
                     }
                 } else {
                     include 'page/pedidos.php';

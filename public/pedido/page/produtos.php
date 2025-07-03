@@ -18,13 +18,13 @@
                     </tr>
                 </thead>
                 <tbody id="tbody-produtos">
-                    <tr>
+                    <!-- <tr>
                         <td class="ocultar-responsivo"></td>
                         <td>teste</td>
                         <td>teste</td>
                         <td>10,00</td>
                         <td></td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </div>
