@@ -3,10 +3,15 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-if (file_exists('page/' . $_GET['url'] . '.php')){
-    $_SESSION['aviso'] = '';
+if (isset($_GET['url'])) {
+
+    if (file_exists('page/' . $_GET['url'] . '.php')) {
+        $_SESSION['aviso'] = '';
+    } else {
+        $_SESSION['aviso'] = 'Página não encontrada';
+    }
 }else{
-    $_SESSION['aviso'] = 'Página não encontrada';
+    $_SESSION['aviso'] = '';
 }
 ?>
 
@@ -30,7 +35,7 @@ if (file_exists('page/' . $_GET['url'] . '.php')){
     <?php
     if (isset($_SESSION['aviso']) && $_SESSION['aviso'] == '') {
         echo '<div class="carregando"></div>';
-    }else{
+    } else {
         echo '<div class="carregando d-none"></div>';
     }
     ?>
