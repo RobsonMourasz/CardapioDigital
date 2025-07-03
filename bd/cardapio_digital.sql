@@ -53,9 +53,9 @@ CREATE TABLE IF NOT EXISTS `cadpedido` (
   PRIMARY KEY (`idPedido`),
   UNIQUE KEY `idPedido` (`idPedido`),
   KEY `idPedido2` (`idPedido`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
--- Copiando dados para a tabela cardapio_digital.cadpedido: ~53 rows (aproximadamente)
+-- Copiando dados para a tabela cardapio_digital.cadpedido: ~64 rows (aproximadamente)
 REPLACE INTO `cadpedido` (`idPedido`, `idSituacao`, `ValorPedido`, `ValorEntrega`, `ValorAdicional`, `FormaPagamento`, `Controle`, `IpCliente`, `EnderecoEntrega`, `ObservacaoPedido`, `DataPedido`) VALUES
 	(1, 8, 65.00, 0.00, 0.00, 'pix', '6852b2d9b898c', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-18 12:06:41'),
 	(2, 8, 78.00, 2.00, 2.00, 'cartao', '6855a076bedd0', '::1', 'Rua José do ó, 332 Jd Bela vista ', 'Não é preciso de troco', '2025-06-20 05:06:02'),
@@ -112,7 +112,15 @@ REPLACE INTO `cadpedido` (`idPedido`, `idSituacao`, `ValorPedido`, `ValorEntrega
 	(53, 8, 53.00, 2.00, 2.00, 'cartao', '685e8e63b7bb8', '::1', 'entregar no endereco de casa', 'Não é preciso de troco', '2025-06-27 12:06:19'),
 	(54, 8, 41.00, 2.00, 0.00, 'dinheiro', '685ef92fcf020', '::1', 'Rua Sergipe 357 centro', 'Não é preciso de troco', '2025-06-27 08:06:59'),
 	(55, 5, 40.00, 2.00, 0.00, 'pix', '685ef9dec9dd5', '::1', 'Rua Sergipe 357 centro', 'Não é preciso de troco', '2025-06-27 08:06:54'),
-	(56, 3, 28.00, 0.00, 0.00, 'pix', '685f00418fc3e', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-27 08:06:09');
+	(56, 5, 28.00, 0.00, 0.00, 'pix', '685f00418fc3e', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-27 08:06:09'),
+	(57, 5, 12.00, 0.00, 0.00, 'pix', '686275d7e4389', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-30 11:06:39'),
+	(58, 5, 24.00, 0.00, 0.00, 'pix', '6862764c605f7', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-30 11:06:36'),
+	(59, 5, 24.00, 0.00, 0.00, 'pix', '68627b489690c', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-30 11:06:52'),
+	(60, 5, 12.00, 0.00, 0.00, 'pix', '68627c1f983d7', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-30 11:06:27'),
+	(61, 5, 12.00, 0.00, 0.00, 'pix', '68627df5d463b', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-30 12:06:17'),
+	(62, 5, 24.00, 0.00, 0.00, 'pix', '68627ea4a9d97', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-30 12:06:12'),
+	(63, 4, 12.00, 0.00, 0.00, 'pix', '6862a80ed772c', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-30 03:06:54'),
+	(64, 2, 26.00, 0.00, 0.00, 'pix', '6862f92ec0a82', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-30 08:06:02');
 
 -- Copiando estrutura para tabela cardapio_digital.cadprodutos
 CREATE TABLE IF NOT EXISTS `cadprodutos` (
@@ -130,11 +138,11 @@ CREATE TABLE IF NOT EXISTS `cadprodutos` (
   PRIMARY KEY (`IdProduto`),
   UNIQUE KEY `IdProduto` (`IdProduto`),
   KEY `IdProduto2` (`IdProduto`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
--- Copiando dados para a tabela cardapio_digital.cadprodutos: ~17 rows (aproximadamente)
+-- Copiando dados para a tabela cardapio_digital.cadprodutos: ~19 rows (aproximadamente)
 REPLACE INTO `cadprodutos` (`IdProduto`, `IdCategoria`, `ProdAtivo`, `DescricaoProduto`, `Imagem`, `VrVenda`, `Estoque`, `Ingredientes`, `DataCadastro`, `DataAlteracao`, `UltimaMovimentacao`) VALUES
-	(1, 2, 'S', 'X - TUDO', NULL, 26.00, 0.00, 'Hambúrguer, bacon, ovo, presunto, queijo (mussarela ou cheddar), alface, tomate, maionese, ketchup, mostarda, pão de hambúrguer.', '2025-06-10 15:18:09', '2025-06-10 15:18:11', '2025-06-10 18:18:11'),
+	(1, 2, 'S', 'X - TUDO', '', 26.00, 0.00, 'Hambúrguer, bacon, ovo, presunto, queijo (mussarela ou cheddar), alface, tomate, maionese, ketchup, mostarda, pão de hambúrguer.', '2025-06-10 15:18:09', '2025-07-02 09:07:16', '2025-06-10 18:18:11'),
 	(2, 2, 'S', 'X - MODA', NULL, 25.00, 0.00, 'Pão, hambúrguer artesanal, mussarela, bacon, filé de frango, salsicha, ovo, alface, tomate, milho e batata palha.', '2025-06-10 15:18:24', '2025-06-10 15:18:25', '2025-06-10 18:18:26'),
 	(3, 2, 'S', 'X- ESPECIAL', NULL, 24.00, 0.00, 'Pão, hambúrguer artesanal, mussarela, bacon, salsicha, ovo, alface, tomate, milho e batata palha.', '2025-06-10 15:18:38', '2025-06-10 15:18:39', '2025-06-10 18:18:40'),
 	(4, 2, 'S', 'X - FRANGO', NULL, 22.00, 0.00, 'Pão, filé de frango, mussarela, bacon, ovo, alface, tomate, milho e batata palha.', '2025-06-10 15:18:52', '2025-06-10 15:18:52', '2025-06-10 18:18:53'),
@@ -161,17 +169,14 @@ CREATE TABLE IF NOT EXISTS `categoria` (
   PRIMARY KEY (`IdCategoria`),
   UNIQUE KEY `IdCategoria` (`IdCategoria`),
   KEY `IdCategoria2` (`IdCategoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
--- Copiando dados para a tabela cardapio_digital.categoria: ~6 rows (aproximadamente)
+-- Copiando dados para a tabela cardapio_digital.categoria: ~5 rows (aproximadamente)
 REPLACE INTO `categoria` (`IdCategoria`, `DescricaoCategoria`, `Imagem`, `CadAtivo`) VALUES
 	(1, 'BEBIDA', 'app\\assets\\Categoria\\Bebidas.png', 'S'),
 	(2, 'LANCHES', 'app\\assets\\Categoria\\Lanche.png', 'S'),
 	(3, 'PORCOES', 'app\\assets\\Categoria\\Porcoes.png', 'S'),
-	(4, 'ESPETOS', 'app\\assets\\Categoria\\Espetos.png', 'S'),
-	(5, 'OUTRAS CATEGORIAS', NULL, 'N'),
-	(6, 'TESTE', NULL, 'N'),
-	(7, 'TESTE02', NULL, 'N');
+	(4, 'ESPETOS', 'app\\assets\\Categoria\\Espetos.png', 'S');
 
 -- Copiando estrutura para tabela cardapio_digital.empresa
 CREATE TABLE IF NOT EXISTS `empresa` (
@@ -202,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `mvpedido` (
   `DataLancemento` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
--- Copiando dados para a tabela cardapio_digital.mvpedido: ~66 rows (aproximadamente)
+-- Copiando dados para a tabela cardapio_digital.mvpedido: ~82 rows (aproximadamente)
 REPLACE INTO `mvpedido` (`NumPedido`, `IdProduto`, `Qtd`, `ObsProduto`, `DataLancemento`) VALUES
 	('6852b2d9b898c', 1, 2, '', '2025-06-18'),
 	('6852b2d9b898c', 10, 1, '', '2025-06-18'),
@@ -285,7 +290,15 @@ REPLACE INTO `mvpedido` (`NumPedido`, `IdProduto`, `Qtd`, `ObsProduto`, `DataLan
 	('685ef9dec9dd5', 1, 1, 'Sem nada', '2025-06-27'),
 	('685ef9dec9dd5', 17, 1, '', '2025-06-27'),
 	('685f00418fc3e', 9, 1, 'Sem milho', '2025-06-27'),
-	('685f00418fc3e', 17, 1, '', '2025-06-27');
+	('685f00418fc3e', 17, 1, '', '2025-06-27'),
+	('686275d7e4389', 17, 1, '', '2025-06-30'),
+	('6862764c605f7', 16, 1, '', '2025-06-30'),
+	('68627b489690c', 16, 1, '', '2025-06-30'),
+	('68627c1f983d7', 17, 1, '', '2025-06-30'),
+	('68627df5d463b', 17, 1, '', '2025-06-30'),
+	('68627ea4a9d97', 16, 1, '', '2025-06-30'),
+	('6862a80ed772c', 17, 1, '', '2025-06-30'),
+	('6862f92ec0a82', 1, 1, '', '2025-06-30');
 
 -- Copiando estrutura para tabela cardapio_digital.situacao
 CREATE TABLE IF NOT EXISTS `situacao` (
