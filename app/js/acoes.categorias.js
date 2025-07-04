@@ -57,7 +57,7 @@ let fileCategoriaImg = null;
 
     });
 
-    document.getElementById('btn-edt-categoria').addEventListener('click', async (e) =>{
+    document.getElementById('btn-edit-categoria').addEventListener('click', async (e) =>{
         e.preventDefault();
         const IdCategoria = document.querySelector('#modal-editar .produtos [name="IdCategoria"]').value;
         const DescricaoCategoria = document.querySelector('#modal-editar .produtos [name="DescricaoCategoria"]').value;

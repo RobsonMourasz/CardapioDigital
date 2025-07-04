@@ -159,9 +159,15 @@ async function carregarTabelaProdutos(data) {
 
     produtos.forEach((produto) => {
         let tr = document.createElement('tr');
+        let img = ""
+        if (produto.Imagem == null || produto.Imagem == ""){
+            img = categorias.find(c => c.IdCategoria === produto.IdCategoria).Imagem;
+        }else{
+            img = produto.Imagem;
+        }
         tr.classList.add('text-center');
         tr.innerHTML = `
-            <td class="ocultar-responsivo"><img width="64" src="../../${categorias.find(c => c.IdCategoria === produto.IdCategoria).Imagem}" alt="${categorias.find(c => c.IdCategoria === produto.IdCategoria).DescricaoCategoria}"></td>
+            <td class="ocultar-responsivo"><img width="64" src="../../${img}" alt="${produto.DescricaoProduto}"></td>
             <td>${produto.DescricaoProduto}</td>
             <td>${categorias.find(c => c.IdCategoria === produto.IdCategoria).DescricaoCategoria}</td>
             <td>${getConversaoParaMoeda(produto.VrVenda)}</td>
