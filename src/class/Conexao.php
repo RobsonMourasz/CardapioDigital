@@ -87,4 +87,17 @@ class Conexao
         }
 
     }
+
+    public static function getUltimoIdInserido(string $tabela, string $coluna)
+    {
+        $conexao = new Conexao();
+        $sql = "SELECT MAX($coluna) AS ultimo_id FROM $tabela";
+        $result = $conexao->conexao->query($sql);
+
+        if ($result && $row = $result->fetch_assoc()) {
+            return $row['ultimo_id'];
+        } else {
+            return null;
+        }
+    }
 }

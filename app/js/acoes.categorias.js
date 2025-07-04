@@ -1,4 +1,5 @@
 let categoriasRecebidas = [];
+let fileCategoriaImg = null;
 
 (() => {
 
@@ -70,4 +71,84 @@ async function deletarCategoria(id) {
     document.querySelector('#modal-excluir .produtos [name="IdCategoria"]').value = id;
     document.querySelector('#modal-excluir .produtos [name="DescricaoCategoria"]').value = categoria[0].DescricaoCategoria;
 
+}
+
+const uploadArea = document.getElementById('upload-area');
+const fileInput = document.getElementById('file-input');
+const preview = document.getElementById('preview');
+const message = document.getElementById('upload-message');
+
+// Clique na área para abrir o seletor de arquivos
+uploadArea.addEventListener('click', () => fileInput.click());
+
+// Quando arquivo é selecionado pelo input
+fileInput.addEventListener('change', handleFile);
+
+// Arraste por cima
+uploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadArea.classList.add('dragover');
+});
+
+// Saiu da área de arraste
+uploadArea.addEventListener('dragleave', () => {
+    uploadArea.classList.remove('dragover');
+});
+
+// Soltou o arquivo
+uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadArea.classList.remove('dragover');
+    const file = e.dataTransfer.files[0];
+    if (file) {
+        showPreview(file);
+    }
+});
+
+// Lida com o arquivo selecionado
+function handleFile(e) {
+    const file = e.target.files[0];
+    if (file) {
+        showPreview(file);
+    }
+}
+
+// Mostra a imagem
+function showPreview(file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+        message.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+
+    if (  fileCategoriaImg !== null ){
+        fileCategoriaImg = null;
+    }
+    fileCategoriaImg = file;
+}
+
+
+function uploadFile(file, IdCategoria) {
+    const formData = new FormData();
+    formData.append('arquivo', file);
+    formData.append('IdCategoria', IdCategoria);
+
+    fetch('../../routes/lib/upload_img_categorias.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    // .then(data => {
+    //     if (data.success) {
+    //         alert('Arquivo salvo com sucesso!');
+    //     } else {
+    //         alert('Erro: ' + data.message);
+    //     }
+    // })
+    .catch(err => {
+        console.error(err);
+        alert('Erro ao enviar arquivo.');
+    });
 }

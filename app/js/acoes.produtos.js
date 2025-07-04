@@ -1,6 +1,7 @@
 
 let produtosCarregados = [];
 let categorias = [];
+let fileProduto = null;
 (() => {
     window.addEventListener('load', (e) => {
         carregarProdutos();
@@ -51,11 +52,13 @@ let categorias = [];
 
             chamarTelaAvisos("success", resposta.result);
             inputs.forEach(input => {
-                console.log(input.name, input.value);
                 input.value = '';
             });
 
             carregarProdutos();
+            if (fileProduto !== null) {
+                uploadFile(fileProduto, resposta.IdProduto);
+            }
             const modal = document.getElementById('modal-cadastrar');
             modal.closest('.background-modal').classList.add('d-none');
         }
@@ -279,4 +282,33 @@ function showPreview(file) {
         message.style.display = 'none';
     };
     reader.readAsDataURL(file);
+
+    if (  fileProduto !== null ){
+        fileProduto = null;
+    }
+    fileProduto = file;
+}
+
+
+function uploadFile(file, IdProduto) {
+    const formData = new FormData();
+    formData.append('arquivo', file);
+    formData.append('IdProduto', IdProduto);
+
+    fetch('../../routes/lib/upload_img_produtos.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    // .then(data => {
+    //     if (data.success) {
+    //         alert('Arquivo salvo com sucesso!');
+    //     } else {
+    //         alert('Erro: ' + data.message);
+    //     }
+    // })
+    .catch(err => {
+        console.error(err);
+        alert('Erro ao enviar arquivo.');
+    });
 }

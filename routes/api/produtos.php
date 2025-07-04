@@ -37,7 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
             die(json_encode([
                 'status' => 'success',
-                'result' => 'Cadastrado com sucesso'
+                'result' => 'Cadastrado com sucesso',
+                'IdProduto' => src\class\Conexao::getUltimoIdInserido('cadprodutos', 'IdProduto')
             ]));
         } else {
 
