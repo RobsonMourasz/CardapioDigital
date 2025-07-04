@@ -43,6 +43,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
         }
     }
 
+}else if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+    http_response_code(200);
+    $data = json_decode(file_get_contents('php://input'), true);
+    
+    if (isset($data['acao'])){
+
+        if ( $data['acao'] == 'cadastrar' ) {
+            if ( src\class\Conexao::insertBD('INSERT categoria (IdCategoria, DescricaoCategoria, Imagem, CadAtivo) VALUES (?, ?, ?, ?)','isss',[null, strtoupper($data['DescricaoCategoria']), null, 'S']) ){
+                die(json_encode([
+                    'status' => 'success',
+                    'result' => 'Categoria cadastrada com sucesso!',
+                    'IdCategoria' => src\class\Conexao::getUltimoIdInserido('categoria','IdCategoria')
+                ]));
+
+            }else{
+                die(json_encode([
+                    'status' => 'error',
+                    'result' => 'Falha ao tentar inserir os dados'
+                ]));
+            }
+        }
+
+        if ( $data['acao'] == 'editar' ){
+            if ( src\class\Conexao::insertBD('UPDATE categoria SET DescricaoCategoria = ? WHERE IdCategoria = ? ','si', [strtoupper($data['DescricaoCategoria']), intval($data['IdProduto'])]) ){
+
+                die(json_encode([
+                    'status' => 'success',
+                    'result' => 'Categoria alterada com secesso!',
+                    'IdCategoria' => $data['IdCategoria']
+                ]));
+
+            }else{
+                die(json_encode([
+                    'status' => 'error',
+                    'result' => 'Falha ao tentar alterar os dados'
+                ]));
+            }
+        }
+
+    }
+
 }else{
 
     http_response_code(405);

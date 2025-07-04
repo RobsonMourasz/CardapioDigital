@@ -18,14 +18,15 @@ if ($arquivo['error'] !== UPLOAD_ERR_OK) {
 
 // Pasta de destino
 $destinoPasta = __DIR__ . '/../../app/assets/Produtos/';
-$destinoBancoImg = 'app/assets/Produtos/';
+
 if (!is_dir($destinoPasta)) {
     mkdir($destinoPasta, 0777, true);
 }
 
 // Nome do arquivo
-$nomeArquivo = uniqid();
+$nomeArquivo = uniqid().'.'.pathinfo($_FILES['arquivo']['name'], PATHINFO_EXTENSION);
 $caminhoCompleto = $destinoPasta . $nomeArquivo;
+$destinoBancoImg = 'app/assets/Produtos/' . $nomeArquivo;
 
 // Move o arquivo para a pasta
 if (!move_uploaded_file($arquivo['tmp_name'], $caminhoCompleto)) {

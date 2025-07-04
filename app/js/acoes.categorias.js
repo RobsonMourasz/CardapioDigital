@@ -8,6 +8,85 @@ let fileCategoriaImg = null;
         document.querySelector(".carregando").classList.add("d-none");
     });
 
+    document.getElementById('btn-cad-categoria').addEventListener('click', async (e) =>{
+        e.preventDefault();
+        const DescricaoCategoria = document.querySelector('#modal-cadastrar .produtos [name="DescricaoCategoria"]').value;
+
+        if (DescricaoCategoria ==""){
+            chamarTelaAvisos('danger', 'Preencha a descrição da categoria');
+            return;
+        }
+
+        const response = await fetch('../../routes/api/categorias.php',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                DescricaoCategoria: DescricaoCategoria,
+                acao: 'cadastrar'
+            })
+        });
+
+        const resposta = await response.json();
+
+        if ( resposta.status == 'success' ) {
+
+            document.querySelector('#modal-cadastrar .produtos [name="DescricaoCategoria"]').value = "";
+            
+            if ( fileCategoriaImg !== null ) {
+                const res = await uploadFile(fileCategoriaImg, resposta.IdCategoria);
+
+                if (res){
+                    chamarTelaAvisos('success', 'Categoria cadastrada com sucesso');
+                    document.getElementById('modal-cadastrar').closest('.background-modal').classList.add('d-none');
+                    carregarCategorias();
+                }
+
+            }else{
+
+                chamarTelaAvisos('success', 'Categoria cadastrada com sucesso');
+                document.getElementById('modal-cadastrar').closest('.background-modal').classList.add('d-none');
+                carregarCategorias();
+            }
+
+        }else{
+            chamarTelaAvisos('danger', 'Erro ao cadastrar categoria');
+            return;
+        }
+
+    });
+
+    document.getElementById('btn-edt-categoria').addEventListener('click', async (e) =>{
+        e.preventDefault();
+        const IdCategoria = document.querySelector('#modal-editar .produtos [name="IdCategoria"]').value;
+        const DescricaoCategoria = document.querySelector('#modal-editar .produtos [name="DescricaoCategoria"]').value;
+        if (DescricaoCategoria ==""){
+            chamarTelaAvisos('danger', 'Preencha a descrição da categoria');
+            return;
+        }
+        const response = await fetch('../../routes/api/categorias.php',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                IdCategoria: IdCategoria,
+                DescricaoCategoria: DescricaoCategoria,
+                acao: 'editar'
+            })
+        });
+
+        const resposta = await response.json();
+
+        if ( resposta.status == "success" ) {
+
+        }else{
+            chamarTelaAvisos('danger', 'Erro ao editar categoria');
+            return;
+        }
+    });
+
 
     document.getElementById('btn-exc-categoria').addEventListener('click', async (e)=>{
         e.preventDefault();
@@ -65,9 +144,6 @@ async function editarCategoria(id) {
 
 async function deletarCategoria(id) {
     const categoria = categoriasRecebidas.filter( cat => cat.IdCategoria == id)
-    console.log("id: ", id)
-    console.log("cat: ", categoria)
-
     document.querySelector('#modal-excluir .produtos [name="IdCategoria"]').value = id;
     document.querySelector('#modal-excluir .produtos [name="DescricaoCategoria"]').value = categoria[0].DescricaoCategoria;
 
@@ -126,29 +202,28 @@ function showPreview(file) {
     if (  fileCategoriaImg !== null ){
         fileCategoriaImg = null;
     }
+
     fileCategoriaImg = file;
 }
 
 
-function uploadFile(file, IdCategoria) {
+async function uploadFile(file, IdCategoria) {
     const formData = new FormData();
     formData.append('arquivo', file);
     formData.append('IdCategoria', IdCategoria);
 
-    fetch('../../routes/lib/upload_img_categorias.php', {
+    const envio = await fetch('../../routes/lib/upload_img_categorias.php', {
         method: 'POST',
         body: formData
     })
-    .then(res => res.json())
-    // .then(data => {
-    //     if (data.success) {
-    //         alert('Arquivo salvo com sucesso!');
-    //     } else {
-    //         alert('Erro: ' + data.message);
-    //     }
-    // })
-    .catch(err => {
-        console.error(err);
-        alert('Erro ao enviar arquivo.');
-    });
+
+    const res = await envio.json();
+    if ( res.status == 'success' ){
+        return true;
+    }
+
+    if ( res.status == 'error' ){
+        return false;
+    }
+
 }

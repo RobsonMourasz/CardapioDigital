@@ -48,10 +48,10 @@
                         <span class="comanda">Cadastro categoria</span>
                     </div>
                     <div class="produtos">
-                        <input type="number" hidden name="IdProduto">
+                        <input type="number" hidden name="IdCategoria">
                         <div class="group-input">
                             <label for="">Descrição da Categoria
-                                <input name="DescricaoProduto" type="text">
+                                <input name="DescricaoCategoria" type="text">
                             </label>
                         </div>
 
