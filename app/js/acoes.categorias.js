@@ -125,6 +125,12 @@ async function preencherCategorias(data) {
     let bodyCategoria = document.getElementById('tbody-categoria');
     bodyCategoria.innerHTML = "";
     data.forEach(categoria => {
+        let imgSrc = '';
+        if (categoria.Imagem !== null  || categoria.Imagem !== ''){
+            imgSrc = categoria.Imagem;
+        }else{
+            imgSrc = 'app/assets/Categoria/sem-imagem.png';
+        }
         let trCategoria = document.createElement('tr');
         trCategoria.innerHTML = `<td class="ocultar-responsivo" ><img width="62" src="../../${categoria.Imagem}" alt="${categoria.DescricaoCategoria}"></td>
                 <td>${categoria.DescricaoCategoria}</td>
