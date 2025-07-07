@@ -10,6 +10,7 @@ let fileCategoriaImg = null;
 
     document.getElementById('btn-cad-categoria').addEventListener('click', async (e) =>{
         e.preventDefault();
+        setupUploadArea(document.querySelector('#modal-cadastrar'));
         const DescricaoCategoria = document.querySelector('#modal-cadastrar .produtos [name="DescricaoCategoria"]').value;
 
         if (DescricaoCategoria ==""){
@@ -143,6 +144,7 @@ async function preencherCategorias(data) {
 }
 
 async function editarCategoria(id) {
+    setupUploadArea(document.querySelector('#modal-editar'));
     const categoria = categoriasRecebidas.filter( cat => cat.IdCategoria == id)
     document.querySelector('#modal-editar .produtos [name="IdCategoria"]').value = id;
     document.querySelector('#modal-editar .produtos [name="DescricaoCategoria"]').value = categoria[0].DescricaoCategoria;
@@ -155,48 +157,43 @@ async function deletarCategoria(id) {
 
 }
 
-const uploadArea = document.getElementById('upload-area');
-const fileInput = document.getElementById('file-input');
-const preview = document.getElementById('preview');
-const message = document.getElementById('upload-message');
+function setupUploadArea(modalElement) {
+    const uploadArea = modalElement.querySelector('.upload-area');
+    const fileInput = modalElement.querySelector('.file-input');
+    const preview = modalElement.querySelector('.preview');
+    const message = modalElement.querySelector('.upload-message');
 
-// Clique na área para abrir o seletor de arquivos
-uploadArea.addEventListener('click', () => fileInput.click());
+    uploadArea.addEventListener('click', () => fileInput.click());
 
-// Quando arquivo é selecionado pelo input
-fileInput.addEventListener('change', handleFile);
+    fileInput.addEventListener('change', (e) => handleFile(e, preview, message));
 
-// Arraste por cima
-uploadArea.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    uploadArea.classList.add('dragover');
-});
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    });
 
-// Saiu da área de arraste
-uploadArea.addEventListener('dragleave', () => {
-    uploadArea.classList.remove('dragover');
-});
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragover');
+    });
 
-// Soltou o arquivo
-uploadArea.addEventListener('drop', (e) => {
-    e.preventDefault();
-    uploadArea.classList.remove('dragover');
-    const file = e.dataTransfer.files[0];
-    if (file) {
-        showPreview(file);
-    }
-});
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file) {
+            showPreview(file, preview, message);
+        }
+    });
+}
 
-// Lida com o arquivo selecionado
-function handleFile(e) {
+function handleFile(e, preview, message) {
     const file = e.target.files[0];
     if (file) {
-        showPreview(file);
+        showPreview(file, preview, message);
     }
 }
 
-// Mostra a imagem
-function showPreview(file) {
+function showPreview(file, preview, message) {
     const reader = new FileReader();
     reader.onload = function (e) {
         preview.src = e.target.result;
@@ -205,12 +202,12 @@ function showPreview(file) {
     };
     reader.readAsDataURL(file);
 
-    if (  fileCategoriaImg !== null ){
-        fileCategoriaImg = null;
+    if (fileProduto !== null) {
+        fileProduto = null;
     }
-
-    fileCategoriaImg = file;
+    fileProduto = file;
 }
+
 
 
 async function uploadFile(file, IdCategoria) {

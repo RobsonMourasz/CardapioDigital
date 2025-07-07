@@ -17,6 +17,7 @@ let fileProduto = null;
             option.textContent = categoria.DescricaoCategoria;
             cat.appendChild(option);
         });
+        setupUploadArea(document.querySelector('#modal-cadastrar'));
     })
 
     document.getElementById('btn-cad-prod').addEventListener('click', async (e) => {
@@ -68,8 +69,7 @@ let fileProduto = null;
     document.getElementById('btn-editar-produto').addEventListener('click', async (e) => {
         e.preventDefault();
         let erros = false;
-        const inputs = document.querySelectorAll('#modal-editar input, #modal-editar textarea, #modal-editar select');
-
+        const inputs = document.querySelectorAll('#modal-editar input, #modal-editar textarea, #modal-editar select, #modal-editar .file-input');
         const produto = {};
         inputs.forEach(input => {
             if (input.name === 'IdCategoria') {
@@ -83,6 +83,7 @@ let fileProduto = null;
             } else {
                 if (input.name == 'DescricaoProduto' && input.value.trim() == '') { chamarTelaAvisos('danger', 'Campo descrição não pode ser vazio.'); erros = true; return }
                 produto[input.name] = input.value;
+                produto['file'] = fileProduto.size;
                 produto['method'] = 'editar';
             }
         });
@@ -103,9 +104,27 @@ let fileProduto = null;
             inputs.forEach(input => {
                 input.value = '';
             });
-            carregarProdutos();
+
             const modal = document.getElementById('modal-editar');
-            modal.closest('.background-modal').classList.add('d-none');
+
+            if ( fileProduto !== null ) {
+                const res = await uploadFile(fileProduto, resposta.IdProduto);
+
+                if (res){
+                    modal.closest('.background-modal').classList.add('d-none');
+                    carregarProdutos();
+                }
+
+            }else{
+
+                chamarTelaAvisos('success', 'Categoria cadastrada com sucesso');
+                modal.closest('.background-modal').classList.add('d-none');
+                carregarProdutos();
+
+            }
+
+           
+            
         }
     });
 
@@ -217,6 +236,7 @@ function editarProduto(id) {
                 input.value = itens[0].IdCategoria;
             }
         })
+        setupUploadArea(document.querySelector('#modal-editar'));
     } else {
         chamarTelaAvisos("danger", "Produto não encontrado.");
     }
@@ -234,53 +254,49 @@ function excluirProduto(id) {
                 input.value = itens[0].DescricaoProduto;
             }
         });
+        setupUploadArea(document.querySelector('#modal-excluir'));
     } else {
         chamarTelaAvisos("danger", "Produto não encontrado.");
     }
 }
 
-const uploadArea = document.getElementById('upload-area');
-const fileInput = document.getElementById('file-input');
-const preview = document.getElementById('preview');
-const message = document.getElementById('upload-message');
+function setupUploadArea(modalElement) {
+    const uploadArea = modalElement.querySelector('.upload-area');
+    const fileInput = modalElement.querySelector('.file-input');
+    const preview = modalElement.querySelector('.preview');
+    const message = modalElement.querySelector('.upload-message');
 
-// Clique na área para abrir o seletor de arquivos
-uploadArea.addEventListener('click', () => fileInput.click());
+    uploadArea.addEventListener('click', () => fileInput.click());
 
-// Quando arquivo é selecionado pelo input
-fileInput.addEventListener('change', handleFile);
+    fileInput.addEventListener('change', (e) => handleFile(e, preview, message));
 
-// Arraste por cima
-uploadArea.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    uploadArea.classList.add('dragover');
-});
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    });
 
-// Saiu da área de arraste
-uploadArea.addEventListener('dragleave', () => {
-    uploadArea.classList.remove('dragover');
-});
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragover');
+    });
 
-// Soltou o arquivo
-uploadArea.addEventListener('drop', (e) => {
-    e.preventDefault();
-    uploadArea.classList.remove('dragover');
-    const file = e.dataTransfer.files[0];
-    if (file) {
-        showPreview(file);
-    }
-});
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file) {
+            showPreview(file, preview, message);
+        }
+    });
+}
 
-// Lida com o arquivo selecionado
-function handleFile(e) {
+function handleFile(e, preview, message) {
     const file = e.target.files[0];
     if (file) {
-        showPreview(file);
+        showPreview(file, preview, message);
     }
 }
 
-// Mostra a imagem
-function showPreview(file) {
+function showPreview(file, preview, message) {
     const reader = new FileReader();
     reader.onload = function (e) {
         preview.src = e.target.result;
@@ -289,32 +305,29 @@ function showPreview(file) {
     };
     reader.readAsDataURL(file);
 
-    if (  fileProduto !== null ){
+    if (fileProduto !== null) {
         fileProduto = null;
     }
     fileProduto = file;
 }
 
 
-function uploadFile(file, IdProduto) {
+
+async function uploadFile(file, IdProduto) {
     const formData = new FormData();
     formData.append('arquivo', file);
     formData.append('IdProduto', IdProduto);
 
-    fetch('../../routes/lib/upload_img_produtos.php', {
+    const envio = await fetch('../../routes/lib/upload_img_produtos.php', {
         method: 'POST',
         body: formData
     })
-    .then(res => res.json())
-    // .then(data => {
-    //     if (data.success) {
-    //         alert('Arquivo salvo com sucesso!');
-    //     } else {
-    //         alert('Erro: ' + data.message);
-    //     }
-    // })
-    .catch(err => {
-        console.error(err);
-        alert('Erro ao enviar arquivo.');
-    });
+    const res = await envio.json();
+    if ( res.status == 'success' ){
+        return true;
+    }
+
+    if ( res.status == 'error' ){
+        return false;
+    }
 }

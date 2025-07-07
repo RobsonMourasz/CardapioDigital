@@ -3,61 +3,67 @@ include_once __DIR__ . '/../../vendor/autoload.php';
 header('Content-Type: application/json');
 date_default_timezone_set('America/Sao_Paulo');
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET'){
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     http_response_code(200);
 
-    if (isset($_GET['busca'])){
-        
-        if ($_GET['busca'] == "all"){
-            $res[] = src\class\Conexao::getPesquisaBD('SELECT * FROM categoria WHERE CadAtivo = "S" ','',[]);
-            if ($res){
+    if (isset($_GET['busca'])) {
+
+        if ($_GET['busca'] == "all") {
+            $res[] = src\class\Conexao::getPesquisaBD('SELECT * FROM categoria WHERE CadAtivo = "S" ', '', []);
+            if ($res) {
 
                 die(json_encode([
                     'status' => 'success',
                     'result' => $res
                 ]));
-
-            }else{
+            } else {
                 die(json_encode([
                     'status' => 'error',
                     'result' => 'Nenhum resultado encontrado'
                 ]));
             }
         }
-
     }
 
-    if (isset($_GET['acao'])){
-        if ($_GET['acao'] == 'delete'){
-            if ( src\class\Conexao::deleteBD('categoria', 'IdCategoria', $_GET['id']) ){
+    if (isset($_GET['acao'])) {
+        if ($_GET['acao'] == 'delete') {
+
+            $imagemAntiga = src\class\Conexao::getPesquisaBD('SELECT Imagem FROM cadprodutos WHERE IdProduto = ?', 'i', [intval($_GET['id'])]);
+
+            if (!empty($imagemAntiga)) {
+
+                if (file_exists(__DIR__ . '/../../' . $imagemAntiga[0]['Imagem'])) {
+                    unlink(__DIR__ . '/../../' . $imagemAntiga[0]['Imagem']);
+                }
+            }
+
+            if (src\class\Conexao::deleteBD('categoria', 'IdCategoria', $_GET['id'])) {
                 die(json_encode([
                     'status' => 'success',
                     'result' => 'Categoria excluída com sucesso!'
                 ]));
-            }else{
+            } else {
                 die(json_encode([
                     'status' => 'error',
                     'result' => 'Categoria não foi excluida'
-                ]));            
+                ]));
             }
         }
     }
-
-}else if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     http_response_code(200);
     $data = json_decode(file_get_contents('php://input'), true);
-    
-    if (isset($data['acao'])){
 
-        if ( $data['acao'] == 'cadastrar' ) {
-            if ( src\class\Conexao::insertBD('INSERT categoria (IdCategoria, DescricaoCategoria, Imagem, CadAtivo) VALUES (?, ?, ?, ?)','isss',[null, strtoupper($data['DescricaoCategoria']), null, 'S']) ){
+    if (isset($data['acao'])) {
+
+        if ($data['acao'] == 'cadastrar') {
+            if (src\class\Conexao::insertBD('INSERT categoria (IdCategoria, DescricaoCategoria, Imagem, CadAtivo) VALUES (?, ?, ?, ?)', 'isss', [null, strtoupper($data['DescricaoCategoria']), null, 'S'])) {
                 die(json_encode([
                     'status' => 'success',
                     'result' => 'Categoria cadastrada com sucesso!',
-                    'IdCategoria' => src\class\Conexao::getUltimoIdInserido('categoria','IdCategoria')
+                    'IdCategoria' => src\class\Conexao::getUltimoIdInserido('categoria', 'IdCategoria')
                 ]));
-
-            }else{
+            } else {
                 die(json_encode([
                     'status' => 'error',
                     'result' => 'Falha ao tentar inserir os dados'
@@ -65,31 +71,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
             }
         }
 
-        if ( $data['acao'] == 'editar' ){
-            if ( src\class\Conexao::insertBD('UPDATE categoria SET DescricaoCategoria = ? WHERE IdCategoria = ? ','si', [strtoupper($data['DescricaoCategoria']), intval($data['IdProduto'])]) ){
+        if ($data['acao'] == 'editar') {
+
+            if (isset($data['file']) && !empty($data['file'])) {
+
+                $imagemAntiga = src\class\Conexao::getPesquisaBD('SELECT Imagem FROM cadprodutos WHERE IdProduto = ?', 'i', [intval($data['IdProduto'])]);
+
+                if (!empty($imagemAntiga)) {
+
+                    if (file_exists(__DIR__ . '/../../' . $imagemAntiga[0]['Imagem'])) {
+                        unlink(__DIR__ . '/../../' . $imagemAntiga[0]['Imagem']);
+                    }
+                }
+            }
+
+            if (src\class\Conexao::insertBD('UPDATE categoria SET DescricaoCategoria = ? WHERE IdCategoria = ? ', 'si', [strtoupper($data['DescricaoCategoria']), intval($data['IdProduto'])])) {
 
                 die(json_encode([
                     'status' => 'success',
                     'result' => 'Categoria alterada com secesso!',
                     'IdCategoria' => $data['IdCategoria']
                 ]));
-
-            }else{
+            } else {
                 die(json_encode([
                     'status' => 'error',
                     'result' => 'Falha ao tentar alterar os dados'
                 ]));
             }
         }
-
     }
-
-}else{
+} else {
 
     http_response_code(405);
     die(json_encode([
         'status' => 'error',
         'result' => 'Método não permitido'
     ]));
-
 }

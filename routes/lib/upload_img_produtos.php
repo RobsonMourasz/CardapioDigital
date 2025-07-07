@@ -3,7 +3,7 @@ include_once __DIR__ . '/../../vendor/autoload.php';
 header('Content-Type: application/json');
 
 if (!isset($_FILES['arquivo'])) {
-    die(json_encode(['success' => false, 'message' => 'Nenhum arquivo enviado.']));
+    die(json_encode(['status' => 'error', 'result' => 'Nenhum arquivo enviado.']));
     exit;
 }
 
@@ -12,7 +12,7 @@ $IdProduto = isset($_POST['IdProduto']) ? intval($_POST['IdProduto']) : 0;
 
 // Verifica erros
 if ($arquivo['error'] !== UPLOAD_ERR_OK) {
-    die(json_encode(['success' => false, 'message' => 'Erro no upload.']));
+    die(json_encode(['status' => 'error', 'result' => 'Erro no upload.']));
     exit;
 }
 
@@ -30,11 +30,11 @@ $destinoBancoImg = 'app/assets/Produtos/' . $nomeArquivo;
 
 // Move o arquivo para a pasta
 if (!move_uploaded_file($arquivo['tmp_name'], $caminhoCompleto)) {
-    echo json_encode(['success' => false, 'message' => 'Falha ao mover o arquivo.']);
+    echo json_encode(['status' => "error", 'result' => 'Falha ao mover o arquivo.']);
     exit;
 }
 
 // Salva no banco (opcional)
 src\class\Conexao::insertBD('UPDATE cadprodutos SET Imagem = ? WHERE IdProduto = ?','si',[$destinoBancoImg, $IdProduto]);
 
-die(json_encode(['success' => true, 'message' => 'Arquivo salvo.', 'arquivo' => $nomeArquivo])); 
+die(json_encode(['status' => 'success', 'result' => 'Arquivo salvo.', 'arquivo' => $nomeArquivo])); 

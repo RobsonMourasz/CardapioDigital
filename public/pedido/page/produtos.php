@@ -80,14 +80,13 @@
                         </div>
 
                         <div class="group-input">
-                            <div class="upload-area" id="upload-area">
-                                <input type="file" id="file-input" name="Imagem" accept="image/*" hidden>
-                                <div class="upload-message" id="upload-message">
+                            <div class="upload-area">
+                                <input type="file" class="file-input" name="Imagem" accept="image/*" hidden>
+                                <div class="upload-message">
                                     Arraste e solte uma imagem aqui<br>ou clique para selecionar
                                 </div>
-                                <img id="preview" class="preview" src="" alt="Pré-visualização" style="display: none;">
+                                <img class="preview" src="" alt="Pré-visualização" style="display: none;">
                             </div>
-
                         </div>
 
                     </div>
@@ -151,14 +150,13 @@
                         </div>
 
                         <div class="group-input">
-                            <div class="upload-area" id="upload-area">
-                                <input type="file" id="file-input" name="Imagem" accept="image/*" hidden>
-                                <div class="upload-message" id="upload-message">
+                            <div class="upload-area">
+                                <input type="file" class="file-input" name="Imagem" accept="image/*" hidden>
+                                <div class="upload-message">
                                     Arraste e solte uma imagem aqui<br>ou clique para selecionar
                                 </div>
-                                <img id="preview" class="preview" src="" alt="Pré-visualização" style="display: none;">
+                                <img class="preview" src="" alt="Pré-visualização" style="display: none;">
                             </div>
-
                         </div>
 
                     </div>
