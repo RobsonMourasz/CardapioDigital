@@ -87,6 +87,7 @@
                                 </div>
                                 <img class="preview" src="" alt="Pré-visualização" style="display: none;">
                             </div>
+                            <button class="remove-image-button btn" style="display:none;">Remover imagem</button>
                         </div>
 
                     </div>
@@ -157,6 +158,7 @@
                                 </div>
                                 <img class="preview" src="" alt="Pré-visualização" style="display: none;">
                             </div>
+                            <button class="remove-image-button btn" style="display:none;">Remover imagem</button>
                         </div>
 
                     </div>

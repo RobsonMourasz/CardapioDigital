@@ -56,9 +56,14 @@ let fileProduto = null;
                 input.value = '';
             });
 
-            carregarProdutos();
+
             if (fileProduto !== null) {
-                uploadFile(fileProduto, resposta.IdProduto);
+
+                if (await uploadFile(fileProduto, resposta.IdProduto)) {
+                    carregarProdutos();
+                }
+            } else {
+                carregarProdutos();
             }
             const modal = document.getElementById('modal-cadastrar');
             modal.closest('.background-modal').classList.add('d-none');
@@ -107,15 +112,15 @@ let fileProduto = null;
 
             const modal = document.getElementById('modal-editar');
 
-            if ( fileProduto !== null ) {
+            if (fileProduto !== null) {
                 const res = await uploadFile(fileProduto, resposta.IdProduto);
 
-                if (res){
+                if (res) {
                     modal.closest('.background-modal').classList.add('d-none');
                     carregarProdutos();
                 }
 
-            }else{
+            } else {
 
                 chamarTelaAvisos('success', 'Categoria cadastrada com sucesso');
                 modal.closest('.background-modal').classList.add('d-none');
@@ -123,8 +128,8 @@ let fileProduto = null;
 
             }
 
-           
-            
+
+
         }
     });
 
@@ -179,9 +184,9 @@ async function carregarTabelaProdutos(data) {
     produtos.forEach((produto) => {
         let tr = document.createElement('tr');
         let img = ""
-        if (produto.Imagem == null || produto.Imagem == ""){
+        if (produto.Imagem == null || produto.Imagem == "") {
             img = categorias.find(c => c.IdCategoria === produto.IdCategoria).Imagem;
-        }else{
+        } else {
             img = produto.Imagem;
         }
         tr.classList.add('text-center');
@@ -265,7 +270,13 @@ function setupUploadArea(modalElement) {
     const fileInput = modalElement.querySelector('.file-input');
     const preview = modalElement.querySelector('.preview');
     const message = modalElement.querySelector('.upload-message');
+    const removeButton = modalElement.querySelector('.remove-image-button');
 
+
+    removeButton.addEventListener('click', () => {
+        clearImage(preview, message, fileInput, removeButton);
+    });
+    
     uploadArea.addEventListener('click', () => fileInput.click());
 
     fileInput.addEventListener('change', (e) => handleFile(e, preview, message));
@@ -297,6 +308,8 @@ function handleFile(e, preview, message) {
 }
 
 function showPreview(file, preview, message) {
+    const button = document.querySelector('.remove-image-button');
+    button.style.display = 'block';
     const reader = new FileReader();
     reader.onload = function (e) {
         preview.src = e.target.result;
@@ -311,8 +324,6 @@ function showPreview(file, preview, message) {
     fileProduto = file;
 }
 
-
-
 async function uploadFile(file, IdProduto) {
     const formData = new FormData();
     formData.append('arquivo', file);
@@ -323,11 +334,20 @@ async function uploadFile(file, IdProduto) {
         body: formData
     })
     const res = await envio.json();
-    if ( res.status == 'success' ){
+    if (res.status == 'success') {
         return true;
     }
 
-    if ( res.status == 'error' ){
+    if (res.status == 'error') {
         return false;
     }
+}
+
+function clearImage(preview, message, fileInput, removeButton) {
+    preview.src = '';
+    preview.style.display = 'none';
+    message.style.display = 'block';
+    fileInput.value = ''; // limpa o campo de input
+    fileCategoriaImg = null; // zera a variável do arquivo
+    removeButton.style.display = 'none';
 }

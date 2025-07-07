@@ -4,7 +4,7 @@
     </div> <!-- content-header -->
     <div class="content-body">
         <div class="content-button">
-            <button class="btn bg-success btn-responsivo" id="btn-novo-produto" id-modal="modal-cadastrar" attr="modal" show="abrir">Nova Categoria</button>
+            <button class="btn bg-success btn-responsivo" id="btn-nova-categoria" id-modal="modal-cadastrar" attr="modal" show="abrir">Nova Categoria</button>
         </div>
 
         <div class="table">
@@ -63,6 +63,7 @@
                                 </div>
                                 <img class="preview" src="" alt="Pré-visualização" style="display: none;">
                             </div>
+                            <button class="remove-image-button btn" style="display:none;">Remover imagem</button>
                         </div>
 
                     </div>
@@ -111,6 +112,7 @@
                                 </div>
                                 <img class="preview" src="" alt="Pré-visualização" style="display: none;">
                             </div>
+                            <button class="remove-image-button btn" style="display:none;">Remover imagem</button>
                         </div>
 
                     </div>
@@ -119,7 +121,7 @@
 
         </div>
         <div class="modal-footer">
-            <button class="btn btn-responsivo bg-success" id="btn-edit-categoria">Cadastrar</button>
+            <button class="btn btn-responsivo bg-success" id="btn-edit-categoria">Alterar</button>
             <button class="btn btn-responsivo bg-danger" id-modal="modal-editar" attr="modal" show="fechar">Cancelar</button>
         </div>
     </div>

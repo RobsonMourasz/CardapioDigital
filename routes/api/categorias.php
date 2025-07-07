@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['acao'])) {
         if ($_GET['acao'] == 'delete') {
 
-            $imagemAntiga = src\class\Conexao::getPesquisaBD('SELECT Imagem FROM cadprodutos WHERE IdProduto = ?', 'i', [intval($_GET['id'])]);
+            $imagemAntiga = src\class\Conexao::getPesquisaBD('SELECT Imagem FROM categoria WHERE IdCategoria = ?', 'i', [intval($_GET['id'])]);
 
             if (!empty($imagemAntiga)) {
 
@@ -75,9 +75,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
             if (isset($data['file']) && !empty($data['file'])) {
 
-                $imagemAntiga = src\class\Conexao::getPesquisaBD('SELECT Imagem FROM cadprodutos WHERE IdProduto = ?', 'i', [intval($data['IdProduto'])]);
+                $imagemAntiga = src\class\Conexao::getPesquisaBD('SELECT Imagem FROM categoria WHERE IdCategoria = ?', 'i', [intval($data['IdCategoria'])]);
 
-                if (!empty($imagemAntiga)) {
+                if (!empty($imagemAntiga[0]['Imagem'])) {
 
                     if (file_exists(__DIR__ . '/../../' . $imagemAntiga[0]['Imagem'])) {
                         unlink(__DIR__ . '/../../' . $imagemAntiga[0]['Imagem']);
@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 }
             }
 
-            if (src\class\Conexao::insertBD('UPDATE categoria SET DescricaoCategoria = ? WHERE IdCategoria = ? ', 'si', [strtoupper($data['DescricaoCategoria']), intval($data['IdProduto'])])) {
+            if (src\class\Conexao::insertBD('UPDATE categoria SET DescricaoCategoria = ? WHERE IdCategoria = ? ', 'si', [strtoupper($data['DescricaoCategoria']), intval($data['IdCategoria'])])) {
 
                 die(json_encode([
                     'status' => 'success',
