@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
             http_response_code(200);
             $cadPedido = src\class\Conexao::getPesquisaBD('SELECT * FROM cadpedido a 
                 LEFT JOIN situacao b ON a.idSituacao = b.IdSituacao
-                WHERE b.DescriacaoSituacao <> "Cancelado" AND b.DescriacaoSituacao <> "Concluido"', '', []);
+                WHERE b.DescriacaoSituacao <> "Cancelado" AND b.DescriacaoSituacao <> "Concluido" ORDER BY idPedido DESC', '', []);
             $mvPedido = src\class\Conexao::getPesquisaBD('SELECT * FROM mvpedido a 
                 LEFT JOIN cadprodutos b ON a.IdProduto = b.IdProduto
                 LEFT JOIN categoria c ON b.IdCategoria = c.IdCategoria

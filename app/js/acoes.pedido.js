@@ -92,8 +92,7 @@ async function carregarPedido(data) {
         pedidosCompletos.forEach(pedido => {
             const titulo = `Total Itens ${pedido.produtos.length}\n`;
             let texto = pedido.produtos.map(produto =>
-                `📦 Produto: ${produto.DescricaoProduto}\n` +
-                `📦 Quantidade: ${produto.Qtd}\n` +
+                `📦 ${produto.Qtd} x Produto: ${produto.DescricaoProduto}\n` +
                 `📝 OBSERVACOES : ${produto.ObsProduto || '--'}`
             ).join('\n-------------------\n');
 
@@ -109,7 +108,7 @@ async function carregarPedido(data) {
             </div>
             
             <div class="card-body">
-                <textarea name="itens-do-pedido" cols="22" rows="10" readonly>${titulo}${texto}</textarea>
+                <textarea name="itens-do-pedido" cols="15" rows="6" readonly>${titulo}${texto}</textarea>
             </div>
             <div class="card-footer">
                 <div class="footer-info">
