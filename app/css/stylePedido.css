@@ -596,7 +596,7 @@ table th, table td {
     }
 
     .btn-responsivo {
-        width: 100%;
+        width: 100% !important;
     }
 
     header .toggle-menu {
@@ -710,7 +710,7 @@ table th, table td {
     
 }
 
-select, input[type="text"], input[type="number"],
+select, input[type="text"], input[type="number"], input[type="date"],
 textarea {
     appearance: none;
     width: 100%;

@@ -41,6 +41,10 @@ async function preencherTabelaDeProdutos(data) {
     let tabela = document.createElement('div');
     tabela.classList.add('dados-venda');
     tabela.innerHTML = '';
+    tabela.innerHTML = `
+        <div class="content-button">
+            <button class="btn bg-success btn-responsivo" id="btn-filtro-avancado" id-modal="modal-filtro" attr="modal" show="abrir">Filtro</button>
+        </div>`;
     const vendas = await montarPedidoxProdutos(data.cadPedido, data.mvPedido);
     console.log(vendas)
     vendas.forEach((venda) => {
@@ -49,16 +53,16 @@ async function preencherTabelaDeProdutos(data) {
         divVenda.classList.add('dados-venda');
 
         // Montar o título
-        divVenda.innerHTML = `
+        divVenda.innerHTML += `
         <div class="dados-venda-titulo">
             <div class="dados-venda-titulo-item"><p>Pedido</p></div>
-            <div class="dados-venda-titulo-item"><p>Data</p></div>
+            <div class="dados-venda-titulo-item ocultar-responsivo"><p>Data</p></div>
             <div class="dados-venda-titulo-item"><p>Valor</p></div>
             <div class="dados-venda-titulo-item"><p>Taxa + Entrega</p></div>
         </div>
         <div class="dados-venda-conteudo">
             <div class="dados-venda-conteudo-item"><p>#${venda.idPedido}</p></div>
-            <div class="dados-venda-conteudo-item"><p>${venda.DataPedido}</p></div>
+            <div class="dados-venda-conteudo-item ocultar-responsivo"><p>${venda.DataPedido}</p></div>
             <div class="dados-venda-conteudo-item"><p>R$ ${venda.ValorPedido}</p></div>
             <div class="dados-venda-conteudo-item"><p>R$ ${venda.ValorEntrega} + ${venda.ValorAdicional}</p></div>
         </div>
