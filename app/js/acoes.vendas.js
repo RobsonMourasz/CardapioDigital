@@ -1,18 +1,44 @@
 (() => {
     window.addEventListener('load', (e) => {
+        let date = new Date();
+        date = date.toISOString().split('T')[0]; // Formata a data para YYYY-MM-DD
+        document.querySelector('[name="datainicio"]').value = date;
+        document.querySelector('[name="datafim"]').value = date;
         document.querySelector(".carregando").classList.add("d-none");
         buscarDados();
     })
 
+    document.getElementById('btn-buscar-filtro').addEventListener('click', async()=> {
+        console.log('clicou no botao buscar filtro');
+        if (await buscaAvancada()){
+            console.log('busca avançada realizada com sucesso');
+        }
+    });
+
 })();
 
+async function buscaAvancada() {
+    
+}
+
 async function buscarDados() {
-    let date = new Date();
-    date = date.toISOString().split('T')[0]; // Formata a data para YYYY-MM-DD
+    let datainicio = new Date();
+    let datafim = new Date();
+    if (document.querySelector('[name="datainicio"]').value == "" || document.querySelector('[name="datafim"]').value == "") {
+        datainicio = datainicio.toISOString().split('T')[0]; // Formata a data para YYYY-MM-DD
+        datafim = datafim.toISOString().split('T')[0]; // Formata a data para YYYY-MM-DD
+
+    }else{
+        datainicio = document.querySelector('[name="datainicio"]').value; 
+        datafim = document.querySelector('[name="datafim"]').value; 
+
+    }
+    
+    
     const tipoBusca = new FormData();
     tipoBusca.append('action', 'relatorioDiario');
-    tipoBusca.append('datainicio', date);
-    tipoBusca.append('datafinal', date);
+    tipoBusca.append('datainicio', datainicio);
+    tipoBusca.append('datafinal', datafim);
     const env = await fetch('../../routes/api/vendas.php', {
         method: 'POST',
         body: tipoBusca
@@ -23,12 +49,9 @@ async function buscarDados() {
     if (res.status === 'success') {
 
         if (res.result.QtdVendas > 0) {
-            document.getElementById('msg-sem-dados').textContent = 'Vendas encontradas';
-            document.getElementById('qtd-total-venda').textContent = res.result.QtdVendas;
-            document.getElementById('valor-total-venda').textContent = `R$ ${res.result.VrVendido.toFixed(2).replace('.', ',')}`;
-            document.getElementById('valor-taxa-entrega').textContent = `R$ ${res.result.txMaquininha.toFixed(2).replace('.', ',')} + ${res.result.txEntrega.toFixed(2).replace('.', ',')}`;
             preencherTabelaDeProdutos(res.result)
         }
+        return true;
 
     } else {
         chamarTelaAvisos('danger', res.result);
@@ -36,6 +59,11 @@ async function buscarDados() {
 }
 
 async function preencherTabelaDeProdutos(data) {
+
+    document.getElementById('qtd-total-venda').textContent = data.QtdVendas;
+    document.getElementById('valor-total-venda').textContent = `${getConversaoParaMoeda(data.VrVendido)}`;
+    document.getElementById('valor-taxa-entrega').textContent = `${getConversaoParaMoeda(data.txMaquininha)} + ${getConversaoParaMoeda(data.txEntrega)}`;
+
     let body = document.querySelector('.content-body');
     body.innerHTML = "";
     let tabela = document.createElement('div');
@@ -46,7 +74,7 @@ async function preencherTabelaDeProdutos(data) {
             <button class="btn bg-success btn-responsivo" id="btn-filtro-avancado" id-modal="modal-filtro" attr="modal" show="abrir">Filtro</button>
         </div>`;
     const vendas = await montarPedidoxProdutos(data.cadPedido, data.mvPedido);
-    console.log(vendas)
+
     vendas.forEach((venda) => {
         // Criar o container principal da venda
         const divVenda = document.createElement('div');
@@ -63,8 +91,8 @@ async function preencherTabelaDeProdutos(data) {
         <div class="dados-venda-conteudo">
             <div class="dados-venda-conteudo-item"><p>#${venda.idPedido}</p></div>
             <div class="dados-venda-conteudo-item ocultar-responsivo"><p>${venda.DataPedido}</p></div>
-            <div class="dados-venda-conteudo-item"><p>R$ ${venda.ValorPedido}</p></div>
-            <div class="dados-venda-conteudo-item"><p>R$ ${venda.ValorEntrega} + ${venda.ValorAdicional}</p></div>
+            <div class="dados-venda-conteudo-item"><p>R$ ${getConversaoParaMoeda(venda.ValorPedido)}</p></div>
+            <div class="dados-venda-conteudo-item"><p>R$ ${getConversaoParaMoeda(venda.ValorEntrega)} + ${getConversaoParaMoeda(venda.ValorAdicional)}</p></div>
         </div>
     `;
 
@@ -76,13 +104,13 @@ async function preencherTabelaDeProdutos(data) {
         if (Array.isArray(venda.produtos)) {
             venda.produtos.forEach((item) => {
                 const pItem = document.createElement('p');
-                pItem.textContent = `${item.Qtd} x ${item.DescricaoProduto} R$ ${item.VrVenda}`;
+                pItem.textContent = `${item.Qtd} x ${item.DescricaoProduto} R$ ${getConversaoParaMoeda(item.VrVenda)}`;
                 divItens.appendChild(pItem);
             });
         } else {
             // Se não for array, mostra só um
             const pItem = document.createElement('p');
-            pItem.textContent = `${venda.produtos.Qtd} x ${venda.produtos.DescricaoProduto} R$ ${venda.produtos.VrVenda}`;
+            pItem.textContent = `${venda.produtos.Qtd} x ${venda.produtos.DescricaoProduto} R$ ${getConversaoParaMoeda(venda.produtos.VrVenda)}`;
             divItens.appendChild(pItem);
         }
 

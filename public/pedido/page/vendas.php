@@ -35,48 +35,11 @@
     </div> <!-- content-header -->
     <div class="content-body">
 
-
-
         <div class="sem-dados">
             <p id="msg-sem-dados">Nenhuma venda encontrada nesse periodo.</p>
         </div>
         <div class="dados-venda">
-            <div class="dados-venda-titulo">
-                <div class="dados-venda-titulo-item">
-                    <p>Pedido</p>
-                </div>
-                <div class="dados-venda-titulo-item">
-                    <p>Data</p>
-                </div>
-                <div class="dados-venda-titulo-item">
-                    <p>Valor</p>
-                </div>
-                <div class="dados-venda-titulo-item">
-                    <p>Taxa + Entrega</p>
-                </div>
-            </div>
-            <div class="dados-venda-conteudo">
-                <div class="dados-venda-conteudo-item">
-                    <p>#1</p>
-                </div>
-                <div class="dados-venda-conteudo-item">
-                    <p>08/07/2025</p>
-                </div>
-                <div class="dados-venda-conteudo-item">
-                    <p>R$ 0,00</p>
-                </div>
-
-                <div class="dados-venda-conteudo-item">
-                    <p>R$ 0,00 + 0,00</p>
-                </div>
-            </div>
-
-            <div class="itens-venda">
-                <p> 1 x X - TUDO R$ 10,00</p>
-                <p> 1 x X - TUDO R$ 10,00</p>
-                <p> 1 x X - TUDO R$ 10,00</p>
-                <p> 1 x X - TUDO R$ 10,00</p>
-            </div>
+        
         </div>
     </div> <!-- content-body -->
 </div> <!-- content-->
@@ -86,7 +49,7 @@
 <div class="background-modal d-none">
     <div class="modal" id="modal-filtro" attr="modal">
         <div class="modal-header">
-            <h2>Cadastrar Produto</h2>
+            <h2>Filtrar resultados</h2>
             <span attr="modal" id-modal="modal-filtro" show="fechar" aria-hidden="true">&#x2715;</span>
         </div>
         <div class="modal-body">
@@ -101,13 +64,13 @@
 
                         <div class="group-input">
                             <label for="">Coloque a data inicial
-                                <input name="DescricaoProduto" type="date">
+                                <input name="datainicio" type="date">
                             </label>
                         </div>
 
                         <div class="group-input">
                             <label for="">Coloque a data final
-                                <input name="DescricaoProduto" type="date">
+                                <input name="datafim" type="date">
                             </label>
                         </div>
 
