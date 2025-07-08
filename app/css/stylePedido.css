@@ -472,6 +472,79 @@ table th, table td {
     overflow: auto;
 }
 
+.sem-dados{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sem-dados #msg-sem-dados{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+}
+
+.dados-venda{
+    display: flex;
+    width: 100%;
+    padding: .5em ;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.dados-venda .dados-venda-titulo{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+    font-size: 1.2em;
+    color: #e5e5e5;
+    background-color: #2b2b2b;
+    border-radius: 10px 10px 0 0;
+}
+
+.dados-venda .dados-venda-titulo p,
+.dados-venda .dados-venda-conteudo p,
+.dados-venda .itens-venda p{
+    padding-left: .5em;
+}
+
+.dados-venda .dados-venda-conteudo{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+    background-color: #9c9c9c;
+}
+
+.dados-venda .dados-venda-titulo .dados-venda-titulo-item,
+.dados-venda .dados-venda-conteudo .dados-venda-conteudo-item{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    padding: .5em 0;
+}
+
+.dados-venda .itens-venda{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 1em 0;
+    background-color: #9c9c9c;
+    border-radius: 0 0 10px 10px;
+}
+
 @keyframes loading {
     0%{
         transform: rotate(0);

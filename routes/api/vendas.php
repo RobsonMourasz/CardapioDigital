@@ -17,25 +17,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                 COUNT(a.idPedido) AS 'QtdVendas' 
                 FROM cadpedido a 
                 WHERE a.DataPedido 
-                BETWEEN '?' AND '?'",
-                'ss',[isset($_POST['datainicio']) ? $_POST['datainicio'] : date('Y-m-d'), isset($_POST['datafinal']) ? $_POST['datafinal'] : date('Y-m-d')]);
+                BETWEEN ? AND ?",
+                'ss',[isset($_POST['datainicio']) ? $_POST['datainicio'].' 00:00:00' : date('Y-m-d') .' 00:00:00', isset($_POST['datafinal']) ? $_POST['datafinal']. ' 23:59:59' : date('Y-m-d'). ' 23:59:59']);
     
                 $cadPedido = src\class\Conexao::getPesquisaBD("SELECT *
                 FROM cadpedido a 
                 WHERE a.DataPedido 
-                BETWEEN '?' AND '?'",'ss',[isset($_POST['datainicio']) ? $_POST['datainicio'] : date('Y-m-d'), isset($_POST['datafinal']) ? $_POST['datafinal'] : date('Y-m-d')]);
+                BETWEEN ? AND ?",'ss',[isset($_POST['datainicio']) ? $_POST['datainicio'].' 00:00:00' : date('Y-m-d') .' 00:00:00', isset($_POST['datafinal']) ? $_POST['datafinal']. ' 23:59:59' : date('Y-m-d'). ' 23:59:59']);
     
                 $mvPedido = src\class\Conexao::getPesquisaBD("SELECT *
                 FROM mvpedido a 
-                WHERE a.NumPedido IN( SELECT Controle FROM cadpedido a WHERE a.DataPedido BETWEEN '?' AND '?' )", 'ss',[isset($_POST['datainicio']) ? $_POST['datainicio'] : date('Y-m-d'), isset($_POST['datafinal']) ? $_POST['datafinal'] : date('Y-m-d')]);
+                WHERE a.NumPedido IN( SELECT Controle FROM cadpedido a WHERE a.DataPedido BETWEEN ? AND ? )", 'ss',[isset($_POST['datainicio']) ? $_POST['datainicio'].' 00:00:00' : date('Y-m-d') .' 00:00:00', isset($_POST['datafinal']) ? $_POST['datafinal']. ' 23:59:59' : date('Y-m-d'). ' 23:59:59']);
 
                 die(json_encode([
                     'status' => 'success', 
                     'result' => [
-                        'VrVendido' => $relatorio[0]['VrVendido'] ?? 0,
-                        'txEntrega' => $relatorio[0]['tx-entrega'] ?? 0,
-                        'txMaquininha' => $relatorio[0]['tx-maquininha'] ?? 0,
-                        'QtdVendas' => $relatorio[0]['QtdVendas'] ?? 0,
+                        'VrVendido' => doubleval($relatorio[0]['VrVendido']) ?? 0,
+                        'txEntrega' => doubleval($relatorio[0]['tx-entrega']) ?? 0,
+                        'txMaquininha' => doubleval($relatorio[0]['tx-maquininha']) ?? 0,
+                        'QtdVendas' => intval($relatorio[0]['QtdVendas']) ?? 0,
                         'cadPedido' => $cadPedido,
                         'mvPedido' => $mvPedido
                     ]
