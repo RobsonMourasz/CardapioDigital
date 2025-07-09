@@ -1,16 +1,20 @@
 let situacaoPedido = [];
+let formaPgto = [];
 (() => {
     window.addEventListener('load', async(e) => {
         const envSituacao = await fetch('../../routes/api/situacao.php?busca=all');
-        situacaoPedido = await envSituacao.json();
-        if (situacaoPedido.status === 'success'){
+        const resSituacaoPedido = await envSituacao.json();
+        situacaoPedido = resSituacaoPedido.result.filter(p => p.Tela.includes('Pedido'));
+        if (resSituacaoPedido.status === 'success'){
             const select = document.querySelector('[name="situacao"]');
-            select.innerHTML = `<option value="">Todas</option>`; // Adiciona a opção "Todas"
-            
-            situacaoPedido.result.forEach(situacao => {
+           
+            situacaoPedido.forEach(situacao => {
                 let options = document.createElement('option');
                 options.value = situacao.IdSituacao;
                 options.textContent = situacao.DescriacaoSituacao;
+                if (situacao.DescriacaoSituacao === 'Concluido'){
+                    options.selected = true;
+                }
                 select.appendChild(options);
             });
 
@@ -19,22 +23,40 @@ let situacaoPedido = [];
         date = date.toISOString().split('T')[0]; // Formata a data para YYYY-MM-DD
         document.querySelector('[name="datainicio"]').value = date;
         document.querySelector('[name="datafim"]').value = date;
-        document.querySelector(".carregando").classList.add("d-none");
-        buscarDados();
+        const removeCarregando = await buscarDados();
+
+        if (removeCarregando){
+            document.querySelector(".carregando").classList.add("d-none");
+            
+            const selectformapgto_filtro = document.querySelector('#formapgto-filtro');
+            let option = document.createElement('option');
+            option.value = '';
+            option.disabled = true;
+            option.textContent = '---';
+            selectformapgto_filtro.appendChild(option);
+            console.log(formaPgto);
+            formaPgto.forEach(forma => {
+                option.value = forma.IdPagamento;
+                option.textContent = forma.DescricaoPagamento;
+                selectformapgto_filtro.appendChild(option);
+            });
+        }else{
+            chamarTelaAvisos('danger', 'Erro ao buscar dados, tente novamente mais tarde ou entre em contato com o suporte.');
+        }
+
+
+
     })
 
     document.getElementById('btn-buscar-filtro').addEventListener('click', async()=> {
-        console.log('clicou no botao buscar filtro');
-        if (await buscaAvancada()){
+
+        if (await buscarDados()){
+            document.getElementById('modal-filtro').closest('.background-modal').classList.add('d-none');
             console.log('busca avançada realizada com sucesso');
         }
     });
 
 })();
-
-async function buscaAvancada() {
-    
-}
 
 async function buscarDados() {
     let datainicio = new Date();
@@ -48,12 +70,16 @@ async function buscarDados() {
         datafim = document.querySelector('[name="datafim"]').value; 
 
     }
+    const situacao = document.querySelector('[name="situacao"]').value;
+    const formapgtoinput = document.querySelector('[name="formapgto"]').value;
     
     
     const tipoBusca = new FormData();
     tipoBusca.append('action', 'relatorioDiario');
     tipoBusca.append('datainicio', datainicio);
     tipoBusca.append('datafinal', datafim);
+    tipoBusca.append('situacao', situacao);
+    tipoBusca.append('formapgto', formapgtoinput);
     const env = await fetch('../../routes/api/vendas.php', {
         method: 'POST',
         body: tipoBusca
@@ -65,11 +91,14 @@ async function buscarDados() {
 
         if (res.result.QtdVendas > 0) {
             preencherTabelaDeProdutos(res.result)
+        }else{
+            preencherTabelaDeProdutosVazio();
         }
         return true;
 
     } else {
         chamarTelaAvisos('danger', res.result);
+        return false;
     }
 }
 
@@ -91,6 +120,8 @@ async function preencherTabelaDeProdutos(data) {
     const vendas = await montarPedidoxProdutos(data.cadPedido, data.mvPedido);
 
     vendas.forEach((venda) => {
+        let total = "";
+        total = parseFloat(venda.ValorPedido) + parseFloat(venda.ValorEntrega) + parseFloat(venda.ValorAdicional);
         // Criar o container principal da venda
         const divVenda = document.createElement('div');
         divVenda.classList.add('dados-venda');
@@ -102,12 +133,16 @@ async function preencherTabelaDeProdutos(data) {
             <div class="dados-venda-titulo-item ocultar-responsivo"><p>Data</p></div>
             <div class="dados-venda-titulo-item"><p>Valor</p></div>
             <div class="dados-venda-titulo-item"><p>Taxa + Entrega</p></div>
+            <div class="dados-venda-titulo-item"><p>Total Pedido</p></div>
+            <div class="dados-venda-titulo-item"><p>Forma Pagamento</p></div>
         </div>
         <div class="dados-venda-conteudo">
             <div class="dados-venda-conteudo-item"><p>#${venda.idPedido}</p></div>
             <div class="dados-venda-conteudo-item ocultar-responsivo"><p>${venda.DataPedido}</p></div>
             <div class="dados-venda-conteudo-item"><p>R$ ${getConversaoParaMoeda(venda.ValorPedido)}</p></div>
             <div class="dados-venda-conteudo-item"><p>R$ ${getConversaoParaMoeda(venda.ValorEntrega)} + ${getConversaoParaMoeda(venda.ValorAdicional)}</p></div>
+            <div class="dados-venda-conteudo-item"><p>R$ ${getConversaoParaMoeda(total)}</p></div>
+            <div class="dados-venda-conteudo-item"><p>R$ ${venda.FormaPagamento}</p></div>
         </div>
     `;
 
@@ -139,10 +174,28 @@ async function preencherTabelaDeProdutos(data) {
     body.appendChild(tabela);
 }
 
+function preencherTabelaDeProdutosVazio(){
+    document.getElementById('qtd-total-venda').textContent = '0';
+    document.getElementById('valor-total-venda').textContent = `${getConversaoParaMoeda(0)}`;
+    document.getElementById('valor-taxa-entrega').textContent = `${getConversaoParaMoeda(0)} + ${getConversaoParaMoeda(0)}`;
+    let body = document.querySelector('.content-body');
+    body.innerHTML = "";
+    let tabela = document.createElement('div');
+    tabela.classList.add('dados-venda');
+    tabela.innerHTML = `
+    <div class="content-button">
+        <button class="btn bg-success btn-responsivo" id="btn-filtro-avancado" id-modal="modal-filtro" attr="modal" show="abrir">Filtro</button>
+    </div>
+    <p id="msg-sem-dados">Nenhuma venda encontrada nesse periodo.</p>`;
+    body.appendChild(tabela);
+
+}
+
 async function montarPedidoxProdutos(pedido, produtos) {
     const buscarProduto = await fetch('../../routes/api/produtos.php?busca=all');
     const todosProdutos = await buscarProduto.json();
     // Criar um mapa para acesso rápido aos dados de todosProdutos por IdProduto
+    formaPgto.push(...todosProdutos.result.formaPgto);
     const catalogoProdutos = new Map();
     todosProdutos.result.produtos.forEach(prod => {
         catalogoProdutos.set(prod.IdProduto, prod);

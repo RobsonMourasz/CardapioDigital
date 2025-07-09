@@ -15,7 +15,8 @@
 
             <div class="dashboard btn-responsivo bg-success">
                 <div class="card-header">
-                    <h2>Total em R$</h2>
+                    <h2>Total </h2>
+                    <p>Produtos + taxas + entregas</p>
                 </div>
                 <div class="body">
                     <p id="valor-total-venda">R$ 0,00</p>
@@ -24,7 +25,8 @@
 
             <div class="dashboard btn-responsivo bg-danger">
                 <div class="card-header">
-                    <h2>Valor Taxa + Entrega</h2>
+                    <h2>Valor</h2>
+                    <p>Taxa + Entregas</p>
                 </div>
                 <div class="body">
                     <p id="valor-taxa-entrega">R$ 0,00</p>
@@ -83,6 +85,14 @@
                             <span class="select-wrapper"></span>
                         </div>
 
+                        <div class="group-input">
+                            <label for="">Selecione a forma pagamento
+                                <select name="formapgto" id="formapgto-filtro">
+
+                                </select>
+                            </label>
+                            <span class="select-wrapper"></span>
+                        </div>
                     </div>
                 </div>
             </div>
