@@ -74,6 +74,15 @@
                             </label>
                         </div>
 
+                        <div class="group-input">
+                            <label for="">Selecione a situação do pedido
+                                <select name="situacao" id="situacao-filtro">
+                                    
+                                </select>
+                            </label>
+                            <span class="select-wrapper"></span>
+                        </div>
+
                     </div>
                 </div>
             </div>

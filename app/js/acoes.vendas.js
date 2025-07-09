@@ -1,5 +1,20 @@
+let situacaoPedido = [];
 (() => {
-    window.addEventListener('load', (e) => {
+    window.addEventListener('load', async(e) => {
+        const envSituacao = await fetch('../../routes/api/situacao.php?busca=all');
+        situacaoPedido = await envSituacao.json();
+        if (situacaoPedido.status === 'success'){
+            const select = document.querySelector('[name="situacao"]');
+            select.innerHTML = `<option value="">Todas</option>`; // Adiciona a opção "Todas"
+            
+            situacaoPedido.result.forEach(situacao => {
+                let options = document.createElement('option');
+                options.value = situacao.IdSituacao;
+                options.textContent = situacao.DescriacaoSituacao;
+                select.appendChild(options);
+            });
+
+        }
         let date = new Date();
         date = date.toISOString().split('T')[0]; // Formata a data para YYYY-MM-DD
         document.querySelector('[name="datainicio"]').value = date;
