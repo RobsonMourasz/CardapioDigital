@@ -1,18 +1,18 @@
 let situacaoPedido = [];
 let formaPgto = [];
 (() => {
-    window.addEventListener('load', async(e) => {
+    window.addEventListener('load', async (e) => {
         const envSituacao = await fetch('../../routes/api/situacao.php?busca=all');
         const resSituacaoPedido = await envSituacao.json();
         situacaoPedido = resSituacaoPedido.result.filter(p => p.Tela.includes('Pedido'));
-        if (resSituacaoPedido.status === 'success'){
+        if (resSituacaoPedido.status === 'success') {
             const select = document.querySelector('[name="situacao"]');
-           
+
             situacaoPedido.forEach(situacao => {
                 let options = document.createElement('option');
                 options.value = situacao.IdSituacao;
                 options.textContent = situacao.DescriacaoSituacao;
-                if (situacao.DescriacaoSituacao === 'Concluido'){
+                if (situacao.DescriacaoSituacao === 'Concluido') {
                     options.selected = true;
                 }
                 select.appendChild(options);
@@ -25,22 +25,25 @@ let formaPgto = [];
         document.querySelector('[name="datafim"]').value = date;
         const removeCarregando = await buscarDados();
 
-        if (removeCarregando){
+        if (removeCarregando) {
             document.querySelector(".carregando").classList.add("d-none");
-            
+
             const selectformapgto_filtro = document.querySelector('#formapgto-filtro');
             let option = document.createElement('option');
             option.value = '';
             option.disabled = true;
             option.textContent = '---';
             selectformapgto_filtro.appendChild(option);
-            console.log(formaPgto);
+            console.log("FormaPgto antes do forEach:", formaPgto);
+
             formaPgto.forEach(forma => {
-                option.value = forma.IdPagamento;
-                option.textContent = forma.DescricaoPagamento;
-                selectformapgto_filtro.appendChild(option);
+                let option2 = document.createElement('option');
+                option2.value = forma.IdPagamento;
+                option2.textContent = forma.DescricaoPagamento;
+                selectformapgto_filtro.appendChild(option2);
             });
-        }else{
+
+        } else {
             chamarTelaAvisos('danger', 'Erro ao buscar dados, tente novamente mais tarde ou entre em contato com o suporte.');
         }
 
@@ -48,9 +51,9 @@ let formaPgto = [];
 
     })
 
-    document.getElementById('btn-buscar-filtro').addEventListener('click', async()=> {
+    document.getElementById('btn-buscar-filtro').addEventListener('click', async () => {
 
-        if (await buscarDados()){
+        if (await buscarDados()) {
             document.getElementById('modal-filtro').closest('.background-modal').classList.add('d-none');
             console.log('busca avançada realizada com sucesso');
         }
@@ -65,15 +68,15 @@ async function buscarDados() {
         datainicio = datainicio.toISOString().split('T')[0]; // Formata a data para YYYY-MM-DD
         datafim = datafim.toISOString().split('T')[0]; // Formata a data para YYYY-MM-DD
 
-    }else{
-        datainicio = document.querySelector('[name="datainicio"]').value; 
-        datafim = document.querySelector('[name="datafim"]').value; 
+    } else {
+        datainicio = document.querySelector('[name="datainicio"]').value;
+        datafim = document.querySelector('[name="datafim"]').value;
 
     }
     const situacao = document.querySelector('[name="situacao"]').value;
     const formapgtoinput = document.querySelector('[name="formapgto"]').value;
-    
-    
+
+
     const tipoBusca = new FormData();
     tipoBusca.append('action', 'relatorioDiario');
     tipoBusca.append('datainicio', datainicio);
@@ -91,7 +94,7 @@ async function buscarDados() {
 
         if (res.result.QtdVendas > 0) {
             preencherTabelaDeProdutos(res.result)
-        }else{
+        } else {
             preencherTabelaDeProdutosVazio();
         }
         return true;
@@ -174,7 +177,7 @@ async function preencherTabelaDeProdutos(data) {
     body.appendChild(tabela);
 }
 
-function preencherTabelaDeProdutosVazio(){
+function preencherTabelaDeProdutosVazio() {
     document.getElementById('qtd-total-venda').textContent = '0';
     document.getElementById('valor-total-venda').textContent = `${getConversaoParaMoeda(0)}`;
     document.getElementById('valor-taxa-entrega').textContent = `${getConversaoParaMoeda(0)} + ${getConversaoParaMoeda(0)}`;
@@ -194,41 +197,48 @@ function preencherTabelaDeProdutosVazio(){
 async function montarPedidoxProdutos(pedido, produtos) {
     const buscarProduto = await fetch('../../routes/api/produtos.php?busca=all');
     const todosProdutos = await buscarProduto.json();
-    // Criar um mapa para acesso rápido aos dados de todosProdutos por IdProduto
-    formaPgto.push(...todosProdutos.result.formaPgto);
-    const catalogoProdutos = new Map();
-    todosProdutos.result.produtos.forEach(prod => {
-        catalogoProdutos.set(prod.IdProduto, prod);
-    });
+    if (todosProdutos.status == 'success') {
+        // Criar um mapa para acesso rápido aos dados de todosProdutos por IdProduto
+        formaPgto.push(...todosProdutos.result.formaPgto);
+        console.log("FormaPgto após o push:", formaPgto);
+        const catalogoProdutos = new Map();
+        todosProdutos.result.produtos.forEach(prod => {
+            catalogoProdutos.set(prod.IdProduto, prod);
+        });
 
-    const Pedidos = pedido;
-    const Itens = produtos;
-    const produtosPorPedido = new Map();
+        const Pedidos = pedido;
+        const Itens = produtos;
+        const produtosPorPedido = new Map();
 
-    Itens.forEach(produto => {
-        if (!produtosPorPedido.has(produto.NumPedido)) {
-            produtosPorPedido.set(produto.NumPedido, []);
-        }
-        produtosPorPedido.get(produto.NumPedido).push(produto);
-    });
+        Itens.forEach(produto => {
+            if (!produtosPorPedido.has(produto.NumPedido)) {
+                produtosPorPedido.set(produto.NumPedido, []);
+            }
+            produtosPorPedido.get(produto.NumPedido).push(produto);
+        });
 
-    const pedidosCompletos = Pedidos.map(pedido => {
-        const produtos = produtosPorPedido.get(pedido.Controle) || [];
+        const pedidosCompletos = Pedidos.map(pedido => {
+            const produtos = produtosPorPedido.get(pedido.Controle) || [];
 
-        // Enriquecer cada produto com os dados do catálogo
-        const produtosCompletos = produtos.map(item => {
-            const dadosCatalogo = catalogoProdutos.get(item.IdProduto) || {};
+            // Enriquecer cada produto com os dados do catálogo
+            const produtosCompletos = produtos.map(item => {
+                const dadosCatalogo = catalogoProdutos.get(item.IdProduto) || {};
+                return {
+                    ...item,
+                    ...dadosCatalogo // adiciona os dados extras como Nome, Descricao, etc.
+                };
+            });
+
             return {
-                ...item,
-                ...dadosCatalogo // adiciona os dados extras como Nome, Descricao, etc.
+                ...pedido,
+                produtos: produtosCompletos
             };
         });
 
-        return {
-            ...pedido,
-            produtos: produtosCompletos
-        };
-    });
+        return pedidosCompletos;
 
-    return pedidosCompletos;
+    }else{
+        return false
+    }
+    
 }
