@@ -141,13 +141,13 @@ async function preencherCategorias(data) {
     bodyCategoria.innerHTML = "";
     data.forEach(categoria => {
         let imgSrc = '';
-        if (categoria.Imagem !== null || categoria.Imagem !== '') {
+        if (categoria.Imagem != null) {
             imgSrc = categoria.Imagem;
         } else {
-            imgSrc = 'app/assets/Categoria/sem-imagem.png';
+            imgSrc = 'app/assets/Categoria/sem-imagem.jfif';
         }
         let trCategoria = document.createElement('tr');
-        trCategoria.innerHTML = `<td class="ocultar-responsivo" ><img width="62" src="../../${categoria.Imagem}" alt="${categoria.DescricaoCategoria}"></td>
+        trCategoria.innerHTML = `<td class="ocultar-responsivo" ><img width="62" src="../../${imgSrc}" alt="${categoria.DescricaoCategoria}"></td>
                 <td>${categoria.DescricaoCategoria}</td>
                 <td class="text-center">
                     <button class="btn btn-primary btn-sm" onclick="editarCategoria(${categoria.IdCategoria})" id-modal="modal-editar" attr="modal" show="abrir">Editar</button>
