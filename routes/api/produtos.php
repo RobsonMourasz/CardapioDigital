@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         if (isset($produtos['file']) && !empty($produtos['file'])) {
 
             $imagemAntiga = src\class\Conexao::getPesquisaBD('SELECT Imagem FROM cadprodutos WHERE IdProduto = ?', 'i', [intval($produtos['IdProduto'])]);
-
+                die(var_dump($imagemAntiga));
             if (!empty($imagemAntiga)) {
 
                 if (file_exists(__DIR__.'/../../'.$imagemAntiga[0]['Imagem'])) {
