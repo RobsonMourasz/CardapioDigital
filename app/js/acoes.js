@@ -398,6 +398,10 @@ async function limparPreencherFormularioPedido(){
 
     const formaPgto = document.getElementById('formaPgto').value = "";
 
+    const valor_troco = document.getElementById('valor-troco');
+    valor_troco.value = "";
+    valor_troco.closest('.valor-troco').classList.add('d-none')
+
     const troco = document.getElementById('troco');
     troco.value = ""
     troco.closest('.troco').classList.add('d-none');
@@ -436,7 +440,7 @@ function verificarQtdPedidosNaSacola() {
     responsavelPeloValorQuantidade()
 }
 
-function atualizaValorPedido(valor, qtd) {
+function atualizaValorPedido(valor) {
 
     let cardTotalPedido = document.querySelector('.pedido .totalizador .vr-pedido');
     let cardTaxaEntrega = document.querySelector('.pedido .totalizador .tx-entrega');
