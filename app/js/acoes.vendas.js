@@ -149,7 +149,7 @@ async function preencherTabelaDeProdutos(data) {
             <div class="dados-venda-conteudo-item"><p>R$ ${getConversaoParaMoeda(venda.ValorPedido)}</p></div>
             <div class="dados-venda-conteudo-item"><p>R$ ${getConversaoParaMoeda(venda.ValorAdicional)} + ${getConversaoParaMoeda(venda.ValorEntrega)}</p></div>
             <div class="dados-venda-conteudo-item"><p>R$ ${getConversaoParaMoeda(total)}</p></div>
-            <div class="dados-venda-conteudo-item"><p>R$ ${capitalizeFirstLetter(venda.FormaPagamento)}</p></div>
+            <div class="dados-venda-conteudo-item"><p>${capitalizeFirstLetter(venda.FormaPagamento)}</p></div>
         </div>
     `;
 
@@ -161,7 +161,7 @@ async function preencherTabelaDeProdutos(data) {
         if (Array.isArray(venda.produtos)) {
             venda.produtos.forEach((item) => {
                 const pItem = document.createElement('p');
-                pItem.textContent = `${item.Qtd} x ${item.DescricaoProduto} R$ ${getConversaoParaMoeda(item.VrVenda)}`;
+                pItem.textContent = `${item.Qtd} x ( ${item.DescricaoProduto} ) R$ ${getConversaoParaMoeda(item.VrVenda)}`;
                 divItens.appendChild(pItem);
             });
         } else {
