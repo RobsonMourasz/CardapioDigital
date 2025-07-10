@@ -92,3 +92,12 @@ function getConversaoParaMoeda(string) {
     }
     
 }
+
+function capitalizeFirstLetter(str) {
+    if (typeof str !== 'string' || str.length === 0) {
+        return str; // Return the original value if it's not a string or is empty
+    }
+    let primeira = str.charAt(0).toUpperCase()
+    let restante = str.slice(1).toLowerCase();
+    return `${primeira}${restante}`;
+}

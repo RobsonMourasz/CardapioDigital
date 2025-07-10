@@ -19,6 +19,26 @@ let formaPgto = [];
             });
 
         }
+
+        const envFormaPgto = await fetch('../../routes/api/formapgto.php?busca=all');
+        const resFormaPgto = await envFormaPgto.json();
+        if (resFormaPgto.status === 'success') {
+
+            formaPgto.push(...resFormaPgto.result)
+            const select = document.querySelector('[name="formapgto"]');
+            select.innerHTML = '<option value="">Todas</option>';
+            formaPgto.forEach(pagamento => {
+                let options = document.createElement('option');
+                options.value = pagamento.DescricaoPagamento.toLowerCase();
+                options.textContent = pagamento.DescricaoPagamento;
+                select.appendChild(options);
+            });
+
+        } else {
+
+        }
+
+
         let date = new Date();
         date = date.toISOString().split('T')[0]; // Formata a data para YYYY-MM-DD
         document.querySelector('[name="datainicio"]').value = date;
@@ -27,22 +47,6 @@ let formaPgto = [];
 
         if (removeCarregando) {
             document.querySelector(".carregando").classList.add("d-none");
-
-            const selectformapgto_filtro = document.querySelector('#formapgto-filtro');
-            let option = document.createElement('option');
-            option.value = '';
-            option.disabled = true;
-            option.textContent = '---';
-            selectformapgto_filtro.appendChild(option);
-            console.log("FormaPgto antes do forEach:", formaPgto);
-
-            formaPgto.forEach(forma => {
-                let option2 = document.createElement('option');
-                option2.value = forma.IdPagamento;
-                option2.textContent = forma.DescricaoPagamento;
-                selectformapgto_filtro.appendChild(option2);
-            });
-
         } else {
             chamarTelaAvisos('danger', 'Erro ao buscar dados, tente novamente mais tarde ou entre em contato com o suporte.');
         }
@@ -143,9 +147,9 @@ async function preencherTabelaDeProdutos(data) {
             <div class="dados-venda-conteudo-item"><p>#${venda.idPedido}</p></div>
             <div class="dados-venda-conteudo-item ocultar-responsivo"><p>${venda.DataPedido}</p></div>
             <div class="dados-venda-conteudo-item"><p>R$ ${getConversaoParaMoeda(venda.ValorPedido)}</p></div>
-            <div class="dados-venda-conteudo-item"><p>R$ ${getConversaoParaMoeda(venda.ValorEntrega)} + ${getConversaoParaMoeda(venda.ValorAdicional)}</p></div>
+            <div class="dados-venda-conteudo-item"><p>R$ ${getConversaoParaMoeda(venda.ValorAdicional)} + ${getConversaoParaMoeda(venda.ValorEntrega)}</p></div>
             <div class="dados-venda-conteudo-item"><p>R$ ${getConversaoParaMoeda(total)}</p></div>
-            <div class="dados-venda-conteudo-item"><p>R$ ${venda.FormaPagamento}</p></div>
+            <div class="dados-venda-conteudo-item"><p>R$ ${capitalizeFirstLetter(venda.FormaPagamento)}</p></div>
         </div>
     `;
 
@@ -199,8 +203,6 @@ async function montarPedidoxProdutos(pedido, produtos) {
     const todosProdutos = await buscarProduto.json();
     if (todosProdutos.status == 'success') {
         // Criar um mapa para acesso rápido aos dados de todosProdutos por IdProduto
-        formaPgto.push(...todosProdutos.result.formaPgto);
-        console.log("FormaPgto após o push:", formaPgto);
         const catalogoProdutos = new Map();
         todosProdutos.result.produtos.forEach(prod => {
             catalogoProdutos.set(prod.IdProduto, prod);
@@ -237,8 +239,10 @@ async function montarPedidoxProdutos(pedido, produtos) {
 
         return pedidosCompletos;
 
-    }else{
+    } else {
         return false
     }
-    
+
 }
+
+
