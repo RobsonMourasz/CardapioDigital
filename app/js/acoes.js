@@ -6,7 +6,6 @@ let pegaCard = null;
         document.querySelectorAll('[scroll="sim"]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                console.log("Clicou no link: ", link.getAttribute('href'));
                 const destino = link.getAttribute('href');
                 const elemento = document.querySelector(destino);
                 if (elemento) {
@@ -299,8 +298,11 @@ async function carregarTabela(data) {
 
             if (categoriaEncontrada) {
                 img = categoriaEncontrada.Imagem;
+                if ( img == null ) {
+                    img = 'app/assets/Categoria/sem-imagem.jfif';
+                }
             } else {
-                img = 'app/assetes/sem_imagem.png';
+                img = 'app/assets/Categoria/sem-imagem.jfif';
             }
 
         } else {
@@ -537,8 +539,7 @@ async function enviarMensagem(item) {
 
     const msg = [cabecalho, ...pedido, footer];
     const mensagemPedido = msg.join("\n");
-    console.log('asdasd', item[0])
-    console.log(mensagemPedido);
+
     const sendTextMessage = async () => {
       try {
         const response = await fetch('https://v2-api.gzappy.com/message/send-text', {

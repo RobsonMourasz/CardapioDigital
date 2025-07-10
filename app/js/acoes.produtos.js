@@ -186,6 +186,9 @@ async function carregarTabelaProdutos(data) {
         let img = ""
         if (produto.Imagem == null || produto.Imagem == "") {
             img = categorias.find(c => c.IdCategoria === produto.IdCategoria).Imagem;
+            if (img == null || img == ""){
+                img = 'app/assets/Categoria/sem-imagem.jfif';
+            }
         } else {
             img = produto.Imagem;
         }
