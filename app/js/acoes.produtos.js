@@ -262,7 +262,7 @@ function excluirProduto(id) {
                 input.value = itens[0].DescricaoProduto;
             }
         });
-        setupUploadArea(document.querySelector('#modal-excluir'));
+        //setupUploadArea(document.querySelector('#modal-excluir'));
     } else {
         chamarTelaAvisos("danger", "Produto não encontrado.");
     }

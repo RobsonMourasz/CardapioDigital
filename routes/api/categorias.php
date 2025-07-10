@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
             $imagemAntiga = src\class\Conexao::getPesquisaBD('SELECT Imagem FROM categoria WHERE IdCategoria = ?', 'i', [intval($_GET['id'])]);
 
-            if (!empty($imagemAntiga)) {
+            if (!empty( $imagemAntiga[0]['Imagem'] ) || $imagemAntiga[0]['Imagem'] !== null ) {
 
                 if (file_exists(__DIR__ . '/../../' . $imagemAntiga[0]['Imagem'])) {
                     unlink(__DIR__ . '/../../' . $imagemAntiga[0]['Imagem']);
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
                 $imagemAntiga = src\class\Conexao::getPesquisaBD('SELECT Imagem FROM categoria WHERE IdCategoria = ?', 'i', [intval($data['IdCategoria'])]);
 
-                if (!empty($imagemAntiga[0]['Imagem'])) {
+                if (!empty( $imagemAntiga[0]['Imagem'] ) || $imagemAntiga[0]['Imagem'] !== null ) {
 
                     if (file_exists(__DIR__ . '/../../' . $imagemAntiga[0]['Imagem'])) {
                         unlink(__DIR__ . '/../../' . $imagemAntiga[0]['Imagem']);

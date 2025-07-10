@@ -343,6 +343,9 @@ async function carregarTabela(data) {
 async function preencherFormularioPedido(data) {
     document.querySelector('.totalizador .tx-entrega').textContent = '0.00';
     document.querySelector('.totalizador .tx-maquininha').textContent = '0.00';
+    document.querySelector('.metodo-pagamento').classList.remove('d-none')
+    document.querySelector('.entrega').classList.remove('d-none')
+    document.querySelector('#enviar-pedido').classList.remove('d-none')
 
     if (data.Imagem == null || data.Imagem == '') {
         const categoriaEncontrada = lista.categoria.find(categoria => categoria.IdCategoria == data.IdCategoria);
@@ -393,6 +396,7 @@ async function preencherFormularioPedido(data) {
 }
 
 async function limparPreencherFormularioPedido(){
+
     let formPedido = document.getElementById('pedidoForm');
     formPedido.innerText = '';
     document.querySelector('.title-pedido').innerText = '';
@@ -414,7 +418,9 @@ async function limparPreencherFormularioPedido(){
     endereco.value = ""
     endereco.closest('.detalhe-endereco').classList.add('d-none');
 
-
+    document.querySelector('.metodo-pagamento').classList.add('d-none')
+    document.querySelector('.entrega').classList.add('d-none')
+    document.querySelector('#enviar-pedido').classList.add('d-none')
 
 }
 

@@ -114,7 +114,7 @@ section {
     width: 100%;
     /* padding: 1em; */
     height: 100%;
-    overflow-y: auto;
+    overflow-y: hidden;
 }
 
 footer {
@@ -140,6 +140,11 @@ footer {
     padding: 1.5em;
     border-radius: 10px;
     margin: 1em 0;
+}
+
+.content .content-body{
+    overflow-y: auto;
+    height: 100%;
 }
 
 .conteiner {

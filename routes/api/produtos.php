@@ -55,14 +55,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         if (isset($produtos['file']) && !empty($produtos['file'])) {
 
             $imagemAntiga = src\class\Conexao::getPesquisaBD('SELECT Imagem FROM cadprodutos WHERE IdProduto = ?', 'i', [intval($produtos['IdProduto'])]);
-                die(var_dump($imagemAntiga));
-            if (!empty($imagemAntiga)) {
+
+            if (!empty( $imagemAntiga[0]['Imagem'] ) || $imagemAntiga[0]['Imagem'] !== null ) {
 
                 if (file_exists(__DIR__.'/../../'.$imagemAntiga[0]['Imagem'])) {
                     unlink(__DIR__.'/../../'.$imagemAntiga[0]['Imagem']);
                 }
 
             }
+
         }
 
         if (src\class\Conexao::insertBD('UPDATE cadprodutos SET IdCategoria = ?, ProdAtivo = ?, DescricaoProduto = ?, Imagem = ?, VrVenda = ?, Estoque = ?, Ingredientes = ?, DataAlteracao = ? WHERE IdProduto = ?', 'isssddssi', [intval($produtos['IdCategoria']), 'S', $produtos['DescricaoProduto'], $produtos['Imagem'], $produtos['VrVenda'], $produtos['Estoque'], $produtos['Ingredientes'], date('Y-m-d H:m:s'), intval($produtos['IdProduto'])])) {
@@ -83,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if ($produtos['method'] == 'excluir') {
         $imagemApagar = src\class\Conexao::getPesquisaBD('SELECT Imagem FROM cadprodutos WHERE IdProduto = ?', 'i', [intval($produtos['IdProduto'])]);
 
-        if (!empty($imagemApagar)) {
+        if (!empty( $imagemApagar[0]['Imagem'] ) || $imagemApagar[0]['Imagem'] !== null ) {
 
             if (file_exists(__DIR__.'/../../'.$imagemApagar[0]['Imagem'])) {
                 unlink(__DIR__.'/../../'.$imagemApagar[0]['Imagem']);
