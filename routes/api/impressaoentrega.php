@@ -164,8 +164,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $bodies .= '<tr>';
             $bodies .= '<td>' . $item['DescricaoProduto'] . '</td>';
             $bodies .= '<td>' . $item['Qtd'] . '</td>';
-            $bodies .= '<td>' . $item['VrVenda'] . '</td>';
-            $bodies .= '<td>' . $total . '</td>';
+            $bodies .= '<td>' . number_format(doubleval($item['VrVenda']), 2, ',', '.') . '</td>';
+            $bodies .= '<td>' . number_format(doubleval($total), 2, ',', '.') . '</td>';
             $bodies .= '</tr>';
             $totalItem = $totalItem + $total;
         }
@@ -174,16 +174,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $bodies .= '</table>';
         $bodies .= '<div class="valores">';
         $totalItem = $totalItem;
-        $bodies .= '<div class="text"><strong>Total Produtos:</strong> R$ ' . $totalItem . '</div>';
+        $bodies .= '<div class="text"><strong>Total Produtos:</strong> R$ ' . number_format(doubleval($totalItem), 2, ',', '.') . '</div>';
         if (!$pedido['ValorEntrega'] == 0 || !$pedido['ValorEntrega'] == "") {
-            $bodies .= '<div class="text"><strong>Taxa Entrega:</strong> R$ ' . $pedido['ValorEntrega'] . '</div>';
+            $bodies .= '<div class="text"><strong>Taxa Entrega:</strong> R$ ' . number_format(doubleval($pedido['ValorEntrega']), 2, ',', '.') . '</div>';
         }
         if (!$pedido['ValorAdicional'] == 0 || !$pedido['ValorAdicional'] == "") {
-            $bodies .= '<div class="text"><strong>Taxa Cartao:</strong> R$ ' . $pedido['ValorAdicional'] . '</div>';
+            $bodies .= '<div class="text"><strong>Taxa Cartao:</strong> R$ ' . number_format(doubleval($pedido['ValorAdicional']), 2, ',', '.') . '</div>';
         }
         $vr = $totalItem + $pedido['ValorEntrega'] + $pedido['ValorAdicional'];
         $vr = $vr;
-        $bodies .= '<div class="text"><strong>Total a pagar:</strong> R$ ' . $vr . '</div>';
+        $bodies .= '<div class="text"><strong>Total a pagar:</strong> R$ ' . number_format($vr, 2, ',', '.') . '</div>';
         if (!$pedido['ObservacaoPedido'] == " Não é preciso de troco") {
             $bodies .= '<div class="text"><strong>Levar troco:</strong> ' . $pedido['ObservacaoPedido'] . '</div>';
         }

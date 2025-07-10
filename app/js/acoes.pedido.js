@@ -295,7 +295,7 @@ async function ChamarImpressaoEntrega(idPedido) {
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = 'comanda-cozinha.pdf';
+        link.download = 'tiket-entrega.pdf';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
