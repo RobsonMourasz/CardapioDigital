@@ -16,6 +16,7 @@
 
 
 -- Copiando estrutura do banco de dados para cardapio_digital
+DROP DATABASE IF EXISTS `cardapio_digital`;
 CREATE DATABASE IF NOT EXISTS `cardapio_digital` /*!40100 DEFAULT CHARACTER SET latin1 COLLATE latin1_general_ci */;
 USE `cardapio_digital`;
 
@@ -53,74 +54,14 @@ CREATE TABLE IF NOT EXISTS `cadpedido` (
   PRIMARY KEY (`idPedido`),
   UNIQUE KEY `idPedido` (`idPedido`),
   KEY `idPedido2` (`idPedido`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
--- Copiando dados para a tabela cardapio_digital.cadpedido: ~64 rows (aproximadamente)
+-- Copiando dados para a tabela cardapio_digital.cadpedido: ~4 rows (aproximadamente)
 REPLACE INTO `cadpedido` (`idPedido`, `idSituacao`, `ValorPedido`, `ValorEntrega`, `ValorAdicional`, `FormaPagamento`, `Controle`, `IpCliente`, `EnderecoEntrega`, `ObservacaoPedido`, `DataPedido`) VALUES
-	(1, 8, 65.00, 0.00, 0.00, 'pix', '6852b2d9b898c', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-18 12:06:41'),
-	(2, 8, 78.00, 2.00, 2.00, 'cartao', '6855a076bedd0', '::1', 'Rua José do ó, 332 Jd Bela vista ', 'Não é preciso de troco', '2025-06-20 05:06:02'),
-	(3, 8, 67.00, 2.00, 2.00, 'cartao', '6855a11661b3c', '::1', 'Av sergipe 357 centro', 'Não é preciso de troco', '2025-06-20 05:06:42'),
-	(4, 8, 68.00, 2.00, 2.00, 'cartao', '6855a182b13cb', '::1', 'Av sergipe 357 centro', 'Não é preciso de troco', '2025-06-20 05:06:30'),
-	(5, 8, 26.00, 0.00, 0.00, 'pix', '6855a75baf558', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 06:06:27'),
-	(6, 8, 65.00, 0.00, 0.00, 'pix', '6855a812a0c0f', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 06:06:30'),
-	(7, 8, 26.00, 0.00, 0.00, 'pix', '6855ac7f449a1', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 06:06:23'),
-	(8, 8, 26.00, 0.00, 0.00, 'pix', '6855acd2c1965', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 06:06:46'),
-	(9, 8, 26.00, 0.00, 0.00, 'pix', '6855ad724095d', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 06:06:26'),
-	(10, 8, 26.00, 0.00, 0.00, 'pix', '6855ad9e0d1e8', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 06:06:10'),
-	(11, 8, 26.00, 0.00, 0.00, 'pix', '6855add21d5ec', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 06:06:02'),
-	(12, 8, 26.00, 0.00, 0.00, 'pix', '6855ae524cec7', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 06:06:10'),
-	(13, 8, 26.00, 0.00, 0.00, 'pix', '6855ae7d4b043', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 06:06:53'),
-	(14, 8, 26.00, 0.00, 0.00, 'pix', '6855aec085d42', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 06:06:00'),
-	(15, 8, 26.00, 0.00, 0.00, 'pix', '6855aedbd8a55', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 06:06:27'),
-	(16, 8, 26.00, 0.00, 0.00, 'pix', '6855af08dcd2b', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 06:06:12'),
-	(17, 8, 26.00, 0.00, 0.00, 'pix', '6855afcc89b7f', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 07:06:28'),
-	(18, 8, 26.00, 0.00, 0.00, 'pix', '6855b02adbee4', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 07:06:02'),
-	(19, 8, 26.00, 0.00, 0.00, 'pix', '6855b04dcc52d', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 07:06:37'),
-	(20, 8, 26.00, 0.00, 0.00, 'pix', '6855b0a14be35', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 07:06:01'),
-	(21, 8, 26.00, 0.00, 0.00, 'pix', '6855b0d3adc10', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 07:06:51'),
-	(22, 5, 26.00, 0.00, 0.00, 'pix', '6855b1219bd36', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 07:06:09'),
-	(23, 5, 26.00, 0.00, 0.00, 'pix', '6855b14790c5f', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 07:06:47'),
-	(24, 5, 26.00, 0.00, 0.00, 'pix', '6855b15caaa7f', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 07:06:08'),
-	(25, 8, 26.00, 0.00, 0.00, 'pix', '6855b20a077ef', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 07:06:02'),
-	(26, 5, 51.00, 0.00, 0.00, 'pix', '6855b242eeeb6', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 07:06:58'),
-	(27, 5, 26.00, 0.00, 0.00, 'pix', '6855b2a8336a0', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 07:06:40'),
-	(28, 5, 51.00, 0.00, 0.00, 'pix', '6855b2c428661', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 07:06:08'),
-	(29, 5, 50.00, 0.00, 0.00, 'pix', '6855b3697df7b', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 07:06:53'),
-	(30, 5, 38.00, 0.00, 0.00, 'pix', '6855b3c93bf80', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 07:06:29'),
-	(31, 5, 51.00, 0.00, 0.00, 'pix', '6855b449bb4d3', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 07:06:37'),
-	(32, 5, 51.00, 0.00, 0.00, 'pix', '6855b540bb8e9', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 07:06:44'),
-	(33, 5, 26.00, 0.00, 0.00, 'pix', '6855b56de2d65', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 07:06:29'),
-	(34, 5, 26.00, 0.00, 0.00, 'pix', '6855b5928b3f0', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 07:06:06'),
-	(35, 5, 26.00, 0.00, 0.00, 'pix', '6855b5d443f74', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 07:06:12'),
-	(36, 8, 41.00, 2.00, 0.00, 'pix', '6855b609d5de4', '::1', 'Entregar aqui em casa ', 'Não é preciso de troco', '2025-06-20 07:06:05'),
-	(37, 5, 41.00, 2.00, 0.00, 'dinheiro', '6855bf9a07360', '::1', 'Rua sergipe 357 centro', 'troco para 100,00', '2025-06-20 08:06:54'),
-	(38, 5, 52.00, 2.00, 0.00, 'dinheiro', '6855c08abe4c0', '::1', 'Av sergipe 357 centro', 'Troco para 100,00', '2025-06-20 08:06:54'),
-	(39, 5, 39.00, 0.00, 0.00, 'pix', '6855c14501aca', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 08:06:01'),
-	(40, 5, 26.00, 0.00, 0.00, 'pix', '6855c1625f841', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 08:06:30'),
-	(41, 5, 26.00, 0.00, 0.00, 'pix', '6855c1921ef11', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 08:06:18'),
-	(42, 5, 26.00, 0.00, 0.00, 'pix', '6855c1dcc48da', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 08:06:32'),
-	(43, 5, 47.00, 0.00, 0.00, 'pix', '6855c1f740236', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-20 08:06:59'),
-	(44, 5, 41.00, 2.00, 0.00, 'dinheiro', '6855c2f200c10', '::1', 'Rua sergipe 357 centro', 'Troco para 100,00', '2025-06-20 08:06:10'),
-	(45, 5, 28.00, 2.00, 0.00, 'dinheiro', '6855c3a148a6f', '::1', 'tesasdasdasdasdasd', 'troco para 100', '2025-06-20 08:06:05'),
-	(46, 8, 68.00, 2.00, 2.00, 'cartao', '6855c57d381f0', '::1', 'Entregar aqui em casa', 'Não é preciso de troco', '2025-06-20 08:06:01'),
-	(47, 8, 65.00, 0.00, 0.00, 'dinheiro', '6855c651dda81', '::1', 'retirada no local.', 'Troco para 100,00', '2025-06-20 08:06:33'),
-	(48, 8, 43.00, 2.00, 2.00, 'cartao', '6855c781220fe', '::1', 'Avenida Sergipe 357 centro', 'Não é preciso de troco', '2025-06-20 08:06:37'),
-	(49, 0, 67.00, 2.00, 0.00, 'pix', '685c0ab8d7b1a', '::1', 'rua sergipe 357 centro', 'Não é preciso de troco', '2025-06-25 02:06:00'),
-	(50, 8, 66.00, 2.00, 0.00, 'pix', '685c0baaf2cd4', '::1', 'Avenida sergipe 357 centro', 'Não é preciso de troco', '2025-06-25 02:06:02'),
-	(51, 8, 28.00, 0.00, 2.00, 'cartao', '685d6aff30425', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-26 03:06:03'),
-	(52, 8, 29.00, 2.00, 0.00, 'dinheiro', '685e8d3e017fc', '::1', 'Entregar na rua sergipe 357 centro', 'Troco para 100,00', '2025-06-27 12:06:26'),
-	(53, 8, 53.00, 2.00, 2.00, 'cartao', '685e8e63b7bb8', '::1', 'entregar no endereco de casa', 'Não é preciso de troco', '2025-06-27 12:06:19'),
-	(54, 8, 41.00, 2.00, 0.00, 'dinheiro', '685ef92fcf020', '::1', 'Rua Sergipe 357 centro', 'Não é preciso de troco', '2025-06-27 08:06:59'),
-	(55, 5, 40.00, 2.00, 0.00, 'pix', '685ef9dec9dd5', '::1', 'Rua Sergipe 357 centro', 'Não é preciso de troco', '2025-06-27 08:06:54'),
-	(56, 5, 28.00, 0.00, 0.00, 'pix', '685f00418fc3e', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-27 08:06:09'),
-	(57, 5, 12.00, 0.00, 0.00, 'pix', '686275d7e4389', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-30 11:06:39'),
-	(58, 5, 24.00, 0.00, 0.00, 'pix', '6862764c605f7', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-30 11:06:36'),
-	(59, 5, 24.00, 0.00, 0.00, 'pix', '68627b489690c', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-30 11:06:52'),
-	(60, 5, 12.00, 0.00, 0.00, 'pix', '68627c1f983d7', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-30 11:06:27'),
-	(61, 5, 12.00, 0.00, 0.00, 'pix', '68627df5d463b', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-30 12:06:17'),
-	(62, 5, 24.00, 0.00, 0.00, 'pix', '68627ea4a9d97', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-30 12:06:12'),
-	(63, 4, 12.00, 0.00, 0.00, 'pix', '6862a80ed772c', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-30 03:06:54'),
-	(64, 2, 26.00, 0.00, 0.00, 'pix', '6862f92ec0a82', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-06-30 08:06:02');
+	(1, 3, 28.00, 0.00, 2.00, 'cartao', '687023abd4581', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-07-10 08:07:47'),
+	(2, 3, 63.00, 0.00, 0.00, 'dinheiro', '6870243b3a6b9', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-07-10 08:07:11'),
+	(3, 3, 36.00, 0.00, 0.00, 'dinheiro', '687024a1ab055', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-07-10 08:07:53'),
+	(4, 3, 28.00, 2.00, 0.00, 'pix', '687024b205cab', '::1', 'rua a 123', 'Não é preciso de troco', '2025-07-10 08:07:10');
 
 -- Copiando estrutura para tabela cardapio_digital.cadprodutos
 CREATE TABLE IF NOT EXISTS `cadprodutos` (
@@ -138,11 +79,11 @@ CREATE TABLE IF NOT EXISTS `cadprodutos` (
   PRIMARY KEY (`IdProduto`),
   UNIQUE KEY `IdProduto` (`IdProduto`),
   KEY `IdProduto2` (`IdProduto`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
--- Copiando dados para a tabela cardapio_digital.cadprodutos: ~19 rows (aproximadamente)
+-- Copiando dados para a tabela cardapio_digital.cadprodutos: ~17 rows (aproximadamente)
 REPLACE INTO `cadprodutos` (`IdProduto`, `IdCategoria`, `ProdAtivo`, `DescricaoProduto`, `Imagem`, `VrVenda`, `Estoque`, `Ingredientes`, `DataCadastro`, `DataAlteracao`, `UltimaMovimentacao`) VALUES
-	(1, 2, 'S', 'X - TUDO', '', 26.00, 0.00, 'Hambúrguer, bacon, ovo, presunto, queijo (mussarela ou cheddar), alface, tomate, maionese, ketchup, mostarda, pão de hambúrguer.', '2025-06-10 15:18:09', '2025-07-02 09:07:16', '2025-06-10 18:18:11'),
+	(1, 2, 'S', 'X - TUDO', NULL, 26.00, 0.00, 'Hambúrguer, bacon, ovo, presunto, queijo (mussarela ou cheddar), alface, tomate, maionese, ketchup, mostarda, pão de hambúrguer.', '2025-06-10 15:18:09', '2025-07-07 12:07:31', '2025-06-10 18:18:11'),
 	(2, 2, 'S', 'X - MODA', NULL, 25.00, 0.00, 'Pão, hambúrguer artesanal, mussarela, bacon, filé de frango, salsicha, ovo, alface, tomate, milho e batata palha.', '2025-06-10 15:18:24', '2025-06-10 15:18:25', '2025-06-10 18:18:26'),
 	(3, 2, 'S', 'X- ESPECIAL', NULL, 24.00, 0.00, 'Pão, hambúrguer artesanal, mussarela, bacon, salsicha, ovo, alface, tomate, milho e batata palha.', '2025-06-10 15:18:38', '2025-06-10 15:18:39', '2025-06-10 18:18:40'),
 	(4, 2, 'S', 'X - FRANGO', NULL, 22.00, 0.00, 'Pão, filé de frango, mussarela, bacon, ovo, alface, tomate, milho e batata palha.', '2025-06-10 15:18:52', '2025-06-10 15:18:52', '2025-06-10 18:18:53'),
@@ -169,9 +110,9 @@ CREATE TABLE IF NOT EXISTS `categoria` (
   PRIMARY KEY (`IdCategoria`),
   UNIQUE KEY `IdCategoria` (`IdCategoria`),
   KEY `IdCategoria2` (`IdCategoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
--- Copiando dados para a tabela cardapio_digital.categoria: ~5 rows (aproximadamente)
+-- Copiando dados para a tabela cardapio_digital.categoria: ~4 rows (aproximadamente)
 REPLACE INTO `categoria` (`IdCategoria`, `DescricaoCategoria`, `Imagem`, `CadAtivo`) VALUES
 	(1, 'BEBIDA', 'app\\assets\\Categoria\\Bebidas.png', 'S'),
 	(2, 'LANCHES', 'app\\assets\\Categoria\\Lanche.png', 'S'),
@@ -194,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `empresa` (
   KEY `IdEmpresa2` (`IdEmpresa`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
--- Copiando dados para a tabela cardapio_digital.empresa: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela cardapio_digital.empresa: ~1 rows (aproximadamente)
 REPLACE INTO `empresa` (`IdEmpresa`, `RazaoSocial`, `NomeFantasia`, `Telefone`, `Endereco`, `Cidade`, `Uf`, `Cnpj`, `EmpAtiva`) VALUES
 	(1, 'Robson Moura', 'Robson Moura', '34 3453-1490', 'Av. Sergipe 357, São Joao', 'Limeira do oeste', 'MG', '45052914806', 'S');
 
@@ -207,98 +148,14 @@ CREATE TABLE IF NOT EXISTS `mvpedido` (
   `DataLancemento` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
--- Copiando dados para a tabela cardapio_digital.mvpedido: ~82 rows (aproximadamente)
+-- Copiando dados para a tabela cardapio_digital.mvpedido: ~6 rows (aproximadamente)
 REPLACE INTO `mvpedido` (`NumPedido`, `IdProduto`, `Qtd`, `ObsProduto`, `DataLancemento`) VALUES
-	('6852b2d9b898c', 1, 2, '', '2025-06-18'),
-	('6852b2d9b898c', 10, 1, '', '2025-06-18'),
-	('6855a076bedd0', 1, 2, 'Sem brócolis ', '2025-06-20'),
-	('6855a076bedd0', 16, 1, '', '2025-06-20'),
-	('6855a11661b3c', 1, 2, 'Sem brócolis', '2025-06-20'),
-	('6855a11661b3c', 10, 1, '', '2025-06-20'),
-	('6855a182b13cb', 1, 2, 'Sem alho', '2025-06-20'),
-	('6855a182b13cb', 17, 1, '', '2025-06-20'),
-	('6855a75baf558', 1, 1, '', '2025-06-20'),
-	('6855a812a0c0f', 1, 2, '', '2025-06-20'),
-	('6855a812a0c0f', 10, 1, '', '2025-06-20'),
-	('6855ac7f449a1', 1, 1, '', '2025-06-20'),
-	('6855acd2c1965', 1, 1, '', '2025-06-20'),
-	('6855ad724095d', 1, 1, '', '2025-06-20'),
-	('6855ad9e0d1e8', 1, 1, '', '2025-06-20'),
-	('6855add21d5ec', 1, 1, '', '2025-06-20'),
-	('6855ae524cec7', 1, 1, '', '2025-06-20'),
-	('6855ae7d4b043', 1, 1, '', '2025-06-20'),
-	('6855aec085d42', 1, 1, '', '2025-06-20'),
-	('6855aedbd8a55', 1, 1, '', '2025-06-20'),
-	('6855af08dcd2b', 1, 1, '', '2025-06-20'),
-	('6855afcc89b7f', 1, 1, '', '2025-06-20'),
-	('6855b02adbee4', 1, 1, '', '2025-06-20'),
-	('6855b04dcc52d', 1, 1, '', '2025-06-20'),
-	('6855b0a14be35', 1, 1, '', '2025-06-20'),
-	('6855b0d3adc10', 1, 1, '', '2025-06-20'),
-	('6855b1219bd36', 1, 1, '', '2025-06-20'),
-	('6855b14790c5f', 1, 1, '', '2025-06-20'),
-	('6855b15caaa7f', 1, 1, '', '2025-06-20'),
-	('6855b20a077ef', 1, 1, '', '2025-06-20'),
-	('6855b242eeeb6', 1, 1, '', '2025-06-20'),
-	('6855b242eeeb6', 2, 1, '', '2025-06-20'),
-	('6855b2a8336a0', 1, 1, '', '2025-06-20'),
-	('6855b2c428661', 1, 1, '', '2025-06-20'),
-	('6855b2c428661', 2, 1, '', '2025-06-20'),
-	('6855b3697df7b', 1, 1, '', '2025-06-20'),
-	('6855b3697df7b', 16, 1, '', '2025-06-20'),
-	('6855b3c93bf80', 2, 1, '', '2025-06-20'),
-	('6855b3c93bf80', 10, 1, '', '2025-06-20'),
-	('6855b449bb4d3', 1, 1, '', '2025-06-20'),
-	('6855b449bb4d3', 2, 1, '', '2025-06-20'),
-	('6855b540bb8e9', 1, 1, '', '2025-06-20'),
-	('6855b540bb8e9', 2, 1, '', '2025-06-20'),
-	('6855b56de2d65', 1, 1, '', '2025-06-20'),
-	('6855b5928b3f0', 1, 1, '', '2025-06-20'),
-	('6855b5d443f74', 1, 1, '', '2025-06-20'),
-	('6855b609d5de4', 1, 1, '', '2025-06-20'),
-	('6855b609d5de4', 10, 1, '', '2025-06-20'),
-	('6855bf9a07360', 1, 1, 'Sem cebola ', '2025-06-20'),
-	('6855bf9a07360', 10, 1, '', '2025-06-20'),
-	('6855c08abe4c0', 1, 1, 'Sem cebola', '2025-06-20'),
-	('6855c08abe4c0', 16, 1, '', '2025-06-20'),
-	('6855c14501aca', 1, 1, '', '2025-06-20'),
-	('6855c14501aca', 10, 1, '', '2025-06-20'),
-	('6855c1625f841', 1, 1, '', '2025-06-20'),
-	('6855c1921ef11', 1, 1, '', '2025-06-20'),
-	('6855c1dcc48da', 1, 1, '', '2025-06-20'),
-	('6855c1f740236', 1, 1, '', '2025-06-20'),
-	('6855c1f740236', 7, 1, '', '2025-06-20'),
-	('6855c2f200c10', 1, 1, 'Sem cebola', '2025-06-20'),
-	('6855c2f200c10', 10, 1, '', '2025-06-20'),
-	('6855c3a148a6f', 1, 1, '', '2025-06-20'),
-	('6855c57d381f0', 1, 2, 'Sem alho', '2025-06-20'),
-	('6855c57d381f0', 11, 1, '', '2025-06-20'),
-	('6855c651dda81', 1, 2, 'Sem alho', '2025-06-20'),
-	('6855c651dda81', 10, 1, '', '2025-06-20'),
-	('6855c781220fe', 1, 1, 'Sem cebola', '2025-06-20'),
-	('6855c781220fe', 10, 1, '', '2025-06-20'),
-	('685c0ab8d7b1a', 1, 2, '', '2025-06-25'),
-	('685c0ab8d7b1a', 10, 1, '', '2025-06-25'),
-	('685c0baaf2cd4', 1, 2, 'Sem pao', '2025-06-25'),
-	('685d6aff30425', 1, 1, '', '2025-06-26'),
-	('685e8d3e017fc', 8, 1, '', '2025-06-27'),
-	('685e8d3e017fc', 15, 1, '', '2025-06-27'),
-	('685e8e63b7bb8', 2, 1, 'Sem alho ', '2025-06-27'),
-	('685e8e63b7bb8', 3, 1, 'Com bastante batata palha', '2025-06-27'),
-	('685ef92fcf020', 1, 1, 'Sem cebola', '2025-06-27'),
-	('685ef92fcf020', 10, 1, '', '2025-06-27'),
-	('685ef9dec9dd5', 1, 1, 'Sem nada', '2025-06-27'),
-	('685ef9dec9dd5', 17, 1, '', '2025-06-27'),
-	('685f00418fc3e', 9, 1, 'Sem milho', '2025-06-27'),
-	('685f00418fc3e', 17, 1, '', '2025-06-27'),
-	('686275d7e4389', 17, 1, '', '2025-06-30'),
-	('6862764c605f7', 16, 1, '', '2025-06-30'),
-	('68627b489690c', 16, 1, '', '2025-06-30'),
-	('68627c1f983d7', 17, 1, '', '2025-06-30'),
-	('68627df5d463b', 17, 1, '', '2025-06-30'),
-	('68627ea4a9d97', 16, 1, '', '2025-06-30'),
-	('6862a80ed772c', 17, 1, '', '2025-06-30'),
-	('6862f92ec0a82', 1, 1, '', '2025-06-30');
+	('687023abd4581', 1, 1, 'Sem cebola', '2025-07-10'),
+	('6870243b3a6b9', 2, 2, '', '2025-07-10'),
+	('6870243b3a6b9', 10, 1, '', '2025-07-10'),
+	('687024a1ab055', 3, 1, '', '2025-07-10'),
+	('687024a1ab055', 12, 1, '', '2025-07-10'),
+	('687024b205cab', 1, 1, '', '2025-07-10');
 
 -- Copiando estrutura para tabela cardapio_digital.situacao
 CREATE TABLE IF NOT EXISTS `situacao` (
@@ -334,7 +191,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   KEY `IdUsuario2` (`IdUsuario`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
--- Copiando dados para a tabela cardapio_digital.usuario: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela cardapio_digital.usuario: ~1 rows (aproximadamente)
 REPLACE INTO `usuario` (`IdUsuario`, `NomeUsuario`, `Email`, `Senha`) VALUES
 	(1, 'Robson Moura', 'robsoni10@gmail.com', '1234');
 
