@@ -98,7 +98,7 @@ let pegaCard = null;
 
         } else {
 
-            document.querySelector('#pedido .totalizador .tx-maquininha').textContent = "";
+            document.querySelector('#pedido .totalizador .tx-maquininha').textContent = "0.00";
             const vr = responsavelPeloValorQuantidade()
             atualizaValorPedido(vr[0], vr[1])
         }
@@ -140,7 +140,7 @@ let pegaCard = null;
 
         } else {
 
-            document.querySelector('#pedido .totalizador .tx-entrega').textContent = "";
+            document.querySelector('#pedido .totalizador .tx-entrega').textContent = "0.00";
             const vr = responsavelPeloValorQuantidade()
             atualizaValorPedido(vr[0], vr[1])
         }
@@ -339,6 +339,8 @@ async function carregarTabela(data) {
 }
 
 async function preencherFormularioPedido(data) {
+    document.querySelector('.totalizador .tx-entrega').textContent = '0.00';
+    document.querySelector('.totalizador .tx-maquininha').textContent = '0.00';
 
     if (data.Imagem == null || data.Imagem == '') {
         const categoriaEncontrada = lista.categoria.find(categoria => categoria.IdCategoria == data.IdCategoria);
@@ -393,6 +395,21 @@ async function limparPreencherFormularioPedido(){
     formPedido.innerText = '';
     document.querySelector('.title-pedido').innerText = '';
     document.querySelector('.title-pedido').innerText = 'Pedido Enviado!';
+
+    const formaPgto = document.getElementById('formaPgto').value = "";
+
+    const troco = document.getElementById('troco');
+    troco.value = ""
+    troco.closest('.troco').classList.add('d-none');
+
+    const entrega = document.getElementById('entrega').value = "";
+
+    const endereco = document.getElementById('endereco');
+    endereco.value = ""
+    endereco.closest('.detalhe-endereco').classList.add('d-none');
+
+
+
 }
 
 function mensagemAviso(mensagem) {
@@ -431,10 +448,10 @@ function atualizaValorPedido(valor, qtd) {
 
     let adicionais = 0;
 
-    if (cardTaxaEntrega.textContent != ""){
+    if (cardTaxaEntrega.textContent != "" && cardTaxaEntrega.textContent != "0.00") {
         adicionais += parseFloat(cardTaxaEntrega.textContent)
     }
-    if (cardTaxaMaquininha.textContent != ""){
+    if (cardTaxaMaquininha.textContent != "" && cardTaxaMaquininha.textContent != "0.00"){
         adicionais += parseFloat(cardTaxaMaquininha.textContent)
     }
     vrTotal = vrTotal + adicionais
