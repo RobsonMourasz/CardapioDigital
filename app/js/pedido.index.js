@@ -1,9 +1,12 @@
 let qtdPedidoAberto = 0;
 (()=>{
 
-    if ( qtdPedidoAberto > 0 ){
-        document.getElementById('qtd-pedido-aberto').innerText = qtdPedidoAberto;
-    }
+    setInterval(() => {
+        verificarPedidos();
+
+    }, 30000);
+
+    
 
     document.querySelector('.toggle-menu .bi-list').addEventListener('click', ()=>{
         document.querySelector('nav').classList.toggle('ocultar-toggle')
@@ -24,6 +27,7 @@ let qtdPedidoAberto = 0;
 
     window.addEventListener('load', (e)=>{
         e.preventDefault();
+        verificarPedidos()
     });
 
     const modal = new MutationObserver(() => {
@@ -106,4 +110,19 @@ function capitalizeFirstLetter(str) {
     let primeira = str.charAt(0).toUpperCase()
     let restante = str.slice(1).toLowerCase();
     return `${primeira}${restante}`;
+}
+
+async function verificarPedidos() {
+    const env = await fetch('../../routes/api/pedidos.php?verificaPedido=all');
+    const res = await env.json();
+    
+    if (res.status === "ok"){
+        document.getElementById('qtd-pedido-aberto').innerText = res.result.length;
+
+        if ( typeof verificarPedidosPendentes == 'function' ){
+            console.log('existe a function verificarPedidosPendentes()')
+            verificarPedidosPendentes()
+        }
+    }
+
 }
