@@ -91,7 +91,7 @@ let pegaCard = null;
 
     document.querySelector('#formaPgto').addEventListener('input', () => {
         if (document.querySelector('#formaPgto').value == 'cartao') {
-            
+
             document.querySelector('#pedido .totalizador .tx-maquininha').textContent = "2.00";
             const vr = responsavelPeloValorQuantidade()
             atualizaValorPedido(vr[0], vr[1])
@@ -103,17 +103,17 @@ let pegaCard = null;
             atualizaValorPedido(vr[0], vr[1])
         }
 
-        if (document.getElementById('formaPgto').value == 'dinheiro'){
+        if (document.getElementById('formaPgto').value == 'dinheiro') {
             document.querySelector('.troco').classList.remove('d-none')
-        }else{
+        } else {
             document.querySelector('.troco').classList.add('d-none')
         }
     })
 
     document.querySelector('#troco').addEventListener('input', () => {
-        if (  document.querySelector('#troco').value =='sim' ) {
+        if (document.querySelector('#troco').value == 'sim') {
             document.querySelector('.valor-troco').classList.remove('d-none')
-        }else{
+        } else {
             document.querySelector('.valor-troco').classList.add('d-none')
         }
     });
@@ -129,7 +129,7 @@ let pegaCard = null;
 
     });
 
-    
+
 
     document.querySelector('#entrega').addEventListener('input', () => {
         if (document.querySelector('#entrega').value == 'entregar') {
@@ -183,16 +183,16 @@ let pegaCard = null;
 
         }
 
-        if ( document.getElementById('formaPgto').value === 'dinheiro' ) {
-            if ( document.getElementById('troco').value === '' ){
+        if (document.getElementById('formaPgto').value === 'dinheiro') {
+            if (document.getElementById('troco').value === '') {
                 mensagemAviso('Selecione o tipo de troco');
                 return;
             }
         }
 
-        if (document.querySelector('#troco').value =='sim' && document.querySelector('#valor-troco').value.length < 8) {
+        if (document.querySelector('#troco').value == 'sim' && document.querySelector('#valor-troco').value.length < 8) {
             mensagemAviso('Preencha o campo troco de forma correta');
-            return;  
+            return;
         }
 
         if (document.getElementById('entrega').value === 'entregar') {
@@ -203,7 +203,7 @@ let pegaCard = null;
 
         }
 
-        if (document.getElementById('entrega').value === 'retirar'){
+        if (document.getElementById('entrega').value === 'retirar') {
             document.getElementById('endereco').value = 'retirada no local.'
         }
         let precisaTroco = document.getElementById('endereco').value
@@ -215,20 +215,20 @@ let pegaCard = null;
             const formaPgto = document.getElementById('formaPgto').value;
             const enderecoEntrega = document.getElementById('endereco').value
             const VrBrutoPedido = document.querySelector('.totalizador .vr-pedido').textContent
-            if ( document.getElementById('troco').value == 'sim' ){
+            if (document.getElementById('troco').value == 'sim') {
                 precisaTroco = document.getElementById('valor-troco').value
-            }else{
+            } else {
                 precisaTroco = "Não é preciso de troco"
             }
 
-            const txEntrega = document.querySelector('.totalizador .tx-entrega').textContent.trim() === "" 
-            ? 0 
-            : document.querySelector('.totalizador .tx-entrega').textContent;
+            const txEntrega = document.querySelector('.totalizador .tx-entrega').textContent.trim() === ""
+                ? 0
+                : document.querySelector('.totalizador .tx-entrega').textContent;
 
-            const txMaquininha = document.querySelector('.totalizador .tx-maquininha').textContent.trim() === "" 
-            ? 0 
-            : document.querySelector('.totalizador .tx-maquininha').textContent;
-            
+            const txMaquininha = document.querySelector('.totalizador .tx-maquininha').textContent.trim() === ""
+                ? 0
+                : document.querySelector('.totalizador .tx-maquininha').textContent;
+
             return {
                 add: 'add',
                 IdProduto: produtoId,
@@ -299,7 +299,7 @@ async function carregarTabela(data) {
 
             if (categoriaEncontrada) {
                 img = categoriaEncontrada.Imagem;
-                if ( img == null ) {
+                if (img == null) {
                     img = 'app/assets/Categoria/sem-imagem.jfif';
                 }
             } else {
@@ -396,7 +396,7 @@ async function preencherFormularioPedido(data) {
     atualizaValorPedido(vr[0], 1)
 }
 
-async function limparPreencherFormularioPedido(){
+async function limparPreencherFormularioPedido() {
 
     let formPedido = document.getElementById('pedidoForm');
     formPedido.innerText = '';
@@ -426,7 +426,7 @@ async function limparPreencherFormularioPedido(){
 }
 
 function mensagemAviso(mensagem) {
-    
+
     const elemento = document.querySelector('.mensagem');
     document.getElementById('cardapio').classList.add('d-none');
     elemento.classList.remove('d-none')
@@ -464,7 +464,7 @@ function atualizaValorPedido(valor) {
     if (cardTaxaEntrega.textContent != "" && cardTaxaEntrega.textContent != "0.00") {
         adicionais += parseFloat(cardTaxaEntrega.textContent)
     }
-    if (cardTaxaMaquininha.textContent != "" && cardTaxaMaquininha.textContent != "0.00"){
+    if (cardTaxaMaquininha.textContent != "" && cardTaxaMaquininha.textContent != "0.00") {
         adicionais += parseFloat(cardTaxaMaquininha.textContent)
     }
     vrTotal = vrTotal + adicionais
@@ -515,62 +515,109 @@ async function enviarPedido(data) {
     });
 
     const res = await response.json();
-    if ( res.status == "success" ) {
+    if (res.status == "success") {
         enviarMensagem(res.result)
-    }else{
+    } else {
         mensagemAviso(res.result);
     }
 
 }
 
+// async function enviarMensagem(item) {
+//     let pedido = [];
+//     const cabecalho = `🌟 Pedido Confirmado! #${item[0].idPedido.UltimoPedido} 🌟
+//     Olá, caro cliente! 😊
+//     Seu pedido foi recebido com sucesso. Aqui estão os detalhes:`;
+//     item.forEach(item => {
+//         pedido.push(`
+//             📌 Produto: ${item.dados[0].DescricaoProduto} 
+//             📦 Quantidade: ${item.qtd}
+//             📝 Observações: ${item.dados.ObsProduto ?? "Sem observações"}
+//             💰 Preço unitário: R$ ${item.dados[0].VrVenda.toFixed(2)} 
+//             ________________________________________`);
+//     });
+//     const footer = `
+//     🔢 Total pedido: R$ ${item[0].valorTotal.toFixed(2)}
+//     💰 Troco: ${item[0].obsPedido} 
+//     🚚 Endereco: ${item[0].endreco}
+//     💰 Forma Pagamento: ${item[0].formaPgto}
+
+//     Agradecemos a sua compra! 💙 Qualquer dúvida, estamos à disposição.`
+
+//     try {
+//         const msg = [cabecalho, ...pedido, footer];
+//         const mensagemPedido = msg.join("\n");
+//         const msgCodificada = encodeURIComponent(mensagemPedido);
+//         window.open(`https://wa.me/5534999918179?text=${msgCodificada}`, '_blank');
+//         console.log('mensagem enviada com sucesso',mensagemPedido)
+//     } catch (error) {
+//         console.error('Erro ao enviar mensagem:', error);
+//     }
+//     // const sendTextMessage = async () => {
+//     //   try {
+//     //     const response = await fetch('https://v2-api.gzappy.com/message/send-text', {
+//     //       method: 'POST',
+//     //       headers: {
+//     //         'Authorization': TOKEN,
+//     //         'Content-Type': 'application/json'
+//     //       },
+//     //       body: JSON.stringify({
+//     //         phone: "5534999918179",
+//     //         message: mensagemPedido,
+//     //       })
+//     //     });
+
+//     //     const data = await response.json();
+//     //     console.log('Mensagem enviada com sucesso:', data);
+//     //   } catch (error) {
+//     //     
+//     //   }
+//     // };
+
+//     // Executar a função
+//    // sendTextMessage();
+
+// }
+
 async function enviarMensagem(item) {
-    pedido = [];
-    const cabecalho = `🌟 Pedido Confirmado! #${item[0].idPedido.UltimoPedido} 🌟
-    Olá, caro cliente! 😊
-    Seu pedido foi recebido com sucesso. Aqui estão os detalhes:`;
-    item.forEach(item => {
-        pedido.push(`
-            📌 Produto: ${item.dados[0].DescricaoProduto} 
-            📦 Quantidade: ${item.qtd}
-            📝 Observações: ${item.dados.ObsProduto ?? "Sem observações"}
-            💰 Preço unitário: R$ ${item.dados[0].VrVenda.toFixed(2)} 
-            ________________________________________`);
-    });
-    const footer = `
-    🔢 Total pedido: R$ ${item[0].valorTotal.toFixed(2)}
-    💰 Troco: ${item[0].obsPedido} 
-    🚚 Enderco: ${item[0].endreco}
-    💰 Forma Pagamento: ${item[0].formaPgto}
-    
-    Agradecemos a sua compra! 💙 Qualquer dúvida, estamos à disposição.`
+    try {
+        let pedido = [];
 
-    const msg = [cabecalho, ...pedido, footer];
-    const mensagemPedido = msg.join("\n");
+        const cabecalho = `*Pedido* *Confirmado*! *Nº* *${item[0].idPedido.UltimoPedido}*
+  Olá, caro cliente!
+  Seu pedido foi recebido com sucesso.\n _Aqui estão os detalhes_:\n`;
 
-    const sendTextMessage = async () => {
-      try {
-        const response = await fetch('https://v2-api.gzappy.com/message/send-text', {
-          method: 'POST',
-          headers: {
-            'Authorization': TOKEN,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            phone: "5534999918179",
-            message: mensagemPedido,
-          })
+        item.forEach(produto => {
+            pedido.push(
+  `
+  *Produto:* _${produto.dados[0].DescricaoProduto}_
+  Quantidade: ${produto.qtd}
+  Observações: _${produto.dados[0].ObsProduto ?? "Sem observações"}_
+  Preço unitário: R$ ${produto.dados[0].VrVenda.toFixed(2)}\n
+  ________________________________________`
+            );
         });
-    
-        const data = await response.json();
-        console.log('Mensagem enviada com sucesso:', data);
-      } catch (error) {
+
+        const footer = `_Total do pedido: R$_ ${item[0].valorTotal.toFixed(2)}
+  *Troco:* ${item[0].obsPedido}
+  *Endereço:* ${item[0].endreco}
+  *Forma de pagamento:* ${item[0].formaPgto}
+  
+ _Agradecemos a sua compra!_
+  📍 Qualquer dúvida, estamos à disposição.`;
+
+        const mensagemPedido = `${cabecalho}\n${pedido.join('\n')}\n${footer}`;
+        const mensagemCodificada = encodeURIComponent(mensagemPedido);
+
+        window.open(`https://wa.me/5534999918179?text=${mensagemCodificada}`, '_blank');
+        console.log('Mensagem enviada com sucesso:\n', mensagemCodificada);
+
+    } catch (error) {
         console.error('Erro ao enviar mensagem:', error);
-      }
-    };
-    
-    // Executar a função
-    sendTextMessage();
+    }
 }
+
+
 
 
 
