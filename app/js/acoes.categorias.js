@@ -4,7 +4,8 @@ let fileCategoriaImg = null;
 (() => {
 
     carregarCategorias()
-    window.addEventListener("load", function () {
+    window.addEventListener("load", function (e) {
+        e.preventDefault();
         document.querySelector(".carregando").classList.add("d-none");
     });
 

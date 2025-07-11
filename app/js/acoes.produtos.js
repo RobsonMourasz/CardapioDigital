@@ -4,6 +4,7 @@ let categorias = [];
 let fileProduto = null;
 (() => {
     window.addEventListener('load', (e) => {
+        e.preventDefault();
         carregarProdutos();
     })
 

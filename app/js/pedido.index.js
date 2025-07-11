@@ -1,4 +1,10 @@
+let qtdPedidoAberto = 0;
 (()=>{
+
+    if ( qtdPedidoAberto > 0 ){
+        document.getElementById('qtd-pedido-aberto').innerText = qtdPedidoAberto;
+    }
+
     document.querySelector('.toggle-menu .bi-list').addEventListener('click', ()=>{
         document.querySelector('nav').classList.toggle('ocultar-toggle')
     })

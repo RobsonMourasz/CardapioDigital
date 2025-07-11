@@ -2,6 +2,7 @@ let situacaoPedido = [];
 let formaPgto = [];
 (() => {
     window.addEventListener('load', async (e) => {
+        e.preventDefault();
         const envSituacao = await fetch('../../routes/api/situacao.php?busca=all');
         const resSituacaoPedido = await envSituacao.json();
         situacaoPedido = resSituacaoPedido.result.filter(p => p.Tela.includes('Pedido'));

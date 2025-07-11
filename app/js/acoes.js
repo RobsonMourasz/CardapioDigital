@@ -1,7 +1,8 @@
 let lista = [];
 let pegaCard = null;
+
 (() => {
-    
+
     const menuCat = new MutationObserver(() => {
         document.querySelectorAll('[scroll="sim"]').forEach(link => {
             link.addEventListener('click', (e) => {

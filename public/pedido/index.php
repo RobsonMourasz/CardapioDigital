@@ -59,7 +59,7 @@ if (isset($_GET['url'])) {
             <div class="inf">
                 <div class="inf-img">
 
-                    <img src="../../app/assets/bell-fill.svg" alt=""> <span id="qtd-pedido-aberto">2</span>
+                    <img src="../../app/assets/bell-fill.svg" alt=""> <span id="qtd-pedido-aberto"></span>
 
                 </div>
             </div>

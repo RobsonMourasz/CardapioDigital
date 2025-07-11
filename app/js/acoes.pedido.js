@@ -1,5 +1,4 @@
 let pedidosAberto = [];
-
 (() => {
     document.querySelector('.politica-dados').classList.remove('d-none');
     document.querySelector('.aceitar-termos').addEventListener('click', () => {
@@ -321,9 +320,12 @@ async function verificarPedidosPendentes() {
                     buscarDados()
                     pedidosRecebidos = IdPed;
                 }
-
-                chamarTelaAvisos('success', `Existem pedidos em aberto: ${res.result.length}`)
+                document.getElementById('qtd-pedido-aberto').closest('.inf').classList.remove('d-none')
+                // document.getElementById('qtd-pedido-aberto').innerText = res.result.length;
+                // chamarTelaAvisos('success', `Existem pedidos em aberto: ${res.result.length}`)
                 document.querySelector("audio").play();
+            }else{
+                document.getElementById('qtd-pedido-aberto').closest('.inf').classList.add('d-none')
             }
 
         }
