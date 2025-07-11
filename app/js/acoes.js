@@ -468,7 +468,7 @@ function atualizaValorPedido(valor) {
         adicionais += parseFloat(cardTaxaMaquininha.textContent)
     }
     vrTotal = vrTotal + adicionais
-    cardValorTotal.textContent = vrTotal;
+    cardValorTotal.textContent = vrTotal.toFixed(2);
 }
 
 function responsavelPeloValorQuantidade() {
