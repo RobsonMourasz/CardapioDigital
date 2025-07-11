@@ -6,3 +6,5 @@ https://www.youtube.com/watch?v=nPnChBmjKQg
 
 
 DEPENDENCIAS : composer require mpdf/mpdf
+
+ok
