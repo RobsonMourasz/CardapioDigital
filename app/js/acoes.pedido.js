@@ -321,8 +321,6 @@ async function verificarPedidosPendentes() {
                     pedidosRecebidos = IdPed;
                 }
                 document.getElementById('qtd-pedido-aberto').closest('.inf').classList.remove('d-none')
-                // document.getElementById('qtd-pedido-aberto').innerText = res.result.length;
-                // chamarTelaAvisos('success', `Existem pedidos em aberto: ${res.result.length}`)
                 document.querySelector("audio").play();
             }else{
                 document.getElementById('qtd-pedido-aberto').closest('.inf').classList.add('d-none')

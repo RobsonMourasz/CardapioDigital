@@ -117,10 +117,13 @@ async function verificarPedidos() {
     const res = await env.json();
     
     if (res.status === "ok"){
-        document.getElementById('qtd-pedido-aberto').innerText = res.result.length;
+        if (res.result.length > 0 ){
+            document.getElementById('qtd-pedido-aberto').innerText = res.result.length;
+        }else{
+            document.getElementById('qtd-pedido-aberto').innerText = '0';
+        }
 
         if ( typeof verificarPedidosPendentes == 'function' ){
-            console.log('existe a function verificarPedidosPendentes()')
             verificarPedidosPendentes()
         }
     }
