@@ -62,18 +62,20 @@ header .inf{
     justify-content: right;
     padding-right: 15px;
     width: 100%;
-
+    user-select: none;
 }
 
 header .inf img{
-    width: 32px;
+    width: 24px;
     fill: #007bff !important;
     color: #007bff;
+    user-select: none;
 }
 
 header .inf .inf-img{
     position: relative;
     z-index: 1;
+    user-select: none;
 }
 
 header .inf .inf-img::after,
@@ -83,26 +85,29 @@ header .inf .inf-img::before{
     position: absolute;
     top: 0;
     left: 0;
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     background-color: #21c063;
     transition: all ease-out ;
     z-index: -1;
     border-radius: 50%;
     animation: pulse 2s ease-out infinite;
+    user-select: none;
 }
 
 header .inf .inf-img::before{
     animation-delay: .5s;
+    user-select: none;
 }
 
 header .inf span{
     position: absolute;
-    top: 3px;
-    left: 11px;
-    color: white;
+    top: 2px;
+    left: 8px;
+    color: rgba(255, 255, 255, 0.8);
     font-family: monospace;
-    font-size: 1.5em;
+    font-size: 1.2em;
+    user-select: none;
 }
 
 main {
