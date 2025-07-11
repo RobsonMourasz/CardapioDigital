@@ -10,7 +10,7 @@ if (isset($_GET['url'])) {
     } else {
         $_SESSION['aviso'] = 'Página não encontrada';
     }
-}else{
+} else {
     $_SESSION['aviso'] = '';
 }
 ?>
@@ -54,6 +54,14 @@ if (isset($_GET['url'])) {
 
             <div class="informacoes-sistema">
                 Bem vindo ao sistema
+            </div>
+
+            <div class="inf">
+                <div class="inf-img">
+
+                    <img src="../../app/assets/bell-fill.svg" alt=""> <span id="qtd-pedido-aberto">2</span>
+
+                </div>
             </div>
 
         </header>

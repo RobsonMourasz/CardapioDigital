@@ -8,9 +8,13 @@ body {
     background-color: #2b2b2b;
 }
 
+body .conteudo{
+    width: 100%;
+}
+
 header {
     display: flex;
-    width: 100%;
+    width: calc(100% - 10px);
     border-bottom: 1px solid black;
 }
 
@@ -33,24 +37,72 @@ header .logo-tipo {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 60px;
+    width: 100%;
     margin-left: 1em;
 }
 
 header .logo-tipo img {
-    width: 100%;
+    width: 60px;
     height: 60px;
     border-radius: 50%;
 }
 
 header .informacoes-sistema {
-    width: calc(100% - 300px);
+    width: calc(100%);
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: monospace;
     margin: .5em;
     color: white;
+}
+header .inf{
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    padding-right: 15px;
+    width: 100%;
+
+}
+
+header .inf img{
+    width: 32px;
+    fill: #007bff !important;
+    color: #007bff;
+}
+
+header .inf .inf-img{
+    position: relative;
+    z-index: 1;
+}
+
+header .inf .inf-img::after,
+header .inf .inf-img::before{
+    content: '';
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 32px;
+    background-color: #21c063;
+    transition: all ease-out ;
+    z-index: -1;
+    border-radius: 50%;
+    animation: pulse 2s ease-out infinite;
+}
+
+header .inf .inf-img::before{
+    animation-delay: .5s;
+}
+
+header .inf span{
+    position: absolute;
+    top: 3px;
+    left: 11px;
+    color: white;
+    font-family: monospace;
+    font-size: 1.5em;
 }
 
 main {
@@ -584,6 +636,13 @@ table th, table td {
 
     100% {
         transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+    100%{
+        scale: 2.5;
+        opacity: .4;
     }
 }
 
