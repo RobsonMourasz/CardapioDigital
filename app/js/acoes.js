@@ -583,14 +583,14 @@ async function enviarMensagem(item) {
     try {
         let pedido = [];
 
-        const cabecalho = `🌟*Pedido* *Confirmado*! *Nº* *${item[0].idPedido.UltimoPedido}*🌟
+        const cabecalho = `🌟 *Pedido* *Confirmado*! *Nº* *${item[0].idPedido.UltimoPedido}* 🌟
   Olá, caro cliente!
   Seu pedido foi recebido com sucesso.\n _Aqui estão os detalhes_:\n`;
 
         item.forEach(produto => {
             pedido.push(
   `
-  📌*Produto:* _${produto.dados[0].DescricaoProduto}_
+  📌 *Produto:* _${produto.dados[0].DescricaoProduto}_
   Quantidade: ${produto.qtd}
   Observações: _${produto.dados[0].ObsProduto ?? "Sem observações"}_
   Preço unitário: R$ ${produto.dados[0].VrVenda.toFixed(2)}\n
@@ -599,9 +599,9 @@ async function enviarMensagem(item) {
         });
 
         const footer = `_Total do pedido: R$_ ${item[0].valorTotal.toFixed(2)}
-  💰*Troco:* ${item[0].obsPedido}
-  🚚*Endereço:* ${item[0].endreco}
-  💰*Forma de pagamento:* ${item[0].formaPgto}
+  💰 *Troco:* ${item[0].obsPedido}
+  🚚 *Endereço:* ${item[0].endreco}
+  💰 *Forma de pagamento:* ${item[0].formaPgto}
   
  _Agradecemos a sua compra!_
   📍 Qualquer dúvida, estamos à disposição.`;
