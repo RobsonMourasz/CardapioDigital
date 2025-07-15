@@ -54,14 +54,12 @@ CREATE TABLE IF NOT EXISTS `cadpedido` (
   PRIMARY KEY (`idPedido`),
   UNIQUE KEY `idPedido` (`idPedido`),
   KEY `idPedido2` (`idPedido`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
--- Copiando dados para a tabela cardapio_digital.cadpedido: ~4 rows (aproximadamente)
+-- Copiando dados para a tabela cardapio_digital.cadpedido: ~2 rows (aproximadamente)
 REPLACE INTO `cadpedido` (`idPedido`, `idSituacao`, `ValorPedido`, `ValorEntrega`, `ValorAdicional`, `FormaPagamento`, `Controle`, `IpCliente`, `EnderecoEntrega`, `ObservacaoPedido`, `DataPedido`) VALUES
-	(1, 3, 28.00, 0.00, 2.00, 'cartao', '687023abd4581', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-07-10 08:07:47'),
-	(2, 3, 63.00, 0.00, 0.00, 'dinheiro', '6870243b3a6b9', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-07-10 08:07:11'),
-	(3, 3, 36.00, 0.00, 0.00, 'dinheiro', '687024a1ab055', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-07-10 08:07:53'),
-	(4, 3, 28.00, 2.00, 0.00, 'pix', '687024b205cab', '::1', 'rua a 123', 'Não é preciso de troco', '2025-07-10 08:07:10');
+	(1, 3, 40.00, 0.00, 2.00, 'cartao', '68716ec8f1676', '::1', 'retirada no local.', 'Não é preciso de troco', '2025-07-11 08:07:32'),
+	(2, 3, 41.00, 2.00, 0.00, 'dinheiro', '68716f29b3a5b', '::1', 'Sua rua aqui 1', 'Troco pra 100', '2025-07-11 08:07:09');
 
 -- Copiando estrutura para tabela cardapio_digital.cadprodutos
 CREATE TABLE IF NOT EXISTS `cadprodutos` (
@@ -135,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `empresa` (
   KEY `IdEmpresa2` (`IdEmpresa`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
--- Copiando dados para a tabela cardapio_digital.empresa: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela cardapio_digital.empresa: ~0 rows (aproximadamente)
 REPLACE INTO `empresa` (`IdEmpresa`, `RazaoSocial`, `NomeFantasia`, `Telefone`, `Endereco`, `Cidade`, `Uf`, `Cnpj`, `EmpAtiva`) VALUES
 	(1, 'Robson Moura', 'Robson Moura', '34 3453-1490', 'Av. Sergipe 357, São Joao', 'Limeira do oeste', 'MG', '45052914806', 'S');
 
@@ -148,14 +146,82 @@ CREATE TABLE IF NOT EXISTS `mvpedido` (
   `DataLancemento` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
--- Copiando dados para a tabela cardapio_digital.mvpedido: ~6 rows (aproximadamente)
+-- Copiando dados para a tabela cardapio_digital.mvpedido: ~4 rows (aproximadamente)
 REPLACE INTO `mvpedido` (`NumPedido`, `IdProduto`, `Qtd`, `ObsProduto`, `DataLancemento`) VALUES
-	('687023abd4581', 1, 1, 'Sem cebola', '2025-07-10'),
-	('6870243b3a6b9', 2, 2, '', '2025-07-10'),
-	('6870243b3a6b9', 10, 1, '', '2025-07-10'),
-	('687024a1ab055', 3, 1, '', '2025-07-10'),
-	('687024a1ab055', 12, 1, '', '2025-07-10'),
-	('687024b205cab', 1, 1, '', '2025-07-10');
+	('68716ec8f1676', 1, 1, 'Sem cebola', '2025-07-11'),
+	('68716ec8f1676', 11, 1, '', '2025-07-11'),
+	('68716f29b3a5b', 1, 1, 'Sem alho com cebola ', '2025-07-11'),
+	('68716f29b3a5b', 10, 1, '', '2025-07-11');
+
+-- Copiando estrutura para tabela cardapio_digital.perfil
+CREATE TABLE IF NOT EXISTS `perfil` (
+  `IdPerfil` int(11) NOT NULL AUTO_INCREMENT,
+  `DescricaoPerfil` varchar(50) NOT NULL,
+  `PerfilAtivo` varchar(2) NOT NULL DEFAULT 'S',
+  PRIMARY KEY (`IdPerfil`),
+  UNIQUE KEY `IdPerfil` (`IdPerfil`),
+  KEY `IdPerfil2` (`IdPerfil`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- Copiando dados para a tabela cardapio_digital.perfil: ~2 rows (aproximadamente)
+REPLACE INTO `perfil` (`IdPerfil`, `DescricaoPerfil`, `PerfilAtivo`) VALUES
+	(1, 'Adm', 'S'),
+	(2, 'Vendedor', 'S');
+
+-- Copiando estrutura para tabela cardapio_digital.permissaoperfil
+CREATE TABLE IF NOT EXISTS `permissaoperfil` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `IdPerfil` int(2) NOT NULL,
+  `IdPermissao` int(2) NOT NULL,
+  `Liberado` varchar(50) NOT NULL DEFAULT '',
+  `PermissaoAtiva` varchar(2) NOT NULL DEFAULT 'S',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `id2` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- Copiando dados para a tabela cardapio_digital.permissaoperfil: ~18 rows (aproximadamente)
+REPLACE INTO `permissaoperfil` (`id`, `IdPerfil`, `IdPermissao`, `Liberado`, `PermissaoAtiva`) VALUES
+	(1, 1, 1, 'S', 'S'),
+	(2, 1, 2, 'S', 'S'),
+	(3, 1, 3, 'S', 'S'),
+	(4, 1, 4, 'S', 'S'),
+	(5, 1, 5, 'S', 'S'),
+	(6, 1, 6, 'S', 'S'),
+	(7, 1, 7, 'S', 'S'),
+	(8, 1, 8, 'S', 'S'),
+	(9, 1, 9, 'S', 'S'),
+	(10, 2, 1, 'N', 'S'),
+	(11, 2, 2, 'N', 'S'),
+	(12, 2, 3, 'N', 'S'),
+	(13, 2, 4, 'S', 'S'),
+	(14, 2, 5, 'S', 'S'),
+	(15, 2, 6, 'S', 'S'),
+	(16, 2, 7, 'S', 'S'),
+	(17, 2, 8, 'S', 'S'),
+	(18, 2, 9, 'S', 'S');
+
+-- Copiando estrutura para tabela cardapio_digital.permissoes
+CREATE TABLE IF NOT EXISTS `permissoes` (
+  `IdPermissao` int(2) NOT NULL AUTO_INCREMENT,
+  `Tela` varchar(50) NOT NULL,
+  `Componente` varchar(50) NOT NULL,
+  PRIMARY KEY (`IdPermissao`) USING BTREE,
+  UNIQUE KEY `idPermissao` (`IdPermissao`) USING BTREE,
+  KEY `idPermissao2` (`IdPermissao`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- Copiando dados para a tabela cardapio_digital.permissoes: ~9 rows (aproximadamente)
+REPLACE INTO `permissoes` (`IdPermissao`, `Tela`, `Componente`) VALUES
+	(1, 'Index', 'Produto'),
+	(2, 'Index', 'Categoria'),
+	(3, 'Index', 'Vendas'),
+	(4, 'Produto', 'Cadastrar'),
+	(5, 'Produto', 'Editar'),
+	(6, 'Produto', 'Excluir'),
+	(7, 'Categoria', 'Cadastrar'),
+	(8, 'Categoria', 'Editar'),
+	(9, 'Categoria', 'Excluir');
 
 -- Copiando estrutura para tabela cardapio_digital.situacao
 CREATE TABLE IF NOT EXISTS `situacao` (
@@ -183,17 +249,20 @@ REPLACE INTO `situacao` (`IdSituacao`, `DescriacaoSituacao`, `Tela`, `SituacaoAt
 -- Copiando estrutura para tabela cardapio_digital.usuario
 CREATE TABLE IF NOT EXISTS `usuario` (
   `IdUsuario` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `NomeUsuario` varchar(20) NOT NULL DEFAULT '0',
-  `Email` varchar(100) NOT NULL DEFAULT '0',
-  `Senha` varchar(255) NOT NULL DEFAULT '0',
+  `IdPerfil` int(2) unsigned NOT NULL DEFAULT 1,
+  `NomeUsuario` varchar(20) NOT NULL,
+  `UserAtivo` varchar(2) NOT NULL DEFAULT 'S',
+  `Email` varchar(100) NOT NULL,
+  `Senha` varchar(255) NOT NULL,
+  `CnpjEmpresaResponsavel` varchar(22) NOT NULL,
   PRIMARY KEY (`IdUsuario`),
   UNIQUE KEY `IdUsuario` (`IdUsuario`),
   KEY `IdUsuario2` (`IdUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 -- Copiando dados para a tabela cardapio_digital.usuario: ~1 rows (aproximadamente)
-REPLACE INTO `usuario` (`IdUsuario`, `NomeUsuario`, `Email`, `Senha`) VALUES
-	(1, 'Robson Moura', 'robsoni10@gmail.com', '1234');
+REPLACE INTO `usuario` (`IdUsuario`, `IdPerfil`, `NomeUsuario`, `UserAtivo`, `Email`, `Senha`, `CnpjEmpresaResponsavel`) VALUES
+	(1, 1, 'Robson Moura', 'S', 'robsonic10@gmail.com', '1234', '45052914806');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

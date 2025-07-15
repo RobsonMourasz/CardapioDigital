@@ -1,4 +1,7 @@
 <?php
+include_once __DIR__.'/../../vendor/autoload.php';
+src\controllers\Seguranca::verificacao();
+
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -24,7 +27,7 @@ if (isset($_GET['url'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../app/css/stylePedido.css">
-    <title>Bem vindo</title>
+    <title>Bem vindo <?php echo $_SESSION['Usuario'] ?></title>
 </head>
 
 <body>
@@ -75,6 +78,7 @@ if (isset($_GET['url'])) {
                         <li class="item"><a href="vendas">Vendas</a></li>
                         <li class="item"><a href="produtos">Produtos</a></li>
                         <li class="item"><a href="categoria">Categorias</a></li>
+                        <li class="item"><a href="logoff">Logoff</a></li>
                     </ul>
                 </div>
             </nav>
@@ -84,7 +88,7 @@ if (isset($_GET['url'])) {
 
                 if (isset($_GET['url'])) {
                     if ($_GET['url'] == 'logoff') {
-                        die(header("Location: ../src/logoff.php"));
+                        die(header("Location: ../../src/controllers/logoff.php"));
                     }
                     if (file_exists('page/' . $_GET['url'] . '.php')) {
                         include 'page/' . $_GET['url'] . '.php';
