@@ -1,6 +1,7 @@
-<?php 
-    include_once __DIR__.'/../../../vendor/autoload.php';
-    src\controllers\Seguranca::verificacao();
+<?php
+include_once __DIR__ . '/../../../vendor/autoload.php';
+src\controllers\Seguranca::verificacao();
+
 ?>
 <div class="content">
     <div class="content-header">
