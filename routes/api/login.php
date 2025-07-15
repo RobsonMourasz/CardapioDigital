@@ -22,7 +22,6 @@ if(!isset($_SESSION)){session_start();}
                         $_SESSION['CnpjEmpresaResponsavel'] = $usuario['CnpjEmpresaResponsavel'];
                         $_SESSION['IdUsuario'] = $usuario['IdUsuario'];
                         $_SESSION['Usuario'] = $usuario['NomeUsuario'];
-                        $_SESSION['IdPerfil'] = $usuario['IdPerfil'];
                         die(json_encode(['status' => 'success', 'result' => 'Aceitado']));
                     }
                 }
