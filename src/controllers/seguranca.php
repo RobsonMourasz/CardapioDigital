@@ -1,6 +1,8 @@
 <?php 
 namespace src\controllers;
 include_once __DIR__.'/../../vendor/autoload.php';
+
+
 class Seguranca {
 
     public static function verificacao (){
