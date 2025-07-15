@@ -3,6 +3,7 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
+if (isset($_SESSION['CnpjEmpresaResponsavel']) && !empty($_SESSION['CnpjEmpresaResponsavel'])){
 if (isset($_GET['url'])) {
 
     if (file_exists('page/' . $_GET['url'] . '.php')) {
@@ -113,3 +114,11 @@ if (isset($_GET['url'])) {
 </body>
 
 </html>
+<?php 
+}else{
+    ?>
+    <script>
+       window.location.assign('../');
+    </script>
+    <?php 
+}

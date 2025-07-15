@@ -11,8 +11,8 @@
         <div class="login-box">
             <h1>Bem-vindo ao <span>Delivery Express</span></h1>
             <form id="login-form">
-                <input type="text" placeholder="Usuário" required>
-                <input type="password" placeholder="Senha" required>
+                <input type="text" name="usuario" placeholder="Usuário" required autofocus>
+                <input type="password" name="password" placeholder="Senha" required autocomplete="off">
                 <button type="submit">Entrar</button>
             </form>
             <p class="signup-link">Ainda não tem uma conta? <a href="#">Cadastre-se</a></p>
