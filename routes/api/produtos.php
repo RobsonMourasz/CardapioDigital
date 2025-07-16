@@ -5,18 +5,12 @@ header('Content-Type: application/json');
 date_default_timezone_set('America/Sao_Paulo');
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (!isset($_SESSION)){session_start();}
-    $podeEditar = src\controllers\Permissao::VerificarPermissao($_SESSION['IdUsuario'], 'Produtos', 'Editar');
-    $podeExcluir = src\controllers\Permissao::VerificarPermissao($_SESSION['IdUsuario'], 'Produtos', 'Excluir');
-
     if ($_GET['busca']) {
         if ($_GET['busca'] === 'all') {
             $res = [
                 'categoria' => src\class\Conexao::getPesquisaBD('SELECT * FROM categoria WHERE CadAtivo = "S"', '', []),
                 'produtos' => src\class\Conexao::getPesquisaBD('SELECT * FROM cadprodutos WHERE ProdAtivo = "S"', '', []),
                 'formaPgto' => src\class\Conexao::getPesquisaBD('SELECT * FROM cadpagamento WHERE PagAtivo = "S"', '', []),
-                'permissaoNegada' => [
-                    $podeEditar[0]['Liberado'],$podeExcluir[0]['Liberado']
-                ]
             ];
             die(json_encode([
                 'status' => 'success',

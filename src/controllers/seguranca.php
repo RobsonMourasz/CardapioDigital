@@ -34,7 +34,8 @@ class Permissao {
     public static function VerificarPermissao(?int $IdUsuario, string $Tela,string $Componente){
         $Permissao = self::InformaIdPermissao($Tela, $Componente);
         $Perfil = self::InformaIdPerfil($IdUsuario);
-        return \src\class\Conexao::getPesquisaBD('SELECT Liberado FROM permissaoperfil WHERE IdPerfil IN(?) AND IdPermissao IN(?)','ii',[$Perfil[0]['IdPerfil'], $Permissao[0]['IdPermissao']]);
+
+        return \src\class\Conexao::getPesquisaBD('SELECT Liberado FROM permissaoperfil WHERE IdPerfil IN(?) AND IdPermissao IN(?)','ii',[$Perfil[0]['IdPerfil'], $Permissao[0]['IdPermissao']]) ;
     }
 
 }
