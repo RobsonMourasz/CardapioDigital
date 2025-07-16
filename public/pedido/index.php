@@ -31,6 +31,7 @@ if (isset($_SESSION['CnpjEmpresaResponsavel']) && !empty($_SESSION['CnpjEmpresaR
     </head>
 
     <body>
+        <input type="number" name="idUsuarioAtivo" id="idUsuarioAtivo" hidden value="<?php echo $_SESSION['IdUsuario'] ?>">
         <audio id="meuAudio" src="../../app/assets/blip-131856.mp3"></audio>
         <div class="politica-dados d-none">
             <p>Atenção devido as politicas apresentadas pela Microsoft para que todos os componentes funcionem é preciso que clique em aceitar </p>

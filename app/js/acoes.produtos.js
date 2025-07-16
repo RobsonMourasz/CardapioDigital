@@ -2,6 +2,7 @@
 let produtosCarregados = [];
 let categorias = [];
 let fileProduto = null;
+const permissao = JSON.parse(localStorage.getItem('permissoes'));
 (() => {
     window.addEventListener('load', (e) => {
         e.preventDefault();
@@ -176,6 +177,15 @@ async function carregarProdutos() {
 }
 
 async function carregarTabelaProdutos(data) {
+
+    const permissoesLiberadas = {
+        btnCadastrar: permissao.find(p => p.Tela = 'Produto' && p.Componente == 'Cadastrar')?.Liberado,
+        btnEditar: permissao.find(p => p.Tela = 'Produto' && p.Componente == 'Editar')?.Liberado,
+        btnExcluir: permissao.find(p => p.Tela = 'Produto' && p.Componente == 'Excluir')?.Liberado
+    }
+
+    console.log(permissoesLiberadas);
+
     const produtos = data.produtos;
     const categorias = data.categoria;
 
@@ -199,11 +209,15 @@ async function carregarTabelaProdutos(data) {
             <td>${produto.DescricaoProduto}</td>
             <td>${categorias.find(c => c.IdCategoria === produto.IdCategoria).DescricaoCategoria}</td>
             <td>${getConversaoParaMoeda(produto.VrVenda)}</td>
-            <td>
-                <button attr="modal" id-modal="modal-editar" show="abrir" class="btn btn-primary btn-sm" onclick="editarProduto(${produto.IdProduto})">Editar</button>
-                <button attr="modal" id-modal="modal-excluir" show="abrir" class="btn btn-danger btn-sm" onclick="excluirProduto(${produto.IdProduto})">Excluir</button>
-            </td>
         `;
+        let btn = document.createElement('td');
+        if (permissoesLiberadas.btnEditar == 'S') {
+            btn.innerHTML += `<button attr="modal" id-modal="modal-editar" show="abrir" class="btn btn-primary btn-sm" onclick="editarProduto(${produto.IdProduto})">Editar</button>`
+        }
+        if (permissoesLiberadas.btnExcluir == 'S') {
+            btn.innerHTML += `<button attr="modal" id-modal="modal-excluir" show="abrir" class="btn btn-danger btn-sm" onclick="excluirProduto(${produto.IdProduto})">Excluir</button>`
+        }
+        tr.appendChild(btn);
         tabelaProdutos.appendChild(tr);
     });
 

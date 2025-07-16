@@ -1,12 +1,10 @@
 let qtdPedidoAberto = 0;
+let permissoes = [];
 (()=>{
 
     setInterval(() => {
         verificarPedidos();
-
     }, 30000);
-
-    
 
     document.querySelector('.toggle-menu .bi-list').addEventListener('click', ()=>{
         document.querySelector('nav').classList.toggle('ocultar-toggle')
@@ -28,6 +26,7 @@ let qtdPedidoAberto = 0;
     window.addEventListener('load', (e)=>{
         e.preventDefault();
         verificarPedidos()
+        permissaoUsuario(document.getElementById('idUsuarioAtivo').value)
     });
 
     const modal = new MutationObserver(() => {
@@ -128,4 +127,16 @@ async function verificarPedidos() {
         }
     }
 
+}
+
+async function permissaoUsuario(id) {
+    const envUser = await fetch(`../../routes/api/permissao.php?id=${id}`);
+    const recUser = await envUser.json();
+    if ( recUser.status === 'success' ) {
+        permissoes.push(recUser.result);
+        localStorage.setItem('permissoes', JSON.stringify(recUser.result));
+        console.log('asd', recUser.result)
+    }else{
+        alert('')
+    }
 }

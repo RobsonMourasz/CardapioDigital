@@ -1,6 +1,5 @@
 <?php
 include_once __DIR__ . '/../../vendor/autoload.php';
-require_once __DIR__ . '/../../src/controllers/seguranca.php';
 header('Content-Type: application/json');
 date_default_timezone_set('America/Sao_Paulo');
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
