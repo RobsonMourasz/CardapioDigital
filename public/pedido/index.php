@@ -75,39 +75,8 @@ if (isset($_SESSION['CnpjEmpresaResponsavel']) && !empty($_SESSION['CnpjEmpresaR
                 <nav>
                     <div class="menu-itens">
                         <ul class="lista-itens">
-                            <li class="item"><a href="pedidos">Pedidos</a></li>
-
-                            <?php
-
-                            try {
-                                if (\src\controllers\Permissao::VerificarPermissao($_SESSION['IdUsuario'], 'Index', 'BtnVenda')[0]['Liberado'] === 'S') {
-                                    echo '<li class="item"><a href="vendas">Vendas</a></li>';
-                                }
-                            } catch (\Throwable $th) {
-                                echo $th->getMessage();
-                            }
-
-                            try {
-                                if (\src\controllers\Permissao::VerificarPermissao($_SESSION['IdUsuario'], 'Index', 'BtnProduto')[0]['Liberado'] === 'S') {
-                                    echo '<li class="item"><a href="produtos">Produtos</a></li>';
-                                }
-                            } catch (\Throwable $th) {
-                                echo $th->getMessage();
-                            }
-
-                            try {
-
-                                if (\src\controllers\Permissao::VerificarPermissao($_SESSION['IdUsuario'], 'Index', 'BtnCategoria')[0]['Liberado'] === 'S') {
-                                    echo '<li class="item"><a href="categoria">Categorias</a></li>';
-                                }
-                            } catch (\Throwable $th) {
-                                echo $th->getMessage();
-                            }
-
-                            ?>
-
-                            <li class="item"><a href="logoff">Logoff</a></li>
-
+                            
+                            
                         </ul>
                     </div>
                 </nav>

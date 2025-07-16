@@ -9,7 +9,7 @@ src\controllers\Seguranca::verificacao();
     </div> <!-- content-header -->
     <div class="content-body">
         <div class="content-button">
-            <button class="btn bg-success btn-responsivo" id="btn-novo-produto" id-modal="modal-cadastrar" attr="modal" show="abrir">Novo Produto</button>
+            
         </div>
         <div class="table">
             <table class="responsive">
@@ -23,13 +23,7 @@ src\controllers\Seguranca::verificacao();
                     </tr>
                 </thead>
                 <tbody id="tbody-produtos">
-                    <!-- <tr>
-                        <td class="ocultar-responsivo"></td>
-                        <td>teste</td>
-                        <td>teste</td>
-                        <td>10,00</td>
-                        <td></td>
-                    </tr> -->
+
                 </tbody>
             </table>
         </div>

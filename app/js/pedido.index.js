@@ -1,5 +1,4 @@
 let qtdPedidoAberto = 0;
-let permissoes = [];
 (()=>{
 
     setInterval(() => {
@@ -133,9 +132,32 @@ async function permissaoUsuario(id) {
     const envUser = await fetch(`../../routes/api/permissao.php?id=${id}`);
     const recUser = await envUser.json();
     if ( recUser.status === 'success' ) {
-        permissoes.push(recUser.result);
+        let itens = `<li class="item"><a href="pedidos">Pedidos</a></li>`;
+        let temAcesso = "";
+
         localStorage.setItem('permissoes', JSON.stringify(recUser.result));
         console.log('asd', recUser.result)
+
+        if ( recUser.result.find(index => index.Tela == "Index") ){
+            temAcesso = {
+                'btnProdutos': recUser.result.find(index => index.Tela == "Index" && index.Componente == "BtnProduto" )?.Liberado,
+                'btnCategoria': recUser.result.find(index => index.Tela == "Index" && index.Componente == "BtnCategoria" )?.Liberado,
+                'btnVenda': recUser.result.find(index => index.Tela == "Index" && index.Componente == "BtnVendas" )?.Liberado
+            }
+
+            if ( temAcesso.btnProdutos == "S" ){
+                itens += `<li class="item"><a href="produtos">Produtos</a></li>`;
+            }
+            if ( temAcesso.btnCategoria == "S") {
+                itens += `<li class="item"><a href="categoria">Categorias</a></li>`;
+            }
+            if ( temAcesso.btnVenda == "S") {
+                itens += `<li class="item"><a href="vendas">Vendas</a></li>`;
+            }
+            itens += `<li class="item"><a href="logoff">Logoff</a></li>`;
+            document.querySelector('.menu-itens .lista-itens').innerHTML += itens;
+        }
+        
     }else{
         alert('')
     }

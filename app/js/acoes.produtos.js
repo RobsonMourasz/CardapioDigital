@@ -7,6 +7,13 @@ const permissao = JSON.parse(localStorage.getItem('permissoes'));
     window.addEventListener('load', (e) => {
         e.preventDefault();
         carregarProdutos();
+        const btnCadastrar = permissao.find(p => p.Tela = 'Produto' && p.Componente == 'Cadastrar')?.Liberado
+        if ( btnCadastrar == "S" ){
+            document.querySelector('.content-body .content-button').innerHTML = `<button class="btn bg-success btn-responsivo" id="btn-novo-produto" id-modal="modal-cadastrar" attr="modal" show="abrir">Novo Produto</button>`;
+        }else{
+            document.querySelector('.content-body .content-button').innerHTML = `<button class="btn btn-responsivo" disabled  id="btn-novo-produto" >Novo Produto</button>`;
+        }
+        
     })
 
     document.getElementById('btn-novo-produto').addEventListener('click', (e) => {
@@ -183,8 +190,6 @@ async function carregarTabelaProdutos(data) {
         btnEditar: permissao.find(p => p.Tela = 'Produto' && p.Componente == 'Editar')?.Liberado,
         btnExcluir: permissao.find(p => p.Tela = 'Produto' && p.Componente == 'Excluir')?.Liberado
     }
-
-    console.log(permissoesLiberadas);
 
     const produtos = data.produtos;
     const categorias = data.categoria;
