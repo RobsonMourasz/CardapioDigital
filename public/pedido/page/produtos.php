@@ -9,7 +9,7 @@ src\controllers\Seguranca::verificacao();
     </div> <!-- content-header -->
     <div class="content-body">
         <div class="content-button">
-            
+            <button class="btn btn-responsivo" disabled  id="btn-novo-produto" >Novo Produto</button>
         </div>
         <div class="table">
             <table class="responsive">

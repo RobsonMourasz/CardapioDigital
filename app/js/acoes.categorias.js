@@ -1,5 +1,6 @@
 let categoriasRecebidas = [];
 let fileCategoriaImg = null;
+const permissao = JSON.parse(localStorage.getItem('permissoes'));
 
 (() => {
 
@@ -7,6 +8,13 @@ let fileCategoriaImg = null;
     window.addEventListener("load", function (e) {
         e.preventDefault();
         document.querySelector(".carregando").classList.add("d-none");
+
+        const btnCadastrar = permissao.find(p => p.Tela = 'Categoria' && p.Componente == 'Cadastrar')?.Liberado
+        if ( btnCadastrar == "S" ){
+            document.querySelector('.content-body .content-button').innerHTML = `<button class="btn bg-success btn-responsivo" id="btn-novo-produto" id-modal="modal-cadastrar" attr="modal" show="abrir">Nova Categoria</button>`;
+        }else{
+            document.querySelector('.content-body .content-button').innerHTML = `<button class="btn btn-responsivo" disabled  id="btn-novo-produto" >Novo Produto</button>`;
+        }
     });
 
     document.getElementById('btn-nova-categoria').addEventListener('click', setupUploadArea(document.querySelector('#modal-cadastrar')));
@@ -138,6 +146,13 @@ async function carregarCategorias() {
 }
 
 async function preencherCategorias(data) {
+    const permissoesLiberadas = {
+        btnEditar: permissao.find(p => p.Tela = 'Categoria' && p.Componente == 'Editar')?.Liberado,
+        btnExcluir: permissao.find(p => p.Tela = 'Categoria' && p.Componente == 'Excluir')?.Liberado
+    }
+
+    console.log('categoria: ',permissoesLiberadas)
+
     let bodyCategoria = document.getElementById('tbody-categoria');
     bodyCategoria.innerHTML = "";
     data.forEach(categoria => {
@@ -149,12 +164,18 @@ async function preencherCategorias(data) {
         }
         let trCategoria = document.createElement('tr');
         trCategoria.innerHTML = `<td class="ocultar-responsivo" ><img width="62" src="../../${imgSrc}" alt="${categoria.DescricaoCategoria}"></td>
-                <td>${categoria.DescricaoCategoria}</td>
-                <td class="text-center">
-                    <button class="btn btn-primary btn-sm" onclick="editarCategoria(${categoria.IdCategoria})" id-modal="modal-editar" attr="modal" show="abrir">Editar</button>
-                    <button class="btn btn-danger btn-sm" onclick="deletarCategoria(${categoria.IdCategoria})" id-modal="modal-excluir" attr="modal" show="abrir">Excluir</button>
-                </td>`;
-        bodyCategoria.appendChild(trCategoria);
+        <td>${categoria.DescricaoCategoria}</td>`;
+
+        let btn = document.createElement('td');
+        if (permissoesLiberadas.btnEditar == 'S') {
+            btn.innerHTML += `<button class="btn btn-primary btn-sm" onclick="editarCategoria(${categoria.IdCategoria})" id-modal="modal-editar" attr="modal" show="abrir">Editar</button>`
+        }
+        if (permissoesLiberadas.btnExcluir == 'S') {
+            btn.innerHTML += `<button class="btn btn-danger btn-sm" onclick="deletarCategoria(${categoria.IdCategoria})" id-modal="modal-excluir" attr="modal" show="abrir">Excluir</button>`
+            trCategoria.appendChild(btn);
+            bodyCategoria.appendChild(trCategoria);
+        }
+
     });
 }
 

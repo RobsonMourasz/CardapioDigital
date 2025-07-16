@@ -10,8 +10,6 @@ const permissao = JSON.parse(localStorage.getItem('permissoes'));
         const btnCadastrar = permissao.find(p => p.Tela = 'Produto' && p.Componente == 'Cadastrar')?.Liberado
         if ( btnCadastrar == "S" ){
             document.querySelector('.content-body .content-button').innerHTML = `<button class="btn bg-success btn-responsivo" id="btn-novo-produto" id-modal="modal-cadastrar" attr="modal" show="abrir">Novo Produto</button>`;
-        }else{
-            document.querySelector('.content-body .content-button').innerHTML = `<button class="btn btn-responsivo" disabled  id="btn-novo-produto" >Novo Produto</button>`;
         }
         
     })
