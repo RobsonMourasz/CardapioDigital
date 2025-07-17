@@ -8,7 +8,7 @@ if (!isset($_FILES['arquivo'])) {
 }
 
 $arquivo = $_FILES['arquivo'];
-$IdProduto = isset($_POST['IdProduto']) ? intval($_POST['IdProduto']) : 0;
+$IdEmpresa = isset($_POST['IdEmpresa']) ? intval($_POST['IdEmpresa']) : 0;
 
 // Verifica erros
 if ($arquivo['error'] !== UPLOAD_ERR_OK) {
@@ -17,24 +17,23 @@ if ($arquivo['error'] !== UPLOAD_ERR_OK) {
 }
 
 // Pasta de destino
-$destinoPasta = __DIR__ . '/../../app/assets/Produtos/';
+$destinoPasta = __DIR__ . '/../../app/assets/';
 
 if (!is_dir($destinoPasta)) {
     mkdir($destinoPasta, 0777, true);
 }
 
 // Nome do arquivo
-$nomeArquivo = uniqid().'.'.pathinfo($_FILES['arquivo']['name'], PATHINFO_EXTENSION);
+$nomeArquivo = 'Logo'.pathinfo($_FILES['arquivo']['name'], PATHINFO_EXTENSION);
 $caminhoCompleto = $destinoPasta . $nomeArquivo;
-$destinoBancoImg = 'app/assets/Produtos/' . $nomeArquivo;
-
+$destinoBancoImg = 'app/assets/'. $nomeArquivo;
 // Move o arquivo para a pasta
 if (!move_uploaded_file($arquivo['tmp_name'], $caminhoCompleto)) {
-    echo json_encode(['status' => "error", 'result' => 'Falha ao mover o arquivo.']);
+    echo json_encode(['status' => 'error', 'result' => 'Falha ao mover o arquivo.']);
     exit;
 }
 
 // Salva no banco (opcional)
-App\class\Conexao::insertBD('UPDATE cadprodutos SET Imagem = ? WHERE IdProduto = ?','si',[$destinoBancoImg, $IdProduto]);
+App\class\Conexao::insertBD('UPDATE empresa SET LogoTipo = ? WHERE IdEmpresa = ?','si',[$destinoBancoImg, $IdEmpresa]);
 
 die(json_encode(['status' => 'success', 'result' => 'Arquivo salvo.', 'arquivo' => $nomeArquivo])); 

@@ -142,14 +142,18 @@ async function permissaoUsuario(id) {
             temAcesso = {
                 'btnProdutos': recUser.result.find(index => index.Tela == "Index" && index.Componente == "BtnProduto" )?.Liberado,
                 'btnCategoria': recUser.result.find(index => index.Tela == "Index" && index.Componente == "BtnCategoria" )?.Liberado,
-                'btnVenda': recUser.result.find(index => index.Tela == "Index" && index.Componente == "BtnVendas" )?.Liberado
+                'btnVenda': recUser.result.find(index => index.Tela == "Index" && index.Componente == "BtnVendas" )?.Liberado,
+                'btnEmpresa': recUser.result.find(index => index.Tela == "Index" && index.Componente == "BtnEmpresa" )?.Liberado
             }
 
-            if ( temAcesso.btnProdutos == "S" ){
-                itens += `<li class="item"><a href="produtos">Produtos</a></li>`;
+            if ( temAcesso.btnEmpresa == "S") {
+                itens += `<li class="item"><a href="empresa">Empresa</a></li>`;
             }
             if ( temAcesso.btnCategoria == "S") {
                 itens += `<li class="item"><a href="categoria">Categorias</a></li>`;
+            }
+            if ( temAcesso.btnProdutos == "S" ){
+                itens += `<li class="item"><a href="produtos">Produtos</a></li>`;
             }
             if ( temAcesso.btnVenda == "S") {
                 itens += `<li class="item"><a href="vendas">Vendas</a></li>`;

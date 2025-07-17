@@ -102,7 +102,7 @@ if (isset($_SESSION['CnpjEmpresaResponsavel']) && !empty($_SESSION['CnpjEmpresaR
             </main>
 
             <footer>
-                        <?php $nomeEmpresa = App\controllers\Empresa::RetornarDados(); echo 'Empresa: '. ucfirst($nomeEmpresa[0]['NomeFantasia']) .'  |  Usuario Logado: '. ucfirst($_SESSION['Usuario'])?>
+                <?php $nomeEmpresa = App\controllers\Empresa::RetornarDados(); echo 'Empresa: '. ucfirst($nomeEmpresa[0]['NomeFantasia']) .'  |  Usuario Logado: '. ucfirst($_SESSION['Usuario'])?>
             </footer>
         </div>
 
