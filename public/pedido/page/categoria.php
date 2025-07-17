@@ -8,7 +8,7 @@
     </div> <!-- content-header -->
     <div class="content-body">
         <div class="content-button">
-            <button class="btn bg-success btn-responsivo" id="btn-nova-categoria" id-modal="modal-cadastrar" attr="modal" show="abrir">Nova Categoria</button>
+            <button class="btn" id="btn-nova-categoria" disabled >Nova Categoria</button>
         </div>
 
         <div class="table">

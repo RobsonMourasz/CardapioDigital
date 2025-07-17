@@ -1,5 +1,6 @@
 let situacaoPedido = [];
 let formaPgto = [];
+const permissao = JSON.parse(localStorage.getItem('permissoes'));
 (() => {
     window.addEventListener('load', async (e) => {
         e.preventDefault();
@@ -20,7 +21,6 @@ let formaPgto = [];
             });
 
         }
-
         const envFormaPgto = await fetch('../../routes/api/formapgto.php?busca=all');
         const resFormaPgto = await envFormaPgto.json();
         if (resFormaPgto.status === 'success') {
@@ -115,16 +115,26 @@ async function preencherTabelaDeProdutos(data) {
     document.getElementById('qtd-total-venda').textContent = data.QtdVendas;
     document.getElementById('valor-total-venda').textContent = `${getConversaoParaMoeda(data.VrVendido)}`;
     document.getElementById('valor-taxa-entrega').textContent = `${getConversaoParaMoeda(data.txMaquininha)} + ${getConversaoParaMoeda(data.txEntrega)}`;
+    const btnFilterAtivo = permissao.find(venda => venda.Tela == 'Venda' && venda.Componente == 'Filtro')?.Liberado
+    console.log('btnFilterAtivo', btnFilterAtivo)
 
     let body = document.querySelector('.content-body');
     body.innerHTML = "";
     let tabela = document.createElement('div');
     tabela.classList.add('dados-venda');
     tabela.innerHTML = '';
-    tabela.innerHTML = `
+    if (btnFilterAtivo == 'S') {
+        tabela.innerHTML = `
         <div class="content-button">
             <button class="btn bg-success btn-responsivo" id="btn-filtro-avancado" id-modal="modal-filtro" attr="modal" show="abrir">Filtro</button>
         </div>`;
+    }else{
+        tabela.innerHTML = `
+        <div class="content-button">
+            <button class="btn btn-responsivo" id="btn-filtro-avancado" disabled>Filtro</button>
+        </div>`;
+    }
+
     const vendas = await montarPedidoxProdutos(data.cadPedido, data.mvPedido);
 
     vendas.forEach((venda) => {
@@ -183,6 +193,7 @@ async function preencherTabelaDeProdutos(data) {
 }
 
 function preencherTabelaDeProdutosVazio() {
+    const btnFilterAtivo = permissao.find(venda => venda.Tela == 'Venda' && venda.Componente == 'Filtro')?.Liberado
     document.getElementById('qtd-total-venda').textContent = '0';
     document.getElementById('valor-total-venda').textContent = `${getConversaoParaMoeda(0)}`;
     document.getElementById('valor-taxa-entrega').textContent = `${getConversaoParaMoeda(0)} + ${getConversaoParaMoeda(0)}`;
@@ -190,11 +201,20 @@ function preencherTabelaDeProdutosVazio() {
     body.innerHTML = "";
     let tabela = document.createElement('div');
     tabela.classList.add('dados-venda');
-    tabela.innerHTML = `
-    <div class="content-button">
-        <button class="btn bg-success btn-responsivo" id="btn-filtro-avancado" id-modal="modal-filtro" attr="modal" show="abrir">Filtro</button>
-    </div>
-    <p id="msg-sem-dados">Nenhuma venda encontrada nesse periodo.</p>`;
+
+    if (btnFilterAtivo == 'S') {
+        tabela.innerHTML = `
+        <div class="content-button">
+            <button class="btn bg-success btn-responsivo" id="btn-filtro-avancado" id-modal="modal-filtro" attr="modal" show="abrir">Filtro</button>
+        </div>
+        <p id="msg-sem-dados">Nenhuma venda encontrada nesse periodo.</p>`;
+    }else{
+        tabela.innerHTML = `
+        <div class="content-button">
+            <button class="btn btn-responsivo" id="btn-filtro-avancado" disabled>Filtro</button>
+        </div>
+        <p id="msg-sem-dados">Nenhuma venda encontrada nesse periodo.</p>`;
+    }
     body.appendChild(tabela);
 
 }

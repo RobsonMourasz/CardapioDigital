@@ -8,6 +8,7 @@ const permissao = JSON.parse(localStorage.getItem('permissoes'));
         e.preventDefault();
         carregarProdutos();
         const btnCadastrar = permissao.find(p => p.Tela = 'Produto' && p.Componente == 'Cadastrar')?.Liberado
+
         if ( btnCadastrar == "S" ){
             document.querySelector('.content-body .content-button').innerHTML = `<button class="btn bg-success btn-responsivo" id="btn-novo-produto" id-modal="modal-cadastrar" attr="modal" show="abrir">Novo Produto</button>`;
         }
@@ -216,9 +217,13 @@ async function carregarTabelaProdutos(data) {
         let btn = document.createElement('td');
         if (permissoesLiberadas.btnEditar == 'S') {
             btn.innerHTML += `<button attr="modal" id-modal="modal-editar" show="abrir" class="btn btn-primary btn-sm" onclick="editarProduto(${produto.IdProduto})">Editar</button>`
+        }else{
+            btn.innerHTML += `<button class="btn btn-sm" disabled>Editar</button>`
         }
         if (permissoesLiberadas.btnExcluir == 'S') {
             btn.innerHTML += `<button attr="modal" id-modal="modal-excluir" show="abrir" class="btn btn-danger btn-sm" onclick="excluirProduto(${produto.IdProduto})">Excluir</button>`
+        }else{
+            btn.innerHTML += `<button class="btn btn-sm" disabled>Excluir</button>`
         }
         tr.appendChild(btn);
         tabelaProdutos.appendChild(tr);
