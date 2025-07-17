@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     if (isset($_GET['busca'])){
         if ($_GET['busca'] == 'all'){
             try {
-                $res = src\class\Conexao::getPesquisaBD('SELECT * FROM cadpagamento WHERE PagAtivo = "S" ','',[]);
+                $res = App\class\Conexao::getPesquisaBD('SELECT * FROM cadpagamento WHERE PagAtivo = "S" ','',[]);
                 if ( $res ){
                     http_response_code(200);
                     die(json_encode([

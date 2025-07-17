@@ -6,7 +6,7 @@ if(!isset($_SESSION)){session_start();}
     if ( $_SERVER['REQUEST_METHOD'] === 'POST') {
         $login = strtolower($_POST['usuario']);
         $pass = $_POST['password'];
-        $user = src\class\Conexao::getPesquisaBD('SELECT * FROM usuario WHERE (NomeUsuario IN(?) OR Email in(?)) AND UserAtivo = "S" ','ss',[$login, $login]);
+        $user = App\class\Conexao::getPesquisaBD('SELECT * FROM usuario WHERE (NomeUsuario IN(?) OR Email in(?)) AND UserAtivo = "S" ','ss',[$login, $login]);
 
         if (!empty($user)){
             $contagem = 0;

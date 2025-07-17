@@ -1,5 +1,5 @@
 <?php 
-namespace src\controllers;
+namespace App\controllers;
 
 if (!isset($_SESSION)){session_start();}
 session_destroy();

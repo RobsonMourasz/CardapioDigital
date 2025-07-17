@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET"){
         http_response_code(200);
         try {
 
-            $res = src\class\Conexao::getPesquisaBD('SELECT * FROM situacao WHERE SituacaoAtivo = "S" ','',[]);
+            $res = App\class\Conexao::getPesquisaBD('SELECT * FROM situacao WHERE SituacaoAtivo = "S" ','',[]);
             if ($res){
                 die(json_encode([
                     'status' => 'success',

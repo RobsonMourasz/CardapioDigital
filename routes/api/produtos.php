@@ -7,9 +7,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if ($_GET['busca']) {
         if ($_GET['busca'] === 'all') {
             $res = [
-                'categoria' => src\class\Conexao::getPesquisaBD('SELECT * FROM categoria WHERE CadAtivo = "S"', '', []),
-                'produtos' => src\class\Conexao::getPesquisaBD('SELECT * FROM cadprodutos WHERE ProdAtivo = "S"', '', []),
-                'formaPgto' => src\class\Conexao::getPesquisaBD('SELECT * FROM cadpagamento WHERE PagAtivo = "S"', '', []),
+                'categoria' => App\class\Conexao::getPesquisaBD('SELECT * FROM categoria WHERE CadAtivo = "S"', '', []),
+                'produtos' => App\class\Conexao::getPesquisaBD('SELECT * FROM cadprodutos WHERE ProdAtivo = "S"', '', []),
+                'formaPgto' => App\class\Conexao::getPesquisaBD('SELECT * FROM cadpagamento WHERE PagAtivo = "S"', '', []),
             ];
             die(json_encode([
                 'status' => 'success',
@@ -34,12 +34,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if ($produtos['method'] == 'cadastrar') {
 
-        if (src\class\Conexao::insertBD('INSERT cadprodutos (IdProduto, IdCategoria, ProdAtivo, DescricaoProduto, Imagem, VrVenda, Estoque, Ingredientes, DataCadastro, DataAlteracao, UltimaMovimentacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 'iisssddssss', [NULL, intval($produtos['IdCategoria']), 'S', strtoupper($produtos['DescricaoProduto']), $produtos['Imagem'] ?? NULL, doubleval($produtos['VrVenda']), doubleval($produtos['Estoque']), $produtos['Ingredientes'], date('Y-m-d H:i:s'), date('Y-m-d H:i:s'), date('Y-m-d H:i:s')])) {
+        if (App\class\Conexao::insertBD('INSERT cadprodutos (IdProduto, IdCategoria, ProdAtivo, DescricaoProduto, Imagem, VrVenda, Estoque, Ingredientes, DataCadastro, DataAlteracao, UltimaMovimentacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 'iisssddssss', [NULL, intval($produtos['IdCategoria']), 'S', strtoupper($produtos['DescricaoProduto']), $produtos['Imagem'] ?? NULL, doubleval($produtos['VrVenda']), doubleval($produtos['Estoque']), $produtos['Ingredientes'], date('Y-m-d H:i:s'), date('Y-m-d H:i:s'), date('Y-m-d H:i:s')])) {
 
             die(json_encode([
                 'status' => 'success',
                 'result' => 'Cadastrado com sucesso',
-                'IdProduto' => src\class\Conexao::getUltimoIdInserido('cadprodutos', 'IdProduto')
+                'IdProduto' => App\class\Conexao::getUltimoIdInserido('cadprodutos', 'IdProduto')
             ]));
         } else {
 
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         if (isset($produtos['file']) && !empty($produtos['file'])) {
 
-            $imagemAntiga = src\class\Conexao::getPesquisaBD('SELECT Imagem FROM cadprodutos WHERE IdProduto = ?', 'i', [intval($produtos['IdProduto'])]);
+            $imagemAntiga = App\class\Conexao::getPesquisaBD('SELECT Imagem FROM cadprodutos WHERE IdProduto = ?', 'i', [intval($produtos['IdProduto'])]);
 
             if (!empty( $imagemAntiga[0]['Imagem'] ) || $imagemAntiga[0]['Imagem'] !== null ) {
 
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         }
 
-        if (src\class\Conexao::insertBD('UPDATE cadprodutos SET IdCategoria = ?, ProdAtivo = ?, DescricaoProduto = ?, Imagem = ?, VrVenda = ?, Estoque = ?, Ingredientes = ?, DataAlteracao = ? WHERE IdProduto = ?', 'isssddssi', [intval($produtos['IdCategoria']), 'S', $produtos['DescricaoProduto'], $produtos['Imagem'], $produtos['VrVenda'], $produtos['Estoque'], $produtos['Ingredientes'], date('Y-m-d H:m:s'), intval($produtos['IdProduto'])])) {
+        if (App\class\Conexao::insertBD('UPDATE cadprodutos SET IdCategoria = ?, ProdAtivo = ?, DescricaoProduto = ?, Imagem = ?, VrVenda = ?, Estoque = ?, Ingredientes = ?, DataAlteracao = ? WHERE IdProduto = ?', 'isssddssi', [intval($produtos['IdCategoria']), 'S', $produtos['DescricaoProduto'], $produtos['Imagem'], $produtos['VrVenda'], $produtos['Estoque'], $produtos['Ingredientes'], date('Y-m-d H:m:s'), intval($produtos['IdProduto'])])) {
 
             die(json_encode([
                 'status' => 'success',
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 
     if ($produtos['method'] == 'excluir') {
-        $imagemApagar = src\class\Conexao::getPesquisaBD('SELECT Imagem FROM cadprodutos WHERE IdProduto = ?', 'i', [intval($produtos['IdProduto'])]);
+        $imagemApagar = App\class\Conexao::getPesquisaBD('SELECT Imagem FROM cadprodutos WHERE IdProduto = ?', 'i', [intval($produtos['IdProduto'])]);
 
         if (!empty( $imagemApagar[0]['Imagem'] ) || $imagemApagar[0]['Imagem'] !== null ) {
 
@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         }
 
-        if (src\class\Conexao::deleteBD('cadprodutos', 'IdProduto', $produtos['IdProduto'])) {
+        if (App\class\Conexao::deleteBD('cadprodutos', 'IdProduto', $produtos['IdProduto'])) {
 
             die(json_encode([
                 'status' => 'success',

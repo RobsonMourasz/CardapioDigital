@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['busca'])) {
 
         if ($_GET['busca'] == "all") {
-            $res[] = src\class\Conexao::getPesquisaBD('SELECT * FROM categoria WHERE CadAtivo = "S" ', '', []);
+            $res[] = App\class\Conexao::getPesquisaBD('SELECT * FROM categoria WHERE CadAtivo = "S" ', '', []);
             if ($res) {
 
                 die(json_encode([
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['acao'])) {
         if ($_GET['acao'] == 'delete') {
 
-            $imagemAntiga = src\class\Conexao::getPesquisaBD('SELECT Imagem FROM categoria WHERE IdCategoria = ?', 'i', [intval($_GET['id'])]);
+            $imagemAntiga = App\class\Conexao::getPesquisaBD('SELECT Imagem FROM categoria WHERE IdCategoria = ?', 'i', [intval($_GET['id'])]);
 
             if (!empty( $imagemAntiga[0]['Imagem'] ) || $imagemAntiga[0]['Imagem'] !== null ) {
 
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 }
             }
 
-            if (src\class\Conexao::deleteBD('categoria', 'IdCategoria', $_GET['id'])) {
+            if (App\class\Conexao::deleteBD('categoria', 'IdCategoria', $_GET['id'])) {
                 die(json_encode([
                     'status' => 'success',
                     'result' => 'Categoria excluída com sucesso!'
@@ -57,11 +57,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($data['acao'])) {
 
         if ($data['acao'] == 'cadastrar') {
-            if (src\class\Conexao::insertBD('INSERT categoria (IdCategoria, DescricaoCategoria, Imagem, CadAtivo) VALUES (?, ?, ?, ?)', 'isss', [null, strtoupper($data['DescricaoCategoria']), null, 'S'])) {
+            if (App\class\Conexao::insertBD('INSERT categoria (IdCategoria, DescricaoCategoria, Imagem, CadAtivo) VALUES (?, ?, ?, ?)', 'isss', [null, strtoupper($data['DescricaoCategoria']), null, 'S'])) {
                 die(json_encode([
                     'status' => 'success',
                     'result' => 'Categoria cadastrada com sucesso!',
-                    'IdCategoria' => src\class\Conexao::getUltimoIdInserido('categoria', 'IdCategoria')
+                    'IdCategoria' => App\class\Conexao::getUltimoIdInserido('categoria', 'IdCategoria')
                 ]));
             } else {
                 die(json_encode([
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
             if (isset($data['file']) && !empty($data['file'])) {
 
-                $imagemAntiga = src\class\Conexao::getPesquisaBD('SELECT Imagem FROM categoria WHERE IdCategoria = ?', 'i', [intval($data['IdCategoria'])]);
+                $imagemAntiga = App\class\Conexao::getPesquisaBD('SELECT Imagem FROM categoria WHERE IdCategoria = ?', 'i', [intval($data['IdCategoria'])]);
 
                 if (!empty( $imagemAntiga[0]['Imagem'] ) || $imagemAntiga[0]['Imagem'] !== null ) {
 
@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 }
             }
 
-            if (src\class\Conexao::insertBD('UPDATE categoria SET DescricaoCategoria = ? WHERE IdCategoria = ? ', 'si', [strtoupper($data['DescricaoCategoria']), intval($data['IdCategoria'])])) {
+            if (App\class\Conexao::insertBD('UPDATE categoria SET DescricaoCategoria = ? WHERE IdCategoria = ? ', 'si', [strtoupper($data['DescricaoCategoria']), intval($data['IdCategoria'])])) {
 
                 die(json_encode([
                     'status' => 'success',

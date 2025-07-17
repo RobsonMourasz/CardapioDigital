@@ -1,6 +1,6 @@
 <?php
 
-namespace src\class;
+namespace App\class;
 
 include_once __DIR__.'/database.php';
 

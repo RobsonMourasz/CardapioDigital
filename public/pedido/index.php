@@ -1,7 +1,7 @@
 <?php
 include_once __DIR__ . '/../../vendor/autoload.php';
-src\controllers\Seguranca::verificacao();
-
+App\controllers\Seguranca::verificacao();
+$logoTipo = App\controllers\Empresa::RetornarDados();
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -53,7 +53,7 @@ if (isset($_SESSION['CnpjEmpresaResponsavel']) && !empty($_SESSION['CnpjEmpresaR
                 </div>
 
                 <div class="logo-tipo">
-                    <img src="../../app/assets/logo.png" alt="">
+                    <img src="../../<?php echo $logoTipo[0]['LogoTipo']; ?>" alt="">
 
                 </div>
 

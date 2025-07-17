@@ -6,17 +6,17 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
         $res = strtolower($_GET['busca']);
         if ($res === 'all') {
             http_response_code(200);
-            $cadPedido = src\class\Conexao::getPesquisaBD('SELECT * FROM cadpedido a 
+            $cadPedido = App\class\Conexao::getPesquisaBD('SELECT * FROM cadpedido a 
                 LEFT JOIN situacao b ON a.idSituacao = b.IdSituacao
                 WHERE b.DescriacaoSituacao <> "Cancelado" AND b.DescriacaoSituacao <> "Concluido" ORDER BY idPedido DESC', '', []);
-            $mvPedido = src\class\Conexao::getPesquisaBD('SELECT * FROM mvpedido a 
+            $mvPedido = App\class\Conexao::getPesquisaBD('SELECT * FROM mvpedido a 
                 LEFT JOIN cadprodutos b ON a.IdProduto = b.IdProduto
                 LEFT JOIN categoria c ON b.IdCategoria = c.IdCategoria
                 WHERE a.NumPedido IN ( SELECT Controle FROM cadpedido a 
                 LEFT JOIN situacao b ON a.idSituacao = b.IdSituacao
                 WHERE b.DescriacaoSituacao <> "Cancelado" AND b.DescriacaoSituacao <> "Concluido" )', '', []);
 
-            $acoes = src\class\Conexao::getPesquisaBD('SELECT * FROM situacao WHERE SituacaoAtivo = "S"', '', []);
+            $acoes = App\class\Conexao::getPesquisaBD('SELECT * FROM situacao WHERE SituacaoAtivo = "S"', '', []);
             die(json_encode([
                 "status" => "ok",
                 "result" => ["cad_pedido" => $cadPedido, "mv_pedido" => $mvPedido, "acoes" => $acoes]
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 
         http_response_code(200);
 
-        if ( src\class\Conexao::insertBD('UPDATE cadpedido SET idSituacao = ? WHERE idPedido = ?','ii',[$_GET['altAcao'], $_GET['idPedido']]) ){
+        if ( App\class\Conexao::insertBD('UPDATE cadpedido SET idSituacao = ? WHERE idPedido = ?','ii',[$_GET['altAcao'], $_GET['idPedido']]) ){
         
             die(json_encode([
                 'status' => 'ok',
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
         http_response_code(200);
 
         try {
-            $res = src\class\Conexao::getPesquisaBD('SELECT * FROM cadpedido a WHERE a.idSituacao IN( SELECT IdSituacao FROM situacao WHERE DescriacaoSituacao LIKE "%Aguardando%" )','',[]);
+            $res = App\class\Conexao::getPesquisaBD('SELECT * FROM cadpedido a WHERE a.idSituacao IN( SELECT IdSituacao FROM situacao WHERE DescriacaoSituacao LIKE "%Aguardando%" )','',[]);
             if ( $res ) {
     
                 if ( count($res) > 0){

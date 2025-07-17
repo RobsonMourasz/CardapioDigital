@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     http_response_code(200);
     $id = intval(isset($_GET['id']) ? $_GET['id'] : 0);
-    $retorno = src\controllers\Permissao::VerificarPermissao($id, 'Produto', 'Cadastrar');
+    $retorno = App\controllers\Permissao::VerificarPermissao($id, 'Produto', 'Cadastrar');
     die(json_encode([
         'status' => 'success',
         'result' => $retorno

@@ -1,6 +1,6 @@
 <?php
 include_once __DIR__ . '/../../../vendor/autoload.php';
-src\controllers\Seguranca::verificacao();
+App\controllers\Seguranca::verificacao();
 
 ?>
 <div class="content">

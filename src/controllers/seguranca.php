@@ -1,5 +1,5 @@
 <?php 
-namespace src\controllers;
+namespace App\controllers;
 include_once __DIR__.'/../../vendor/autoload.php';
 
 
@@ -23,12 +23,12 @@ class Permissao {
 
 
     private static function InformaIdPerfil (?int $IdUsuario){
-        return \src\class\Conexao::getPesquisaBD('SELECT IdPerfil FROM usuario WHERE IdUsuario IN(?) ','i',[$IdUsuario]);
+        return \App\class\Conexao::getPesquisaBD('SELECT IdPerfil FROM usuario WHERE IdUsuario IN(?) ','i',[$IdUsuario]);
     }
 
     public static function VerificarPermissao(?int $IdUsuario ){
         $Perfil = self::InformaIdPerfil($IdUsuario);
-        return \src\class\Conexao::getPesquisaBD('SELECT a.IdPerfil, b.Tela, b.Componente, a.Liberado FROM permissaoperfil a LEFT JOIN permissoes b ON a.IdPermissao = b.IdPermissao WHERE a.IdPerfil IN(?)','i',[$Perfil[0]['IdPerfil']]) ;
+        return \App\class\Conexao::getPesquisaBD('SELECT a.IdPerfil, b.Tela, b.Componente, a.Liberado FROM permissaoperfil a LEFT JOIN permissoes b ON a.IdPermissao = b.IdPermissao WHERE a.IdPerfil IN(?)','i',[$Perfil[0]['IdPerfil']]) ;
     }
 
 }
