@@ -1,3 +1,10 @@
+<?php 
+include_once __DIR__.'/vendor/autoload.php';
+    $logoTipo = \App\controllers\Empresa::RetornarDados();
+    $nomeEmpresa = \App\controllers\Empresa::RetornarDados();
+    $nomeEmpresaFormatado = ucfirst($nomeEmpresa[0]['NomeFantasia']);
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -14,11 +21,11 @@
     <div class="container">
         <div class="nav">
             <div class="logo-tipo">
-                <img src="app/assets/logo.png" alt="Logo" style="width: 100px; height: auto;">
+                <img src="<?php echo $logoTipo[0]['LogoTipo'] ?>" alt="Logo" style="width: 100px; height: auto;">
             </div>
             <div class="dados-empresa">
                 <div class="title">
-                    Empresa Demonstracao
+                    <?php echo $nomeEmpresaFormatado ?>
                 </div>
                 <div class="status">
                     <span class="online">Aberto</span>
