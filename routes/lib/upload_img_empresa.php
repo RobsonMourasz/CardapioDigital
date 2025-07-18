@@ -24,7 +24,7 @@ if (!is_dir($destinoPasta)) {
 }
 
 // Nome do arquivo
-$nomeArquivo = 'Logo'.pathinfo($_FILES['arquivo']['name'], PATHINFO_EXTENSION);
+$nomeArquivo = 'Logo'.'.'.pathinfo($_FILES['arquivo']['name'], PATHINFO_EXTENSION);
 $caminhoCompleto = $destinoPasta . $nomeArquivo;
 $destinoBancoImg = 'app/assets/'. $nomeArquivo;
 // Move o arquivo para a pasta

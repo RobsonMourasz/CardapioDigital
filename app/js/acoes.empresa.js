@@ -71,10 +71,10 @@ function showPreview(file, preview, message) {
 
 
 
-async function uploadFile(file, IdCategoria) {
+async function uploadFile(file, IdEmpresa) {
     const formData = new FormData();
     formData.append('arquivo', file);
-    formData.append('IdCategoria', IdCategoria);
+    formData.append('IdCategoria', IdEmpresa);
 
     const envio = await fetch('../../routes/lib/upload_img_empresa.php', {
         method: 'POST',
@@ -116,7 +116,7 @@ async function enviarAlteracaoDados() {
     const recDadosAlterados = await envDadosAlterados.json();
 
     if (recDadosAlterados.status === 'success') {
-
+        uploadFile(fileEmpresaImg, recDadosAlterados.IdEmpresa)
     }else{
         alert()
     }
