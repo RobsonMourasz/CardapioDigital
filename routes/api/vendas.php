@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($action == 'relatoriodiario') {
             http_response_code(200);
             try {
-                $relatorio = App\class\Conexao::getPesquisaBD(
+                $relatorio = App\local\Conexao::getPesquisaBD(
                     "SELECT 
                 SUM(a.ValorPedido) AS 'VrVendido', 
                 SUM(a.ValorEntrega)AS 'tx-entrega', 
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     ]
                 );
 
-                $cadPedido = App\class\Conexao::getPesquisaBD(
+                $cadPedido = App\local\Conexao::getPesquisaBD(
                     "SELECT *
                 FROM cadpedido a 
                 WHERE a.DataPedido 
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     ]
                 );
 
-                $mvPedido = App\class\Conexao::getPesquisaBD("SELECT *
+                $mvPedido = App\local\Conexao::getPesquisaBD("SELECT *
                 FROM mvpedido a 
                 WHERE a.NumPedido IN( SELECT Controle FROM cadpedido a WHERE a.DataPedido BETWEEN ? AND ? AND a.idSituacao IN(?) AND a.FormaPagamento LIKE ? ) ", 'ssis',[isset($_POST['datainicio']) ? $_POST['datainicio'].' 00:00:00' : date('Y-m-d') .' 00:00:00', isset($_POST['datafinal']) ? $_POST['datafinal']. ' 23:59:59' : date('Y-m-d'). ' 23:59:59', isset($_POST['situacao']) ? intval($_POST['situacao']) : 0, '%' . (!empty($_POST['formapgto']) ? $_POST['formapgto'] : '') . '%' ]);
 

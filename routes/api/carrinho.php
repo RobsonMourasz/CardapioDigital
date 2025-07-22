@@ -4,7 +4,7 @@ header('Content-Type: application/json; charset=utf-8');
 
 if ( $_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['add'])){
-        $ultimoPedido = App\class\Conexao::getPesquisaBD('SELECT MAX(a.idPedido) AS UltimoPedido FROM cadpedido a LIMIT	1', '', []);
+        $ultimoPedido = App\local\Conexao::getPesquisaBD('SELECT MAX(a.idPedido) AS UltimoPedido FROM cadpedido a LIMIT	1', '', []);
         if (empty($ultimoPedido) || $ultimoPedido == "" || $ultimoPedido == null){
             $ultimoPedido = 0;
         }
@@ -17,7 +17,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST') {
             $qtd = 0;
             foreach ($_POST['IdProduto'] as $key => $value) {
                 $produto[] = [
-                    'dados' => App\class\Conexao::getPesquisaBD('SELECT* FROM cadprodutos where IdProduto IN(?)','i',[$value]),
+                    'dados' => App\local\Conexao::getPesquisaBD('SELECT* FROM cadprodutos where IdProduto IN(?)','i',[$value]),
                     'qtd' => $_POST['Quantidade'][$key],
                     'obsProduto' => $_POST['ObsProduto'][$key]
                 ];
@@ -40,14 +40,14 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($txMaquininha){
                 $VrLiquidoPedido = $VrLiquidoPedido + $txMaquininha;
             }
-            $respPedido = App\class\Conexao::insertBD('INSERT INTO cadpedido (idPedido, idSituacao, ValorPedido, ValorEntrega, ValorAdicional, FormaPagamento, Controle, IpCliente, EnderecoEntrega, ObservacaoPedido, DataPedido) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)','iidddssssss',[$proxPedido, 3, $VrLiquidoPedido, $txEntrega, $txMaquininha, $formaPgto, $controle, $ip_cliente, $enderecoEntrega, $obsPedido, date('Y-m-d h:m:s')]);
+            $respPedido = App\local\Conexao::insertBD('INSERT INTO cadpedido (idPedido, idSituacao, ValorPedido, ValorEntrega, ValorAdicional, FormaPagamento, Controle, IpCliente, EnderecoEntrega, ObservacaoPedido, DataPedido) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)','iidddssssss',[$proxPedido, 3, $VrLiquidoPedido, $txEntrega, $txMaquininha, $formaPgto, $controle, $ip_cliente, $enderecoEntrega, $obsPedido, date('Y-m-d h:m:s')]);
 
             if ($respPedido){
-                $numPedido = App\class\Conexao::getPesquisaBD('SELECT MAX(a.idPedido) AS UltimoPedido FROM cadpedido a LIMIT	1', '', []);
+                $numPedido = App\local\Conexao::getPesquisaBD('SELECT MAX(a.idPedido) AS UltimoPedido FROM cadpedido a LIMIT	1', '', []);
             }
 
             foreach ($produto as $key => $prod) {
-                App\class\Conexao::insertBD('INSERT INTO mvpedido (NumPedido, IdProduto, Qtd, ObsProduto, DataLancemento) VALUES (?, ?, ?, ?, ?)','sidss',[$controle, $prod['dados'][0]['IdProduto'], $prod['qtd'], $prod['obsProduto'], date('Y-m-d') ]);
+                App\local\Conexao::insertBD('INSERT INTO mvpedido (NumPedido, IdProduto, Qtd, ObsProduto, DataLancemento) VALUES (?, ?, ?, ?, ?)','sidss',[$controle, $prod['dados'][0]['IdProduto'], $prod['qtd'], $prod['obsProduto'], date('Y-m-d') ]);
             }
 
         }

@@ -23,12 +23,12 @@ class Permissao {
 
 
     private static function InformaIdPerfil (?int $IdUsuario){
-        return \App\class\Conexao::getPesquisaBD('SELECT IdPerfil FROM usuario WHERE IdUsuario IN(?) ','i',[$IdUsuario]);
+        return \App\local\Conexao::getPesquisaBD('SELECT IdPerfil FROM usuario WHERE IdUsuario IN(?) ','i',[$IdUsuario]);
     }
 
     public static function VerificarPermissao(?int $IdUsuario ){
         $Perfil = self::InformaIdPerfil($IdUsuario);
-        return \App\class\Conexao::getPesquisaBD('SELECT a.IdPerfil, b.Tela, b.Componente, a.Liberado FROM permissaoperfil a LEFT JOIN permissoes b ON a.IdPermissao = b.IdPermissao WHERE a.IdPerfil IN(?)','i',[$Perfil[0]['IdPerfil']]) ;
+        return \App\local\Conexao::getPesquisaBD('SELECT a.IdPerfil, b.Tela, b.Componente, a.Liberado FROM permissaoperfil a LEFT JOIN permissoes b ON a.IdPermissao = b.IdPermissao WHERE a.IdPerfil IN(?)','i',[$Perfil[0]['IdPerfil']]) ;
     }
 
 }

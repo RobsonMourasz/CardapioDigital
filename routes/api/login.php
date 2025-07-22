@@ -1,12 +1,20 @@
 <?php 
-include_once __DIR__ . '/../../vendor/autoload.php';
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+ include_once __DIR__ . '/../../Constantes.php';
+ PathConfig::init();
+ include_once PathConfig::$root . '/htdocs/vendor/autoload.php';
+
+ include_once __DIR__. '/../../src/local/Conexao.php';
+
 header('Content-Type: application/json; charset=utf-8');
 if(!isset($_SESSION)){session_start();}
 
     if ( $_SERVER['REQUEST_METHOD'] === 'POST') {
         $login = strtolower($_POST['usuario']);
         $pass = $_POST['password'];
-        $user = App\class\Conexao::getPesquisaBD('SELECT * FROM usuario WHERE (NomeUsuario IN(?) OR Email in(?)) AND UserAtivo = "S" ','ss',[$login, $login]);
+
+        $user = \App\local\Conexao::getPesquisaBD('SELECT * FROM usuario WHERE (NomeUsuario IN(?) OR Email in(?)) AND UserAtivo = "S" ','ss',[$login, $login]);
 
         if (!empty($user)){
             $contagem = 0;

@@ -34,6 +34,6 @@ if (!move_uploaded_file($arquivo['tmp_name'], $caminhoCompleto)) {
 }
 
 // Salva no banco (opcional)
-App\class\Conexao::insertBD('UPDATE empresa SET LogoTipo = ? WHERE IdEmpresa = ?','si',[$destinoBancoImg, $IdEmpresa]);
+App\local\Conexao::insertBD('UPDATE empresa SET LogoTipo = ? WHERE IdEmpresa = ?','si',[$destinoBancoImg, $IdEmpresa]);
 
 die(json_encode(['status' => 'success', 'result' => 'Arquivo salvo.', 'arquivo' => $nomeArquivo])); 

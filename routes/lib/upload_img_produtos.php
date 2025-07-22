@@ -35,6 +35,6 @@ if (!move_uploaded_file($arquivo['tmp_name'], $caminhoCompleto)) {
 }
 
 // Salva no banco (opcional)
-App\class\Conexao::insertBD('UPDATE cadprodutos SET Imagem = ? WHERE IdProduto = ?','si',[$destinoBancoImg, $IdProduto]);
+App\local\Conexao::insertBD('UPDATE cadprodutos SET Imagem = ? WHERE IdProduto = ?','si',[$destinoBancoImg, $IdProduto]);
 
 die(json_encode(['status' => 'success', 'result' => 'Arquivo salvo.', 'arquivo' => $nomeArquivo])); 

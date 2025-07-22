@@ -34,6 +34,6 @@ if (!move_uploaded_file($arquivo['tmp_name'], $caminhoCompleto)) {
 }
 
 // Salva no banco (opcional)
-App\class\Conexao::insertBD('UPDATE categoria SET Imagem = ? WHERE IdCategoria = ?','si',[$destinoBancoImg, $IdCategoria]);
+App\local\Conexao::insertBD('UPDATE categoria SET Imagem = ? WHERE IdCategoria = ?','si',[$destinoBancoImg, $IdCategoria]);
 
 die(json_encode(['status' => 'success', 'result' => 'Arquivo salvo.', 'arquivo' => $nomeArquivo])); 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\class;
+namespace App\local;
 
 include_once __DIR__.'/database.php';
 
@@ -18,12 +18,13 @@ class Conexao
     public function __construct()
     {
         // Configurações do banco de dados LOCAL
-         $this->host = DB_HOST_LOCAL;
-         $this->user = DB_USER_LOCAL;
-         $this->pass = DB_PASS_LOCAL;
-         $this->db = DB_NAME_LOCAL;
-         $this->port = DB_PORT_LOCAL;
-        $this->conexao = new mysqli($this->host, $this->user, $this->pass, $this->db, $this->port);
+         $this->host = DB_HOST_SERVER;
+         $this->user = DB_USER_SERVER;
+         $this->pass = DB_PASS_SERVER;
+         $this->db = DB_NAME_SERVER;
+         $this->port = DB_PORT_SERVER;
+        $this->conexao = new mysqli($this->host, $this->user, $this->pass, '', $this->port);
+        $this->conexao->select_db($this->db);
         if ($this->conexao->connect_error) {
             die("Erro de conexão: " . $this->conexao->connect_error);
         }
