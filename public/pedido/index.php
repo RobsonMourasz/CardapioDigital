@@ -1,6 +1,13 @@
 <?php
-include_once __DIR__ . '/../../vendor/autoload.php';
-App\controllers\Seguranca::verificacao();
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+include_once __DIR__ . '/../../Constantes.php';
+PathConfig::init();
+include_once PathConfig::$root . '/htdocs/vendor/autoload.php';
+include_once PathConfig::$root . '/htdocs/src/controllers/empresa.php';
+include_once PathConfig::$root . '/htdocs/src/controllers/seguranca.php';
+\App\controllers\Seguranca::verificacao();
+
 $logoTipo = App\controllers\Empresa::RetornarDados();
 if (!isset($_SESSION)) {
     session_start();

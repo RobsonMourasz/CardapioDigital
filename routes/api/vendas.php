@@ -53,8 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         'txEntrega' => doubleval($relatorio[0]['tx-entrega']) ?? 0,
                         'txMaquininha' => doubleval($relatorio[0]['tx-maquininha']) ?? 0,
                         'QtdVendas' => intval($relatorio[0]['QtdVendas']) ?? 0,
-                        'cadPedido' => $cadPedido,
-                        'mvPedido' => $mvPedido
+                        'cadPedido' => utf8ize($cadPedido),
+                        'mvPedido' => utf8ize($mvPedido)
 
                     ]
                 ]));
@@ -76,4 +76,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 } else {
     http_response_code(401);
     die(json_encode(['status' => 'error', 'result' => 'Método não permitido.']));
+}
+
+
+function utf8ize($data) {
+    if (is_array($data)) {
+        foreach ($data as $key => $value) {
+            $data[$key] = utf8ize($value);
+        }
+    } elseif (is_string($data)) {
+        return mb_convert_encoding($data, 'UTF-8', 'auto');
+    }
+    return $data;
 }

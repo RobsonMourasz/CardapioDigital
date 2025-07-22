@@ -1,20 +1,29 @@
 <?php
 include_once __DIR__ . '/../../vendor/autoload.php';
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 date_default_timezone_set('America/Sao_Paulo');
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    if (!isset($_SESSION)){session_start();}
+    if (!isset($_SESSION)) {
+        session_start();
+    }
     if ($_GET['busca']) {
         if ($_GET['busca'] === 'all') {
+
             $res = [
                 'categoria' => App\local\Conexao::getPesquisaBD('SELECT * FROM categoria WHERE CadAtivo = "S"', '', []),
                 'produtos' => App\local\Conexao::getPesquisaBD('SELECT * FROM cadprodutos WHERE ProdAtivo = "S"', '', []),
                 'formaPgto' => App\local\Conexao::getPesquisaBD('SELECT * FROM cadpagamento WHERE PagAtivo = "S"', '', []),
             ];
-            die(json_encode([
+
+            $jsonSafe = utf8ize($res);
+
+            echo json_encode([
                 'status' => 'success',
-                'result' => $res
-            ]));
+                'result' => $jsonSafe
+            ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
         }
     }
 } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -57,14 +66,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
             $imagemAntiga = App\local\Conexao::getPesquisaBD('SELECT Imagem FROM cadprodutos WHERE IdProduto = ?', 'i', [intval($produtos['IdProduto'])]);
 
-            if (!empty( $imagemAntiga[0]['Imagem'] ) || $imagemAntiga[0]['Imagem'] !== null ) {
+            if (!empty($imagemAntiga[0]['Imagem']) || $imagemAntiga[0]['Imagem'] !== null) {
 
-                if (file_exists(__DIR__.'/../../'.$imagemAntiga[0]['Imagem'])) {
-                    unlink(__DIR__.'/../../'.$imagemAntiga[0]['Imagem']);
+                if (file_exists(__DIR__ . '/../../' . $imagemAntiga[0]['Imagem'])) {
+                    unlink(__DIR__ . '/../../' . $imagemAntiga[0]['Imagem']);
                 }
-
             }
-
         }
 
         if (App\local\Conexao::insertBD('UPDATE cadprodutos SET IdCategoria = ?, ProdAtivo = ?, DescricaoProduto = ?, Imagem = ?, VrVenda = ?, Estoque = ?, Ingredientes = ?, DataAlteracao = ? WHERE IdProduto = ?', 'isssddssi', [intval($produtos['IdCategoria']), 'S', $produtos['DescricaoProduto'], $produtos['Imagem'], $produtos['VrVenda'], $produtos['Estoque'], $produtos['Ingredientes'], date('Y-m-d H:m:s'), intval($produtos['IdProduto'])])) {
@@ -85,12 +92,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if ($produtos['method'] == 'excluir') {
         $imagemApagar = App\local\Conexao::getPesquisaBD('SELECT Imagem FROM cadprodutos WHERE IdProduto = ?', 'i', [intval($produtos['IdProduto'])]);
 
-        if (!empty( $imagemApagar[0]['Imagem'] ) || $imagemApagar[0]['Imagem'] !== null ) {
+        if (!empty($imagemApagar[0]['Imagem']) || $imagemApagar[0]['Imagem'] !== null) {
 
-            if (file_exists(__DIR__.'/../../'.$imagemApagar[0]['Imagem'])) {
-                unlink(__DIR__.'/../../'.$imagemApagar[0]['Imagem']);
+            if (file_exists(__DIR__ . '/../../' . $imagemApagar[0]['Imagem'])) {
+                unlink(__DIR__ . '/../../' . $imagemApagar[0]['Imagem']);
             }
-
         }
 
         if (App\local\Conexao::deleteBD('cadprodutos', 'IdProduto', $produtos['IdProduto'])) {
@@ -110,4 +116,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 } else {
     http_response_code(405);
     echo json_encode(['error' => 'Método não permitido']);
+}
+
+
+function utf8ize($data) {
+    if (is_array($data)) {
+        foreach ($data as $key => $value) {
+            $data[$key] = utf8ize($value);
+        }
+    } elseif (is_string($data)) {
+        return mb_convert_encoding($data, 'UTF-8', 'auto');
+    }
+    return $data;
 }
