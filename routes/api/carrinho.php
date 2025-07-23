@@ -1,4 +1,7 @@
 <?php 
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 include_once __DIR__ . '/../../vendor/autoload.php';
 header('Content-Type: application/json; charset=utf-8');
 
@@ -62,7 +65,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         
         http_response_code(200);
-        die(json_encode(['status' => 'success', 'result' => $produto]));
+        die(json_encode(['status' => 'success', 'result' => utf8ize($produto)]));
     }else{
         http_response_code(405);
         die(json_encode(['status'=>'error','result' => 'Método não encontrado']));
@@ -71,4 +74,15 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST') {
 }else{
     http_response_code(405);
     die(json_encode(['status'=>'error','result' => 'Método não permitido']));
+}
+
+function utf8ize($data) {
+    if (is_array($data)) {
+        foreach ($data as $key => $value) {
+            $data[$key] = utf8ize($value);
+        }
+    } elseif (is_string($data)) {
+        return mb_convert_encoding($data, 'UTF-8', 'auto');
+    }
+    return $data;
 }

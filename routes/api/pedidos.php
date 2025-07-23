@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
             $acoes = App\local\Conexao::getPesquisaBD('SELECT * FROM situacao WHERE SituacaoAtivo = "S"', '', []);
             die(json_encode([
                 "status" => "ok",
-                "result" => ["cad_pedido" => $cadPedido, "mv_pedido" => $mvPedido, "acoes" => $acoes]
+                "result" => ["cad_pedido" => utf8ize($cadPedido), "mv_pedido" => utf8ize($mvPedido), "acoes" => utf8ize($acoes)]
             ]));
         }
 
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
                 if ( count($res) > 0){
                     die(json_encode([
                         'status' => 'ok',
-                        'result' => $res
+                        'result' => utf8ize($res)
                     ]));
                 }
     
@@ -75,4 +75,16 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 } else {
     http_response_code(404);
     die(json_encode(['status' => 'error', 'result' => 'Método não encontrado']));
+}
+
+
+function utf8ize($data) {
+    if (is_array($data)) {
+        foreach ($data as $key => $value) {
+            $data[$key] = utf8ize($value);
+        }
+    } elseif (is_string($data)) {
+        return mb_convert_encoding($data, 'UTF-8', 'auto');
+    }
+    return $data;
 }
