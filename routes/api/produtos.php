@@ -2,8 +2,6 @@
 include_once __DIR__ . '/../../vendor/autoload.php';
 header('Content-Type: application/json; charset=utf-8');
 date_default_timezone_set('America/Sao_Paulo');
-
-
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (!isset($_SESSION)) {
         session_start();
@@ -74,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             }
         }
 
-        if (App\local\Conexao::insertBD('UPDATE cadprodutos SET IdCategoria = ?, ProdAtivo = ?, DescricaoProduto = ?, Imagem = ?, VrVenda = ?, Estoque = ?, Ingredientes = ?, DataAlteracao = ? WHERE IdProduto = ?', 'isssddssi', [intval($produtos['IdCategoria']), 'S', $produtos['DescricaoProduto'], $produtos['Imagem'], $produtos['VrVenda'], $produtos['Estoque'], $produtos['Ingredientes'], date('Y-m-d H:m:s'), intval($produtos['IdProduto'])])) {
+        if (App\local\Conexao::insertBD('UPDATE cadprodutos SET IdCategoria = ?, ProdAtivo = ?, DescricaoProduto = ?, Imagem = ?, VrVenda = ?, Estoque = ?, Ingredientes = ?, DataAlteracao = ? WHERE IdProduto = ?', 'isssddssi', [intval($produtos['IdCategoria']), 'S', $produtos['DescricaoProduto'], $produtos['Imagem'], $produtos['VrVenda'], $produtos['Estoque'], \App\controllers\TextoLimpo::limpar($produtos['Ingredientes']), date('Y-m-d H:m:s'), intval($produtos['IdProduto'])])) {
 
             die(json_encode([
                 'status' => 'success',

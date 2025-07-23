@@ -96,7 +96,10 @@ const permissao = JSON.parse(localStorage.getItem('permissoes'));
             } else {
                 if (input.name == 'DescricaoProduto' && input.value.trim() == '') { chamarTelaAvisos('danger', 'Campo descrição não pode ser vazio.'); erros = true; return }
                 produto[input.name] = input.value;
-                produto['file'] = fileProduto.size;
+                if (fileProduto != null){
+                    produto['file'] = fileProduto.size;
+                }
+                
                 produto['method'] = 'editar';
             }
         });

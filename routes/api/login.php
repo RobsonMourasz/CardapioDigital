@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
  include_once __DIR__ . '/../../Constantes.php';
  PathConfig::init();
- include_once PathConfig::$root . '/htdocs/vendor/autoload.php';
+ include_once PathConfig::$root . 'vendor/autoload.php';
 
  include_once __DIR__. '/../../src/local/Conexao.php';
 

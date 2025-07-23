@@ -3,8 +3,8 @@
     error_reporting(E_ALL);
     include_once __DIR__ . '/Constantes.php';
     PathConfig::init();
-    include_once PathConfig::$root . '/htdocs/vendor/autoload.php';
-    include_once PathConfig::$root . '/htdocs/src/controllers/empresa.php';
+    include_once __DIR__ . '/vendor/autoload.php';
+    include_once __DIR__. '/src/controllers/empresa.php';
 
     $logoTipo = \App\controllers\Empresa::RetornarDados();
     $nomeEmpresa = \App\controllers\Empresa::RetornarDados();
